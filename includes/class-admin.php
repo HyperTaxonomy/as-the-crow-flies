@@ -20,6 +20,7 @@ class ATCF_Admin {
 		add_action( 'atcf_location_changed', static function ( string $taxonomy ): void {
 			if ( $taxonomy ) {
 				delete_transient( 'atcf_countries_' . md5( $taxonomy ) );
+				wp_cache_delete( 'term_ids_with_locations_' . $taxonomy, 'atcf' );
 			}
 		} );
 

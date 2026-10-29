@@ -726,6 +726,14 @@ class ATCF_Locations_Global {
 			(int) ( $import_parts[1] ?? 0 ),
 			(int) ( $import_parts[2] ?? 0 )
 		);
+		$import_errors = (int) ( $import_parts[3] ?? 0 );
+		if ( $import_errors > 0 ) {
+			$imported_text .= ' ' . sprintf(
+				/* translators: %d: number of rows that failed to save due to a validation error */
+				_n( '%d row failed due to a validation error.', '%d rows failed due to validation errors.', $import_errors, 'as-the-crow-flies' ),
+				$import_errors
+			);
+		}
 		$unknown_skipped = (int) ( $import_parts[4] ?? 0 );
 		if ( $unknown_skipped > 0 ) {
 			$imported_text .= ' ' . sprintf(
@@ -743,7 +751,10 @@ class ATCF_Locations_Global {
 		if ( 'error' === $msg ) {
 			echo '<div class="notice notice-error is-dismissible"><p>' . esc_html( $info ) . '</p></div>';
 		} elseif ( isset( $map[ $msg ] ) ) {
-			echo '<div class="notice notice-success is-dismissible"><p>' . wp_kses_post( $map[ $msg ] ) . '</p></div>';
+			// A successful import that still had per-row validation failures is a
+			// warning, not a plain success, so the admin notices something needs attention.
+			$notice_class = ( 'imported' === $msg && $import_errors > 0 ) ? 'notice-warning' : 'notice-success';
+			echo '<div class="notice ' . esc_attr( $notice_class ) . ' is-dismissible"><p>' . wp_kses_post( $map[ $msg ] ) . '</p></div>';
 		}
 	}
 }

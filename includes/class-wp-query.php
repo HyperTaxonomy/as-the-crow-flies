@@ -28,6 +28,7 @@ class ATCF_WP_Query {
 		add_filter( 'pre_get_posts',  array( __CLASS__, 'handle_atcf_query' ), 10, 1 );
 		add_filter( 'posts_orderby',  array( __CLASS__, 'handle_orderby' ), 10, 2 );
 		add_action( 'the_posts',      array( __CLASS__, 'cleanup' ), 10, 2 );
+		add_action( 'atcf_location_changed', array( __CLASS__, 'flush_query_cache' ) );
 	}
 
 	/**
@@ -62,17 +63,22 @@ class ATCF_WP_Query {
 
 		if ( null !== $lat ) {
 			// Coordinate mode.
-			$locations = ATCF_Distance::get_locations_within_radius(
-				'',
-				$radius,
-				$unit,
-				array(
-					'lat'      => $lat,
-					'lng'      => $lng,
-					'taxonomy' => $aq['taxonomy'],
-					'limit'    => 9999,
-				)
-			);
+			$cache_key = self::cache_key( array( 'lat' => $lat, 'lng' => $lng, 'radius' => $radius, 'unit' => $unit, 'taxonomy' => $aq['taxonomy'] ) );
+			$locations = self::get_cached_locations( $cache_key );
+			if ( null === $locations ) {
+				$locations = ATCF_Distance::get_locations_within_radius(
+					'',
+					$radius,
+					$unit,
+					array(
+						'lat'      => $lat,
+						'lng'      => $lng,
+						'taxonomy' => $aq['taxonomy'],
+						'limit'    => 9999,
+					)
+				);
+				self::set_cached_locations( $cache_key, $locations );
+			}
 		} else {
 			// Postal code mode.
 			$postal_code = ATCF_Distance::normalize_postal_code( $aq['postal_code'], $aq['country'] );
@@ -81,16 +87,21 @@ class ATCF_WP_Query {
 				return;
 			}
 
-			$locations = ATCF_Distance::get_locations_within_radius(
-				$postal_code,
-				$radius,
-				$unit,
-				array(
-					'country'  => $aq['country'],
-					'taxonomy' => $aq['taxonomy'],
-					'limit'    => 9999,
-				)
-			);
+			$cache_key = self::cache_key( array( 'postal_code' => $postal_code, 'radius' => $radius, 'unit' => $unit, 'country' => $aq['country'], 'taxonomy' => $aq['taxonomy'] ) );
+			$locations = self::get_cached_locations( $cache_key );
+			if ( null === $locations ) {
+				$locations = ATCF_Distance::get_locations_within_radius(
+					$postal_code,
+					$radius,
+					$unit,
+					array(
+						'country'  => $aq['country'],
+						'taxonomy' => $aq['taxonomy'],
+						'limit'    => 9999,
+					)
+				);
+				self::set_cached_locations( $cache_key, $locations );
+			}
 		}
 
 		if ( empty( $locations ) ) {
@@ -268,5 +279,61 @@ class ATCF_WP_Query {
 	private static function get_distances( WP_Query $query ): array {
 		$key = spl_object_id( $query );
 		return self::$query_distances[ $key ] ?? array();
+	}
+
+	/**
+	 * Build a stable cache key for a resolved set of atcf_query parameters.
+	 * Exact values are used (no coordinate rounding), so caching mainly benefits
+	 * postal-code-mode queries and coordinate-mode queries that reuse a fixed
+	 * reference point (e.g. one hardcoded in a template), which is the common case
+	 * for `atcf_query` on a WP_Query — unlike per-visitor browser geolocation.
+	 *
+	 * @param array $parts Resolved, already-normalized parameter values.
+	 * @return string
+	 */
+	private static function cache_key( array $parts ): string {
+		return 'atcf_wpq_' . md5( (string) wp_json_encode( $parts ) );
+	}
+
+	/**
+	 * @param string $cache_key
+	 * @return array[]|null Cached location rows, or null on a cache miss.
+	 */
+	private static function get_cached_locations( string $cache_key ): ?array {
+		$cached = get_transient( $cache_key );
+		return false !== $cached ? $cached : null;
+	}
+
+	/**
+	 * @param string  $cache_key
+	 * @param array[] $locations
+	 */
+	private static function set_cached_locations( string $cache_key, array $locations ): void {
+		// Same convention as ATCF_Locations::get_by_term_id(): effectively indefinite when
+		// a persistent object cache backs transients, relying on flush_query_cache() below
+		// (hooked to atcf_location_changed) for invalidation.
+		$ttl = wp_using_ext_object_cache() ? YEAR_IN_SECONDS : 0;
+		set_transient( $cache_key, $locations, $ttl );
+	}
+
+	/**
+	 * Invalidate all cached atcf_query results.
+	 *
+	 * The cache key is an opaque hash of the query parameters (not organized by
+	 * taxonomy or term), so any location change must flush the whole set — this is
+	 * fired on every atcf_location_changed, which already covers every insert, update,
+	 * delete, import, and bulk operation (see docs/developer-reference.md).
+	 */
+	public static function flush_query_cache(): void {
+		global $wpdb;
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->options}
+				 WHERE option_name LIKE %s
+				    OR option_name LIKE %s",
+				$wpdb->esc_like( '_transient_atcf_wpq_' ) . '%',
+				$wpdb->esc_like( '_transient_timeout_atcf_wpq_' ) . '%'
+			)
+		);
 	}
 }

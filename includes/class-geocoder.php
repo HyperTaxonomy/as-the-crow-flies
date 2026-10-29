@@ -20,6 +20,15 @@ class ATCF_Geocoder {
 	const HTTP_TIMEOUT    = 60;
 
 	/**
+	 * Wall-clock budget, in seconds, for the serial, rate-limited (1 req/sec) Nominatim
+	 * fallback loop inside apply_results(). The Census batch call itself is one request
+	 * for the whole batch and isn't bounded by this; only the per-row Nominatim retries
+	 * (needed for addresses Census couldn't match) are, since a large no_match count
+	 * could otherwise block the request running the cron tick for minutes.
+	 */
+	const MAX_NOMINATIM_FALLBACK_SECONDS = 20;
+
+	/**
 	 * Register cron hook.
 	 */
 	public static function register_cron(): void {
@@ -30,7 +39,11 @@ class ATCF_Geocoder {
 	 * Run a geocoding batch for all pending US locations.
 	 * Called by WP Cron and by the admin "Geocode now" button.
 	 *
-	 * @return int Number of locations processed.
+	 * If the Nominatim fallback's time budget (MAX_NOMINATIM_FALLBACK_SECONDS) runs out
+	 * partway through, any locations not yet reached are left with geocode_status still
+	 * 'pending' and naturally get picked up by get_pending_geocode_ids() on the next run.
+	 *
+	 * @return int Number of locations actually finalized (written a terminal result) this run.
 	 */
 	public static function run_batch(): int {
 		$ids = ATCF_Locations::get_pending_geocode_ids( self::BATCH_SIZE );
@@ -64,8 +77,7 @@ class ATCF_Geocoder {
 			error_log( '[ATCF geocoder] Census API results: ' . wp_json_encode( $results ) );
 		}
 
-		self::apply_results( $locations, $results );
-		return count( $locations );
+		return self::apply_results( $locations, $results );
 	}
 
 	/**
@@ -73,8 +85,10 @@ class ATCF_Geocoder {
 	 * Used by per-row, bulk, and per-term geocode actions.
 	 * Only US locations are sent to the Census API; others are marked no_match.
 	 *
+	 * Subject to the same Nominatim fallback time budget as run_batch() — see its docblock.
+	 *
 	 * @param int[] $ids Location IDs to geocode.
-	 * @return int Number of locations processed.
+	 * @return int Number of locations actually finalized (written a terminal result).
 	 */
 	public static function run_for_ids( array $ids ): int {
 		if ( empty( $ids ) ) {
@@ -106,8 +120,7 @@ class ATCF_Geocoder {
 			return count( $non_us_ids );
 		}
 
-		self::apply_results( $us_locations, $results );
-		return count( $non_us_ids ) + count( $us_locations );
+		return count( $non_us_ids ) + self::apply_results( $us_locations, $results );
 	}
 
 	// --------------------------------------------------------------------------
@@ -298,13 +311,25 @@ class ATCF_Geocoder {
 	 * For no_match results, attempts the Nominatim (OpenStreetMap) geocoder as a
 	 * fallback — it handles some addresses the Census batch API misses.
 	 *
+	 * The Nominatim fallback is rate-limited to 1 request/second (enforced inside
+	 * call_nominatim_api()), so a batch with many no_match rows could otherwise block
+	 * for minutes. To bound that, this method stops making new Nominatim attempts once
+	 * MAX_NOMINATIM_FALLBACK_SECONDS has elapsed; any location not yet reached is left
+	 * untouched (its geocode_status stays 'pending') so the next run retries it — it is
+	 * never incorrectly finalized as 'no_match' just because its turn didn't come up yet.
+	 *
 	 * @param object[] $locations Keyed by ID.
 	 * @param array[]  $results   Parsed Census results keyed by ID.
+	 * @return int Number of locations actually finalized (written a terminal result).
 	 */
-	private static function apply_results( array $locations, array $results ): void {
+	private static function apply_results( array $locations, array $results ): int {
+		$deadline  = microtime( true ) + self::MAX_NOMINATIM_FALLBACK_SECONDS;
+		$processed = 0;
+
 		foreach ( $locations as $id => $loc ) {
 			if ( ! isset( $results[ $id ] ) ) {
 				ATCF_Locations::set_geocode_result( $id, 'failed' );
+				$processed++;
 				continue;
 			}
 
@@ -316,19 +341,29 @@ class ATCF_Geocoder {
 				if ( ! empty( $result['normalized_street'] ) ) {
 					ATCF_Locations::set_normalized_address( $id, $result['normalized_street'] );
 				}
-			} else {
-				// Census batch API returned no_match — fall back to Nominatim
-				// (OpenStreetMap), which draws on different data than Census TIGER
-				// and can match addresses the batch API missed.
-				// Rate limiting is enforced inside call_nominatim_api().
-				$nominatim = self::call_nominatim_api( $loc );
-				if ( null !== $nominatim ) {
-					ATCF_Locations::set_geocode_result( $id, 'matched_nominatim', $nominatim['lat'], $nominatim['lng'] );
-				} else {
-					ATCF_Locations::set_geocode_result( $id, 'no_match' );
-				}
+				$processed++;
+				continue;
 			}
+
+			// Census batch API returned no_match — fall back to Nominatim (OpenStreetMap),
+			// which draws on different data than Census TIGER and can match addresses the
+			// batch API missed. Rate limiting is enforced inside call_nominatim_api().
+			if ( microtime( true ) >= $deadline ) {
+				// Out of time this run; leave geocode_status as 'pending' and let the
+				// next scheduled run retry Census + Nominatim for this location.
+				continue;
+			}
+
+			$nominatim = self::call_nominatim_api( $loc );
+			if ( null !== $nominatim ) {
+				ATCF_Locations::set_geocode_result( $id, 'matched_nominatim', $nominatim['lat'], $nominatim['lng'] );
+			} else {
+				ATCF_Locations::set_geocode_result( $id, 'no_match' );
+			}
+			$processed++;
 		}
+
+		return $processed;
 	}
 
 	/**

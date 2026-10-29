@@ -299,10 +299,8 @@ class ATCF_Activator {
 			return new WP_Error( 'atcf_write_failed', __( 'Could not write temporary TSV file.', 'as-the-crow-flies' ) );
 		}
 
-		// The Gazetteer is tab-delimited; fgetcsv with "\t" separator is used
-		// inside import_zcta_file() — but that function uses the default comma
-		// separator. Override: write the TSV rows as CSV so the existing importer
-		// can read them, using the header column names it already understands.
+		// The Gazetteer is tab-delimited, so it's parsed by the dedicated TSV reader
+		// below (import_zcta_from_tsv()) rather than the comma-delimited CSV importer.
 		$result = self::import_zcta_from_tsv( $tsv_tmp );
 		unlink( $tsv_tmp );
 

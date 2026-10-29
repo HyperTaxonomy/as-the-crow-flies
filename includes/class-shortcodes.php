@@ -149,24 +149,9 @@ class ATCF_Shortcodes {
 		$use_coords = '' !== $a['lat'] && '' !== $a['lng']
 			&& ATCF_Distance::is_valid_coordinate( (float) $a['lat'], (float) $a['lng'] );
 
-		if ( $a['form'] ) {
-			return self::render_input_form( $a, 'locations', $a['input'], $a['postal_code'] );
-		}
-
-		// Expand HT group members into the term list.
+		// Expand HT group members into the term list before anything (including the
+		// interactive-form path) branches on it, so a term/group restriction is never lost.
 		$a['term'] = ATCF_HT_Integration::merge_group_terms_into_string( $a['group'], $a['term'], sanitize_key( $a['taxonomy'] ) );
-
-		if ( ! $use_coords && '' === $a['postal_code'] ) {
-			$ip_loc = self::visitor_location();
-			if ( $ip_loc ) {
-				$use_coords   = true;
-				$a['lat']     = (string) $ip_loc['lat'];
-				$a['lng']     = (string) $ip_loc['lng'];
-				$a['country'] = $ip_loc['country'] ?? $a['country'];
-			} else {
-				return '';
-			}
-		}
 
 		$term_ids_filter = array();
 		if ( '' !== $a['term'] ) {
@@ -183,6 +168,22 @@ class ATCF_Shortcodes {
 						$term_ids_filter[] = $resolved->term_id;
 					}
 				}
+			}
+		}
+
+		if ( $a['form'] ) {
+			return self::render_input_form( $a, 'locations', $a['input'], $a['postal_code'], $term_ids_filter );
+		}
+
+		if ( ! $use_coords && '' === $a['postal_code'] ) {
+			$ip_loc = self::visitor_location();
+			if ( $ip_loc ) {
+				$use_coords   = true;
+				$a['lat']     = (string) $ip_loc['lat'];
+				$a['lng']     = (string) $ip_loc['lng'];
+				$a['country'] = $ip_loc['country'] ?? $a['country'];
+			} else {
+				return '';
 			}
 		}
 
@@ -262,6 +263,8 @@ class ATCF_Shortcodes {
 			&& ATCF_Distance::is_valid_coordinate( (float) $a['lat'], (float) $a['lng'] );
 
 		if ( $a['form'] ) {
+			// [atcf_terms] has no term/group attribute to expand (it scopes purely by
+			// taxonomy, already carried via data-taxonomy below), so no term_ids filter applies here.
 			return self::render_input_form( $a, 'terms', $a['input'], $a['postal_code'] );
 		}
 
@@ -757,12 +760,15 @@ class ATCF_Shortcodes {
 	/**
 	 * Render an interactive search input form.
 	 *
-	 * @param array  $a     Shortcode attributes.
-	 * @param string $type  Shortcode type ('locations' or 'terms').
-	 * @param string $input Input mode: 'zip', 'geolocation', or 'zip,geolocation'.
+	 * @param array  $a        Shortcode attributes.
+	 * @param string $type     Shortcode type ('locations' or 'terms').
+	 * @param string $input    Input mode: 'zip', 'geolocation', or 'zip,geolocation'.
+	 * @param string $prefill  Postal code to pre-fill the input with.
+	 * @param array  $term_ids Term IDs to restrict the AJAX search to (already resolved from
+	 *                         the 'term'/'group' attributes, if any — empty means unrestricted).
 	 * @return string HTML.
 	 */
-	private static function render_input_form( array $a, string $type, string $input = 'zip,geolocation', string $prefill = '' ): string {
+	private static function render_input_form( array $a, string $type, string $input = 'zip,geolocation', string $prefill = '', array $term_ids = array() ): string {
 		wp_enqueue_style( 'atcf-frontend' );
 		wp_enqueue_script( 'atcf-frontend' );
 
@@ -788,6 +794,7 @@ class ATCF_Shortcodes {
 		     data-unit="<?php echo esc_attr( $unit ); ?>"
 		     data-radius="<?php echo esc_attr( $radius ); ?>"
 		     data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
+		     data-term-ids="<?php echo esc_attr( wp_json_encode( array_values( array_unique( array_map( 'absint', $term_ids ) ) ) ) ); ?>"
 		     data-country="<?php echo esc_attr( $country ); ?>"
 		     data-limit="<?php echo esc_attr( max( 1, (int) ( $a['limit'] ?? 20 ) ) ); ?>"
 		     data-format="<?php echo esc_attr( in_array( $a['format'] ?? 'ul', array( 'ul', 'ol', 'div' ), true ) ? ( $a['format'] ?? 'ul' ) : 'ul' ); ?>"

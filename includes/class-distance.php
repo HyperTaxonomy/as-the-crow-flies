@@ -806,7 +806,10 @@ function atcf_get_term_ids_with_locations( string $taxonomy ): array {
 		$taxonomy
 	) );
 	$result = array_map( 'intval', $rows );
-	wp_cache_set( $cache_key, $result, 'atcf' );
+	// Invalidated on atcf_location_changed (see ATCF_Admin::register()); the 5-minute TTL
+	// is a safety net for the one caller (bulk clear-coords) that fires that hook with an
+	// unknown/empty taxonomy and so can't be targeted by key.
+	wp_cache_set( $cache_key, $result, 'atcf', 5 * MINUTE_IN_SECONDS );
 	return $result;
 }
 
@@ -912,8 +915,10 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 		// --- Coordinates criterion ---
 		if ( $has_coords && in_array( $mode, array( 'coords', 'either', 'both' ), true ) ) {
 			if ( $radius_km <= 0.0 ) {
+				// Round-then-compare rather than raw float equality, matching the
+				// exact-coordinate-match pattern used in class-csv.php's find_conflict().
 				$rows = $wpdb->get_results( $wpdb->prepare(
-					"SELECT term_id, label FROM {$table} WHERE lat = %f AND lng = %f",
+					"SELECT term_id, label FROM {$table} WHERE ROUND( lat, 7 ) = ROUND( %f, 7 ) AND ROUND( lng, 7 ) = ROUND( %f, 7 )",
 					$lat, $lng
 				) );
 				foreach ( $rows as $row ) {

@@ -89,6 +89,10 @@ atcf_the_distance( $location, string $unit = 'miles', string $less_than_one = ''
 // Expand HyperTaxonomy group IDs to member term IDs (returns [] when HT is not active).
 $term_ids = atcf_expand_htax_groups( array $group_ids, string $taxonomy = '' );
 // Pass '' for $taxonomy to expand across all ATCF-enabled taxonomies.
+
+// All term IDs in a taxonomy that have at least one ATCF location. Cached (object cache,
+// invalidated on atcf_location_changed; see Action Hooks below).
+$term_ids = atcf_get_term_ids_with_locations( string $taxonomy );
 ```
 
 ### Return shapes
