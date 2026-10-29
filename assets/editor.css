@@ -1,0 +1,14 @@
+/* As the Crow Flies — Block editor styles */
+
+/*
+ * WP admin CSS sets min-height:40px on all <input> elements (specificity 0,1,1),
+ * which overrides @wordpress/components' own height:32px on TextControl inputs.
+ * SelectControl avoids this via a tripled hashed class selector (0,3,0), but
+ * TextControl does not. The doubled class selector below has specificity (0,2,0)
+ * which beats (0,1,1) and restores the intended 32px height.
+ */
+.components-text-control__input.components-text-control__input {
+	min-height: 32px;
+	padding-top: 0;
+	padding-bottom: 0;
+}

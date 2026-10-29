@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "atcf/nearest-location",
+  "version": "1.0.0",
+  "title": "Nearest Location",
+  "category": "as-the-crow-flies",
+  "icon": "groups",
+  "description": "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt.",
+  "keywords": [ "nearest", "closest", "location", "proximity" ],
+  "textdomain": "as-the-crow-flies",
+  "editorScript": "file:./build/index.js",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": ""
+    },
+    "termIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "default": []
+    },
+    "groupIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "default": []
+    },
+    "country": {
+      "type": "string",
+      "default": "US"
+    },
+    "unit": {
+      "type": "string",
+      "default": "miles",
+      "enum": [ "miles", "km" ]
+    },
+    "promptText": {
+      "type": "string",
+      "default": ""
+    },
+    "showDistance": {
+      "type": "boolean",
+      "default": true
+    },
+    "itemTemplate": {
+      "type": "string",
+      "default": ""
+    },
+    "directionsProvider": {
+      "type": "string",
+      "default": "",
+      "enum": [ "", "google", "apple", "waze", "osm" ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": { "background": true, "text": true },
+    "spacing": { "padding": true, "margin": true }
+  }
+}

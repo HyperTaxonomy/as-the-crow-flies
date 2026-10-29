@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "atcf/term-locations",
+  "version": "1.0.0",
+  "title": "Term Locations",
+  "category": "as-the-crow-flies",
+  "icon": "admin-site-alt3",
+  "description": "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes.",
+  "keywords": [ "locations", "addresses", "term", "taxonomy" ],
+  "textdomain": "as-the-crow-flies",
+  "editorScript": "file:./build/index.js",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": ""
+    },
+    "termIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "default": []
+    },
+    "country": {
+      "type": "string",
+      "default": ""
+    },
+    "unit": {
+      "type": "string",
+      "default": "miles",
+      "enum": [ "miles", "km" ]
+    },
+    "sortPostalCode": {
+      "type": "string",
+      "default": ""
+    },
+    "limit": {
+      "type": "integer",
+      "default": 0
+    },
+    "showAddressLine": {
+      "type": "boolean",
+      "default": true
+    },
+    "showLocality": {
+      "type": "boolean",
+      "default": true
+    },
+    "showRegion": {
+      "type": "boolean",
+      "default": true
+    },
+    "showPostalCode": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCountry": {
+      "type": "boolean",
+      "default": false
+    },
+    "format": {
+      "type": "string",
+      "default": "ul",
+      "enum": [ "ul", "ol", "table", "div" ]
+    },
+    "itemTemplate": {
+      "type": "string",
+      "default": ""
+    },
+    "directionsProvider": {
+      "type": "string",
+      "default": "",
+      "enum": [ "", "google", "apple", "waze", "osm" ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": { "background": true, "text": true },
+    "spacing": { "padding": true, "margin": true }
+  }
+}

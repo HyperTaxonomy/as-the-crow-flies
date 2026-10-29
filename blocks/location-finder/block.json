@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "atcf/location-finder",
+  "version": "1.0.0",
+  "title": "Location Finder",
+  "category": "as-the-crow-flies",
+  "icon": "admin-site",
+  "description": "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms.",
+  "keywords": [ "location", "distance", "proximity", "map", "nearby" ],
+  "textdomain": "as-the-crow-flies",
+  "editorScript": "file:./build/index.js",
+  "attributes": {
+    "taxonomy": {
+      "type": "string",
+      "default": ""
+    },
+    "termIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "default": []
+    },
+    "groupIds": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "default": []
+    },
+    "country": {
+      "type": "string",
+      "default": "US"
+    },
+    "distances": {
+      "type": "string",
+      "default": "5,10,25,50"
+    },
+    "unit": {
+      "type": "string",
+      "default": "miles",
+      "enum": [ "miles", "km" ]
+    },
+    "format": {
+      "type": "string",
+      "default": "ul",
+      "enum": [ "ul", "ol", "div", "table" ]
+    },
+    "itemTemplate": {
+      "type": "string",
+      "default": ""
+    },
+    "limit": {
+      "type": "integer",
+      "default": 20
+    },
+    "orderby": {
+      "type": "string",
+      "default": "distance",
+      "enum": [ "distance", "label", "term_name" ]
+    },
+    "showGeolocation": {
+      "type": "boolean",
+      "default": true
+    },
+    "directionsProvider": {
+      "type": "string",
+      "default": "",
+      "enum": [ "", "google", "apple", "waze", "osm" ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": false,
+    "color": { "background": true, "text": true },
+    "spacing": { "padding": true, "margin": true }
+  }
+}

@@ -1,0 +1,17 @@
+title: As the Crow Flies
+description: Attach physical locations to taxonomy terms and filter content by proximity.
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-remote-theme
+baseurl: "/as-the-crow-flies"
+url: "https://hypertaxonomy.org"
+search_enabled: true
+heading_anchors: true
+color_scheme: light
+aux_links:
+  "GitHub": ["https://github.com/HyperTaxonomy/as-the-crow-flies"]
+  "HyperTaxonomy suite": ["https://hypertaxonomy.org"]
+aux_links_new_tab: true
+# Local QA docs (gitignored); also excluded from the docs site build.
+exclude:
+  - TEST-PLAN.md

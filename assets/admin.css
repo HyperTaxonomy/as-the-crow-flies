@@ -1,0 +1,373 @@
+/* As the Crow Flies — Admin styles */
+
+/* -------------------------------------------------------------------------
+   Settings page tabs
+------------------------------------------------------------------------- */
+
+.atcf-settings-page .nav-tab-wrapper {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.atcf-settings-page .tab-content {
+	padding-top: 16px;
+}
+
+/* -------------------------------------------------------------------------
+   Per-term Locations page
+------------------------------------------------------------------------- */
+
+/* Locations table: sortable column headers truncate with ellipsis when narrow,
+   keeping the sort indicator on the same line as the label. */
+.atcf-locations-table thead th.sortable,
+.atcf-locations-table tfoot  th.sortable,
+.atcf-locations-table thead th.sorted,
+.atcf-locations-table tfoot  th.sorted {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.atcf-locations-table thead th.sortable a,
+.atcf-locations-table tfoot  th.sortable a,
+.atcf-locations-table thead th.sorted a,
+.atcf-locations-table tfoot  th.sorted a {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+.atcf-locations-table thead th.sortable a > span:first-child,
+.atcf-locations-table tfoot  th.sortable a > span:first-child,
+.atcf-locations-table thead th.sorted a > span:first-child,
+.atcf-locations-table tfoot  th.sorted a > span:first-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+	flex: 0 1 auto;
+}
+
+/* Match the left column width used on WP's edit-tags pages (30%, vs WP default 35%).
+   Keeps Import Locations / Add Location visually consistent with Add Term. */
+.atcf-locations-page #col-left  { width: 30%; }
+.atcf-locations-page #col-right { width: 70%; }
+
+/* "← Back to term" — quiet inline navigation link.
+   vertical-align: middle + top: -3px matches how WP positions .page-title-action
+   relative to the large h1 text. */
+.atcf-locations-page .atcf-back-link {
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 13px;
+	line-height: 1;
+	color: #2271b1;
+	text-decoration: none;
+	vertical-align: middle;
+	position: relative;
+	top: -3px;
+}
+
+.atcf-locations-page .atcf-back-link:hover {
+	color: #135e96;
+	text-decoration: underline;
+}
+
+/* Standalone All Locations filter (no HT): constrain select to match search input height */
+.atcf-term-filters select {
+	height: 32px !important;
+	min-height: 0 !important;
+	line-height: 30px !important;
+}
+
+/* Import CSV heading — tighter top spacing */
+.atcf-locations-page #col-left .form-wrap hr + h2 {
+	margin-top: 4px;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+
+/* Add Location / Edit Location heading — match vertical spacing of WP's Add Term heading */
+.atcf-locations-page #col-left .form-wrap h2 {
+	margin-top: 0;
+	padding-top: 24px;
+	padding-bottom: 10px;
+}
+
+
+.atcf-conflict-detection,
+.atcf-upload-mode {
+	border: none;
+	padding: 0;
+	margin: 6px 0 8px;
+}
+
+.atcf-conflict-detection legend,
+.atcf-upload-mode legend {
+	font-weight: 600;
+	font-size: 12px;
+	margin-bottom: 3px;
+}
+
+/* Checkboxes — inline with gap */
+.atcf-conflict-detection label {
+	display: inline-block;
+	margin-right: 14px;
+	font-size: 12px;
+}
+
+/* Inline radio buttons */
+.atcf-upload-mode label {
+	display: inline-block;
+	margin-right: 14px;
+	font-size: 12px;
+}
+
+.atcf-upload-result {
+	margin-top: 8px;
+	padding: 8px 12px;
+	background: #f0f6fc;
+	border-left: 4px solid #2271b1;
+}
+
+.atcf-upload-result.error {
+	background: #fcf0f1;
+	border-left-color: #d63638;
+}
+
+/* -------------------------------------------------------------------------
+   Term list column
+------------------------------------------------------------------------- */
+
+.column-atcf_locations {
+	width: 80px;
+	text-align: center;
+}
+
+.atcf-add-link {
+	color: #a7aaad;
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 1;
+}
+
+.atcf-add-link:hover {
+	color: #2271b1;
+}
+
+/* -------------------------------------------------------------------------
+   Per-term locations page
+------------------------------------------------------------------------- */
+
+/* Truncate "Locations" header and keep sort indicator on the same line */
+.wp-list-table thead th.column-atcf_locations {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wp-list-table thead th.column-atcf_locations a {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 2px;
+}
+
+.wp-list-table thead th.column-atcf_locations a > span:first-child {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+	flex: 1 1 0;
+}
+
+/* Prevent sortable header links from wrapping mid-label. */
+.atcf-locations-table th.manage-column a {
+	white-space: nowrap;
+}
+
+/* Column widths for the locations table (fixed layout).
+   Address has no explicit width so it expands to fill remaining space.
+   Term column only appears on the global All Locations page. */
+.atcf-locations-table .column-term          { width:  90px; }
+
+/* On the global page the Term column takes extra space, so trim other columns slightly
+   to keep Address wide enough. */
+.atcf-global-locations-page .atcf-locations-table .column-label         { width:  65px; }
+.atcf-global-locations-page .atcf-locations-table .column-locality      { width:  80px; }
+.atcf-global-locations-page .atcf-locations-table .column-region        { width:  60px; }
+.atcf-global-locations-page .atcf-locations-table .column-postal_code   { width:  60px; }
+.atcf-locations-table .column-label         { width:  74px; }
+.atcf-locations-table .column-locality      { width:  89px; }
+.atcf-locations-table .column-region        { width:  68px; }
+.atcf-locations-table .column-postal_code   { width:  62px; }
+.atcf-locations-table .column-country       { width:  40px; }
+.atcf-locations-table .column-coords,
+.atcf-locations-table .atcf-col-coords      { width:  55px; text-align: center; }
+.atcf-locations-table .column-geocode_status{ width:  99px; }
+.atcf-locations-table .column-actions       { width:  90px; }
+
+/* -------------------------------------------------------------------------
+   Settings page
+------------------------------------------------------------------------- */
+
+/* Compact stats table on Postal Codes tab */
+.atcf-settings-page .atcf-stats-table {
+	border-collapse: collapse;
+	margin: 0 0 16px;
+	font-size: 13px;
+}
+
+.atcf-settings-page table.atcf-stats-table th,
+.atcf-settings-page table.atcf-stats-table td {
+	text-align: left !important;
+	vertical-align: top;
+	padding: 3px 0;
+}
+
+.atcf-settings-page table.atcf-stats-table th {
+	padding-right: 20px;
+	font-weight: 600;
+	color: #50575e;
+	white-space: nowrap;
+	width: 1%;
+}
+
+/* Three centroid update options in a single row */
+.atcf-settings-page .atcf-centroid-options {
+	display: flex;
+	gap: 0;
+	margin: 0 0 20px;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.atcf-settings-page .atcf-centroid-option {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 12px 14px;
+	border-right: 1px solid #dcdcde;
+	font-size: 13px;
+}
+
+.atcf-settings-page .atcf-centroid-option:last-child {
+	border-right: none;
+}
+
+.atcf-settings-page .atcf-centroid-option strong {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.atcf-settings-page .atcf-centroid-option p {
+	color: #50575e;
+	font-size: 12px;
+	margin: 0 0 8px;
+	flex: 1;
+}
+
+/* Push action (button / form) to the same vertical position across all 3 cards */
+.atcf-settings-page .atcf-centroid-option > .button,
+.atcf-settings-page .atcf-centroid-option > .atcf-inline-form {
+	margin-top: auto;
+	align-self: flex-start;
+}
+
+/* Inline file-upload form */
+.atcf-settings-page .atcf-inline-form {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Filter bar — shared between settings page and per-term locations page */
+.atcf-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	align-items: center;
+	margin: 0 0 12px;
+	padding-top: 4px;
+}
+
+/* Shared height for every control in the filter bar — matches the HT "All Locations"
+   dropdown on the term list page (32px / 30px line-height). WP admin sets both height
+   and min-height to 40px on inputs/selects, so both need !important to override. */
+.atcf-filters select,
+.atcf-filter-input,
+.atcf-filters .button,
+.atcf-filters a.button-link {
+	height: 32px !important;
+	min-height: 32px !important;
+	line-height: 30px !important;
+	font-size: 13px;
+	box-sizing: border-box;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* Text inputs */
+.atcf-filter-input {
+	padding: 0 6px;
+	border: 1px solid #8c8f94;
+	border-radius: 3px;
+	background: #fff;
+}
+
+.atcf-filters .button {
+	cursor: pointer;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+/* Reset link: transparent border keeps it in the same flex row */
+.atcf-filters a.button-link {
+	border: 1px solid transparent;
+	background: transparent;
+	color: #2271b1;
+	text-decoration: none;
+	padding: 0 8px;
+	display: inline-flex;
+	align-items: center;
+}
+
+/* Field widths */
+.atcf-filters select[name="filter_taxonomy"] { max-width: 150px; }
+.atcf-filter-input.atcf-filter-locality     { width:  90px; }
+.atcf-filter-input.atcf-filter-region       { width:  65px; }
+.atcf-filter-input.atcf-filter-postal       { width:  80px; }
+
+.atcf-settings-page .atcf-locations-actions {
+	display: flex;
+	gap: 8px;
+	margin: 0 0 12px;
+}
+
+.atcf-settings-page .atcf-count {
+	color: #50575e;
+	font-style: italic;
+	margin: 4px 0 8px;
+}
+
+/* Cache TTL field */
+#atcf_ip_geo_ttl {
+	width: 72px;
+}
+
+.atcf-taxonomy-slug {
+	color: #a7aaad;
+	font-size: 0.875em;
+	margin-left: 4px;
+}
+
+.atcf-locations-table .atcf-taxonomy {
+	display: block;
+	color: #a7aaad;
+	font-size: 0.8em;
+}
+
+.atcf-locations-table tbody tr.alternate {
+	background-color: #f6f7f7;
+}
