@@ -285,11 +285,21 @@ class ATCF_Blocks {
 		$extra_class         = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );
 		$effective_provider  = ATCF_Distance::resolve_provider( sanitize_key( $attributes['directionsProvider'] ?? '' ) );
 
-		if ( empty( $term_ids ) || ! $taxonomy ) {
+		if ( ! $taxonomy ) {
 			if ( is_admin() ) {
 				return '<p class="atcf-block-placeholder">' . esc_html__( 'Select a term in the block settings.', 'as-the-crow-flies' ) . '</p>';
 			}
 			return '';
+		}
+
+		// Leaving terms empty with a taxonomy selected means "all terms' locations"
+		// (documented behavior), not "nothing" — resolve to every term in this
+		// taxonomy that currently has at least one location.
+		if ( empty( $term_ids ) ) {
+			$term_ids = atcf_get_term_ids_with_locations( $taxonomy );
+			if ( empty( $term_ids ) ) {
+				return '';
+			}
 		}
 
 		$limit = max( 0, (int) ( $attributes['limit'] ?? 0 ) );

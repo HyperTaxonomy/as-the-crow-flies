@@ -205,10 +205,12 @@ registerBlockType( metadata.name, {
 					<div className="atcf-editor-placeholder">
 						<span className="dashicons dashicons-admin-site-alt3" style={ { fontSize: '2em', marginRight: '8px' } } />
 						<strong>{ __( 'Term Locations', 'as-the-crow-flies' ) }</strong>
-						{ taxonomy && termIds && termIds.length > 0 ? (
+						{ ! taxonomy ? (
+							<p>{ __( 'Select a taxonomy in the sidebar.', 'as-the-crow-flies' ) }</p>
+						) : termIds && termIds.length > 0 ? (
 							<p>{ sprintf( _n( 'Showing locations for %d selected term.', 'Showing locations for %d selected terms.', termIds.length, 'as-the-crow-flies' ), termIds.length ) }</p>
 						) : (
-							<p>{ __( 'Select a taxonomy and one or more terms in the sidebar.', 'as-the-crow-flies' ) }</p>
+							<p>{ __( 'Showing locations for all terms in this taxonomy. Select one or more terms in the sidebar to narrow the list.', 'as-the-crow-flies' ) }</p>
 						) }
 					</div>
 				</div>
