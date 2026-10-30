@@ -195,6 +195,8 @@ HyperTaxonomy's `[htax_distance_field]` shortcode delegates to this API when ATC
 
 Use `atcf_term_location_changed` when you need to invalidate a per-term cache. Use `atcf_location_changed` when you need to react to any location change within a taxonomy (e.g. invalidating a taxonomy-wide result set).
 
+`atcf_location_changed`'s `$taxonomy` argument can be an empty string — not just a real slug. Several bulk operations (clearing coordinates, deleting orphaned locations, geocoding a batch, and the global admin page's "all taxonomies" clear/delete actions) span more than one taxonomy at once and fire the hook unscoped, passing `''` to mean "affects all taxonomies." A listener that assumes `$taxonomy` is always a real slug will silently skip invalidating in that case — check for an empty value explicitly, as ATCF's own built-in listener (`ATCF_Admin::register()`) does.
+
 HyperTaxonomy hooks `atcf_term_location_changed` directly (to rebuild TermConnect's normalized-address URI index for the term). Integrating plugins should hook `atcf_term_location_changed` as well — it is fired for single saves/deletes and for the global bulk clear/delete operations.
 
 ---

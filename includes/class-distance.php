@@ -807,8 +807,10 @@ function atcf_get_term_ids_with_locations( string $taxonomy ): array {
 	) );
 	$result = array_map( 'intval', $rows );
 	// Invalidated on atcf_location_changed (see ATCF_Admin::register()); the 5-minute TTL
-	// is a safety net for the one caller (bulk clear-coords) that fires that hook with an
-	// unknown/empty taxonomy and so can't be targeted by key.
+	// is a safety net for callers that fire that hook with an empty/unscoped taxonomy and
+	// so can't be targeted by key — e.g. ATCF_Locations::bulk_clear_coords(),
+	// ATCF_Locations::delete_orphans(), ATCF_Geocoder's batch completion, and the global
+	// admin page's "all taxonomies" clear/delete actions.
 	wp_cache_set( $cache_key, $result, 'atcf', 5 * MINUTE_IN_SECONDS );
 	return $result;
 }
