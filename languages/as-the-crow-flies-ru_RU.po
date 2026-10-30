@@ -1758,7 +1758,6 @@ msgid "Location Finder"
 msgstr "Location Finder"
 
 #: blocks/location-finder/block.json
-#, fuzzy
 msgctxt "block description"
 msgid "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms."
 msgstr "Интерактивный поиск: посетитель вводит почтовый индекс или использует местоположение из браузера, чтобы найти ближайшие термины таксономии."
@@ -1794,10 +1793,9 @@ msgid "Nearest Location"
 msgstr "Nearest Location"
 
 #: blocks/nearest-location/block.json
-#, fuzzy
 msgctxt "block description"
 msgid "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt."
-msgstr "Компактный блок с одним ближайшим к посетителю местоположением, определённым через геолокацию браузера или по запрошенному почтовому индексу."
+msgstr "Компактный блок с одним (ближайшим к посетителю) местоположением, определённым через геолокацию браузера или по запрошенному почтовому индексу."
 
 #: blocks/nearest-location/block.json
 msgctxt "block keyword"
@@ -1815,7 +1813,6 @@ msgid "Term Locations"
 msgstr "Term Locations"
 
 #: blocks/term-locations/block.json
-#, fuzzy
 msgctxt "block description"
 msgid "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes."
 msgstr "Статический список всех местоположений, относящихся к определённому термину таксономии. Обновляется автоматически при изменении данных местоположений."
