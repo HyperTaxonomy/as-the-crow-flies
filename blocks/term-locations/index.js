@@ -68,8 +68,21 @@ registerBlockType( metadata.name, {
 		];
 
 		// Build a decoded-name → id map so FormTokenField shows readable names.
+		// Disambiguate duplicate decoded names (realistic in a hierarchical taxonomy,
+		// e.g. the same name under two different parents) so the name shown always
+		// resolves back to a single, correct term ID.
+		const termNameCounts = {};
+		terms.forEach( ( t ) => {
+			const n = decodeEntities( t.name );
+			termNameCounts[ n ] = ( termNameCounts[ n ] || 0 ) + 1;
+		} );
+		const termLabel = ( t ) => {
+			const n = decodeEntities( t.name );
+			return termNameCounts[ n ] > 1 ? n + " (ID: " + t.id + ")" : n;
+		};
+
 		const termNameMap = {};
-		terms.forEach( ( t ) => { termNameMap[ decodeEntities( t.name ) ] = t.id; } );
+		terms.forEach( ( t ) => { termNameMap[ termLabel( t ) ] = t.id; } );
 
 		const allTermSuggestions = Object.keys( termNameMap );
 		const termSuggestions = termSearch.length >= 2 ? allTermSuggestions : [];
@@ -77,7 +90,7 @@ registerBlockType( metadata.name, {
 		const selectedTermNames = ( termIds || [] )
 			.map( ( id ) => {
 				const t = terms.find( ( tt ) => tt.id === id );
-				return t ? decodeEntities( t.name ) : null;
+				return t ? termLabel( t ) : null;
 			} )
 			.filter( ( n ) => null !== n );
 
