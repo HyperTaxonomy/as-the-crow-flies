@@ -67,6 +67,8 @@ function atcf_init(): void {
 	ATCF_Blocks::register();
 	ATCF_HT_Integration::register();
 
+	add_action( 'atcf_location_changed', array( 'ATCF_Admin', 'flush_location_caches' ) );
+
 	if ( is_admin() ) {
 		ATCF_Admin::register();
 		ATCF_Locations_Page::register();

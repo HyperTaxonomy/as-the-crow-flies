@@ -17,12 +17,6 @@ class ATCF_Admin {
 
 	public static function register(): void {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
-		add_action( 'atcf_location_changed', static function ( string $taxonomy ): void {
-			if ( $taxonomy ) {
-				delete_transient( 'atcf_countries_' . md5( $taxonomy ) );
-				wp_cache_delete( 'term_ids_with_locations_' . $taxonomy, 'atcf' );
-			}
-		} );
 
 		// Term edit panel (Edit Term only, not Add Term).
 		add_action( 'registered_taxonomy', array( __CLASS__, 'hook_term_edit' ), 10, 1 );
@@ -396,6 +390,26 @@ class ATCF_Admin {
 	// --------------------------------------------------------------------------
 	// Helpers
 	// --------------------------------------------------------------------------
+
+	/**
+	 * Flush the per-taxonomy location caches on atcf_location_changed.
+	 *
+	 * Hooked in every request context (not only admin): location changes also come
+	 * from WP-Cron geocoding, REST, and activation. An empty taxonomy means the change
+	 * spans taxonomies (bulk operations), so every taxonomy's caches are flushed.
+	 * Deleting per key, not by SQL pattern, also clears copies held in a persistent
+	 * object cache.
+	 *
+	 * @since 1.0.0
+	 * @param string $taxonomy Changed taxonomy, or '' for all.
+	 */
+	public static function flush_location_caches( string $taxonomy ): void {
+		$taxonomies = '' !== $taxonomy ? array( $taxonomy ) : get_taxonomies();
+		foreach ( $taxonomies as $tax ) {
+			delete_transient( 'atcf_countries_' . md5( $tax ) );
+			wp_cache_delete( 'term_ids_with_locations_' . $tax, 'atcf' );
+		}
+	}
 
 	/**
 	 * Return distinct country codes that have locations for a given taxonomy.
