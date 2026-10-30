@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: as-the-crow-flies 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 13:55-0400\n"
+"POT-Creation-Date: 2026-10-29 21:34-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,12 +22,12 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/class-activator.php:164 includes/class-activator.php:427
+#: includes/class-activator.php:164 includes/class-activator.php:425
 msgid "Could not open uploaded file."
 msgstr ""
 
-#: includes/class-activator.php:214 includes/class-activator.php:408
-#: includes/class-activator.php:524
+#: includes/class-activator.php:214 includes/class-activator.php:406
+#: includes/class-activator.php:522
 msgid "No valid rows found in the uploaded file."
 msgstr ""
 
@@ -56,153 +56,153 @@ msgstr ""
 msgid "Could not write temporary TSV file."
 msgstr ""
 
-#: includes/class-activator.php:324
+#: includes/class-activator.php:322
 msgid "Could not open file."
 msgstr ""
 
-#: includes/class-activator.php:331
+#: includes/class-activator.php:329
 msgid "File is empty."
 msgstr ""
 
-#: includes/class-activator.php:363
+#: includes/class-activator.php:361
 msgid "Could not identify required columns in the Census file."
 msgstr ""
 
-#: includes/class-activator.php:480
+#: includes/class-activator.php:478
 msgid "Could not identify lat/lng columns in the uploaded file."
 msgstr ""
 
-#: includes/class-admin.php:82 includes/class-admin.php:321
+#: includes/class-admin.php:83 includes/class-admin.php:322
 #: includes/class-locations-page.php:177
 msgid "All Locations"
 msgstr ""
 
-#: includes/class-admin.php:83 includes/class-admin.php:322
+#: includes/class-admin.php:84 includes/class-admin.php:323
 msgid "Has Locations"
 msgstr ""
 
-#: includes/class-admin.php:84 includes/class-admin.php:323
+#: includes/class-admin.php:85 includes/class-admin.php:324
 msgid "No Locations"
 msgstr ""
 
-#: includes/class-admin.php:86 includes/class-admin.php:325
+#: includes/class-admin.php:87 includes/class-admin.php:326
 msgid "By Country"
 msgstr ""
 
-#: includes/class-admin.php:93 includes/class-admin.php:95
+#: includes/class-admin.php:94 includes/class-admin.php:96
 msgid "Delete all locations for this term? This cannot be undone."
 msgstr ""
 
-#: includes/class-admin.php:94
+#: includes/class-admin.php:95
 msgid ""
 "Clear all coordinates for this term? Locations will be re-queued for "
 "geocoding."
 msgstr ""
 
-#: includes/class-admin.php:96
+#: includes/class-admin.php:97
 msgid "Clear all coordinates? Locations will be re-queued for geocoding."
 msgstr ""
 
-#: includes/class-admin.php:97
+#: includes/class-admin.php:98
 msgid "Delete all locations? This cannot be undone."
 msgstr ""
 
-#: includes/class-admin.php:99
+#: includes/class-admin.php:100
 msgid "Saving…"
 msgstr ""
 
-#: includes/class-admin.php:100
+#: includes/class-admin.php:101
 msgid "Deleting…"
 msgstr ""
 
-#: includes/class-admin.php:101
+#: includes/class-admin.php:102
 msgid "Clearing…"
 msgstr ""
 
-#: includes/class-admin.php:102 includes/class-locations-global.php:298
+#: includes/class-admin.php:103 includes/class-locations-global.php:298
 #: includes/class-locations-global.php:417
 #: includes/class-locations-page.php:368 includes/class-locations-page.php:485
 msgid "Geocode"
 msgstr ""
 
-#: includes/class-admin.php:103 includes/class-locations-global.php:422
+#: includes/class-admin.php:104 includes/class-locations-global.php:422
 #: includes/class-locations-page.php:490
 msgid "Clear"
 msgstr ""
 
-#: includes/class-admin.php:104 includes/class-shortcodes.php:100
+#: includes/class-admin.php:105 includes/class-shortcodes.php:100
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: includes/class-admin.php:107
+#: includes/class-admin.php:108
 msgid "Geocoding…"
 msgstr ""
 
-#: includes/class-admin.php:108 includes/class-locations-page.php:892
+#: includes/class-admin.php:109 includes/class-locations-page.php:892
 #: includes/class-locations-page.php:933
 msgid "User-provided"
 msgstr ""
 
-#: includes/class-admin.php:109 includes/class-locations-page.php:888
+#: includes/class-admin.php:110 includes/class-locations-page.php:888
 #: includes/class-locations-page.php:937
 msgid "Pending"
 msgstr ""
 
-#: includes/class-admin.php:110 includes/class-locations-page.php:889
+#: includes/class-admin.php:111 includes/class-locations-page.php:889
 #: includes/class-locations-page.php:939
 msgid "Census"
 msgstr ""
 
-#: includes/class-admin.php:111 includes/class-locations-page.php:941
+#: includes/class-admin.php:112 includes/class-locations-page.php:941
 msgid "Census (tie)"
 msgstr ""
 
-#: includes/class-admin.php:112 includes/class-locations-page.php:890
+#: includes/class-admin.php:113 includes/class-locations-page.php:890
 #: includes/class-locations-page.php:943 includes/class-settings-page.php:527
 msgid "OpenStreetMap"
 msgstr ""
 
-#: includes/class-admin.php:113 includes/class-locations-page.php:891
+#: includes/class-admin.php:114 includes/class-locations-page.php:891
 #: includes/class-locations-page.php:945
 msgid "No match"
 msgstr ""
 
-#: includes/class-admin.php:114 includes/class-locations-page.php:947
+#: includes/class-admin.php:115 includes/class-locations-page.php:947
 msgid "Failed"
 msgstr ""
 
-#: includes/class-admin.php:121 includes/class-settings-page.php:149
+#: includes/class-admin.php:122 includes/class-settings-page.php:149
 #: includes/class-settings-page.php:290
 msgid "meters"
 msgstr ""
 
-#: includes/class-admin.php:122 includes/class-settings-page.php:150
+#: includes/class-admin.php:123 includes/class-settings-page.php:150
 #: includes/class-settings-page.php:289
 msgid "feet"
 msgstr ""
 
-#: includes/class-admin.php:154 includes/class-admin.php:209
+#: includes/class-admin.php:155 includes/class-admin.php:210
 #: includes/class-locations-page.php:33 includes/class-locations-page.php:34
 #: includes/class-locations-page.php:61 includes/class-locations-page.php:882
 msgid "Locations"
 msgstr ""
 
-#: includes/class-admin.php:160
+#: includes/class-admin.php:161
 #, php-format
 msgid "Manage %d location →"
 msgid_plural "Manage %d locations →"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-admin.php:162
+#: includes/class-admin.php:163
 msgid "Add locations →"
 msgstr ""
 
-#: includes/class-admin.php:435 includes/class-admin.php:457
-#: includes/class-admin.php:532 includes/class-admin.php:557
-#: includes/class-admin.php:574 includes/class-admin.php:613
-#: includes/class-admin.php:642 includes/class-admin.php:670
-#: includes/class-admin.php:701 includes/class-locations-global.php:75
+#: includes/class-admin.php:436 includes/class-admin.php:458
+#: includes/class-admin.php:533 includes/class-admin.php:558
+#: includes/class-admin.php:575 includes/class-admin.php:614
+#: includes/class-admin.php:643 includes/class-admin.php:671
+#: includes/class-admin.php:702 includes/class-locations-global.php:75
 #: includes/class-locations-global.php:551
 #: includes/class-locations-global.php:631
 #: includes/class-locations-global.php:645
@@ -219,31 +219,31 @@ msgstr ""
 msgid "Permission denied."
 msgstr ""
 
-#: includes/class-admin.php:442 includes/class-admin.php:471
-#: includes/class-admin.php:647 includes/class-admin.php:675
-#: includes/class-admin.php:707
+#: includes/class-admin.php:443 includes/class-admin.php:472
+#: includes/class-admin.php:648 includes/class-admin.php:676
+#: includes/class-admin.php:708
 msgid "Invalid parameters."
 msgstr ""
 
-#: includes/class-admin.php:474 includes/class-locations-global.php:599
+#: includes/class-admin.php:475 includes/class-locations-global.php:599
 #: includes/class-settings-page.php:662 includes/class-settings-page.php:685
 msgid "Invalid file upload."
 msgstr ""
 
-#: includes/class-admin.php:479 includes/class-csv.php:43
+#: includes/class-admin.php:480 includes/class-csv.php:43
 #: includes/class-locations-page.php:84
 msgid "Term not found."
 msgstr ""
 
-#: includes/class-admin.php:536 includes/class-admin.php:561
+#: includes/class-admin.php:537 includes/class-admin.php:562
 msgid "Invalid ID."
 msgstr ""
 
-#: includes/class-admin.php:541
+#: includes/class-admin.php:542
 msgid "Not found."
 msgstr ""
 
-#: includes/class-admin.php:711
+#: includes/class-admin.php:712
 msgid "Location not found or does not belong to this term."
 msgstr ""
 
@@ -253,16 +253,16 @@ msgid "As the Crow Flies"
 msgstr ""
 
 #: includes/class-blocks.php:230 includes/class-locations-global.php:260
-#: includes/class-shortcodes.php:803
+#: includes/class-shortcodes.php:810
 msgid "Postal code"
 msgstr ""
 
-#: includes/class-blocks.php:231 includes/class-shortcodes.php:802
+#: includes/class-blocks.php:231 includes/class-shortcodes.php:809
 msgid "Enter postal code"
 msgstr ""
 
 #: includes/class-blocks.php:235 includes/class-blocks.php:236
-#: includes/class-shortcodes.php:809 includes/class-shortcodes.php:810
+#: includes/class-shortcodes.php:816 includes/class-shortcodes.php:817
 msgid "Share current location"
 msgstr ""
 
@@ -275,7 +275,7 @@ msgstr ""
 msgid "%1$d %2$s"
 msgstr ""
 
-#: includes/class-blocks.php:256 includes/class-shortcodes.php:818
+#: includes/class-blocks.php:256 includes/class-shortcodes.php:825
 msgid "Search"
 msgstr ""
 
@@ -287,24 +287,24 @@ msgstr ""
 #: includes/class-locations-global.php:351
 #: includes/class-locations-page.php:272 includes/class-locations-page.php:429
 #: includes/class-locations-page.php:857 includes/class-locations-page.php:977
-#: includes/class-shortcodes.php:103 includes/class-shortcodes.php:541
+#: includes/class-shortcodes.php:103 includes/class-shortcodes.php:544
 msgid "Label"
 msgstr ""
 
 #: includes/class-blocks.php:356 includes/class-locations-global.php:352
 #: includes/class-locations-page.php:430 includes/class-locations-page.php:858
-#: includes/class-shortcodes.php:104 includes/class-shortcodes.php:542
+#: includes/class-shortcodes.php:104 includes/class-shortcodes.php:545
 msgid "Address"
 msgstr ""
 
 #: includes/class-blocks.php:358 includes/class-shortcodes.php:105
-#: includes/class-shortcodes.php:543
+#: includes/class-shortcodes.php:546
 msgid "Distance"
 msgstr ""
 
 #: includes/class-blocks.php:405 includes/class-blocks.php:449
-#: includes/class-settings-page.php:518 includes/class-shortcodes.php:526
-#: includes/class-shortcodes.php:563 includes/class-shortcodes.php:666
+#: includes/class-settings-page.php:518 includes/class-shortcodes.php:529
+#: includes/class-shortcodes.php:566 includes/class-shortcodes.php:669
 msgid "Directions"
 msgstr ""
 
@@ -596,7 +596,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: includes/class-locations-global.php:369 includes/class-shortcodes.php:220
+#: includes/class-locations-global.php:369 includes/class-shortcodes.php:221
 msgid "No locations found."
 msgstr ""
 
@@ -653,14 +653,14 @@ msgid_plural "%d rows skipped (unknown term)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-locations-global.php:740
+#: includes/class-locations-global.php:748
 #, php-format
 msgid "Geocoding complete: %s location processed."
 msgid_plural "Geocoding complete: %s locations processed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-locations-global.php:741
+#: includes/class-locations-global.php:749
 #: includes/class-locations-page.php:184
 msgid "Location deleted."
 msgstr ""
@@ -1347,19 +1347,19 @@ msgstr ""
 msgid "Current Location"
 msgstr ""
 
-#: includes/class-shortcodes.php:300
+#: includes/class-shortcodes.php:303
 msgid "No results found."
 msgstr ""
 
-#: includes/class-shortcodes.php:452
+#: includes/class-shortcodes.php:455
 msgid "No nearby results found."
 msgstr ""
 
-#: includes/class-shortcodes.php:745
+#: includes/class-shortcodes.php:748
 msgid "No posts found."
 msgstr ""
 
-#: includes/class-shortcodes.php:821 includes/class-shortcodes.php:829
+#: includes/class-shortcodes.php:828 includes/class-shortcodes.php:836
 msgid "Find nearby"
 msgstr ""
 
@@ -1618,7 +1618,9 @@ msgstr ""
 
 #: blocks/location-finder/block.json
 msgctxt "block description"
-msgid "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms."
+msgid ""
+"Interactive finder: visitor enters a postal code or uses browser location to "
+"find nearby taxonomy terms."
 msgstr ""
 
 #: blocks/location-finder/block.json blocks/nearest-location/block.json
@@ -1653,7 +1655,9 @@ msgstr ""
 
 #: blocks/nearest-location/block.json
 msgctxt "block description"
-msgid "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt."
+msgid ""
+"Compact callout showing the single nearest location to the visitor, resolved "
+"via browser geolocation or a postal code prompt."
 msgstr ""
 
 #: blocks/nearest-location/block.json
@@ -1673,7 +1677,9 @@ msgstr ""
 
 #: blocks/term-locations/block.json
 msgctxt "block description"
-msgid "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes."
+msgid ""
+"Static list of all locations belonging to a specific taxonomy term. Updates "
+"automatically when location data changes."
 msgstr ""
 
 #: blocks/term-locations/block.json
