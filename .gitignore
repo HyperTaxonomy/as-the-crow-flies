@@ -75,7 +75,8 @@ coverage/
 .env.local
 .env.*.local
 
-# Database dumps (but NOT data/postal-centroids.sql — that ships with the plugin)
+# Database dumps (data/postal-centroids.csv ships with the plugin and is unaffected —
+# it's a .csv, and this pattern only matches .sql files at the repo root anyway)
 *.sql.gz
 *.sql.zip
 *.sql.tar.gz
