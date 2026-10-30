@@ -1504,7 +1504,7 @@ msgstr "— Все таксономии —"
 
 #: blocks/location-finder/index.js:94 blocks/nearest-location/index.js:91
 #: blocks/term-locations/index.js:83
-#, javascript-format
+#, fuzzy, javascript-format
 msgid "%1$s (ID: %2$d)"
 msgstr "%1$s (ID: %2$d)"
 
