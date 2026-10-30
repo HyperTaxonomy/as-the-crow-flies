@@ -1,5 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import {
 	InspectorControls,
 	useBlockProps,
@@ -86,7 +86,10 @@ registerBlockType( metadata.name, {
 		} );
 		const termLabel = ( t ) => {
 			const n = decodeEntities( t.name );
-			return termNameCounts[ n ] > 1 ? n + " (ID: " + t.id + ")" : n;
+			return termNameCounts[ n ] > 1
+				/* translators: 1: term name, 2: term ID (shown only when two terms share a name) */
+				? sprintf( __( '%1$s (ID: %2$d)', 'as-the-crow-flies' ), n, t.id )
+				: n;
 		};
 
 		const termNameMap = {};
