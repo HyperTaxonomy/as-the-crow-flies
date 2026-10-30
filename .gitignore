@@ -86,3 +86,4 @@ utils/*
 !utils/package.sh
 !utils/make-pot.sh
 !utils/make-json.py
+!utils/generate-centroids.py
