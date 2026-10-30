@@ -368,10 +368,10 @@ class ATCF_Geocoder {
 
 		// set_geocode_result() only flushes the per-term cache; it deliberately doesn't
 		// fire atcf_location_changed itself (this runs per-row, and a batch can be
-		// thousands of rows — firing it per-row would mean that many redundant
-		// atcf_query cache flushes). Fire it once here instead, and only when a location
-		// actually went from "no coordinates" to "has coordinates", since that's the one
-		// outcome that can change which locations an atcf_query radius search finds.
+		// thousands of rows — firing it per-row would flush the taxonomy-level caches
+		// that many times). Fire it once here instead, and only when a location actually
+		// went from "no coordinates" to "has coordinates", since that's the one outcome
+		// that changes which locations radius searches and location-based lists find.
 		if ( $any_geocoded ) {
 			do_action( 'atcf_location_changed', '' );
 		}

@@ -915,11 +915,13 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 		// --- Coordinates criterion ---
 		if ( $has_coords && in_array( $mode, array( 'coords', 'either', 'both' ), true ) ) {
 			if ( $radius_km <= 0.0 ) {
-				// Round-then-compare rather than raw float equality, matching the
-				// exact-coordinate-match pattern used in class-csv.php's find_conflict().
+				// Exact match at the columns' own DECIMAL(10,7) precision. The values are
+				// passed as 7-decimal strings because wpdb's %f placeholder formats only
+				// 6 decimals, which would never equal a stored 7th decimal digit.
 				$rows = $wpdb->get_results( $wpdb->prepare(
-					"SELECT term_id, label FROM {$table} WHERE ROUND( lat, 7 ) = ROUND( %f, 7 ) AND ROUND( lng, 7 ) = ROUND( %f, 7 )",
-					$lat, $lng
+					"SELECT term_id, label FROM {$table} WHERE lat = CAST( %s AS DECIMAL(10,7) ) AND lng = CAST( %s AS DECIMAL(10,7) )",
+					number_format( (float) $lat, 7, '.', '' ),
+					number_format( (float) $lng, 7, '.', '' )
 				) );
 				foreach ( $rows as $row ) {
 					if ( $require_label_coords
