@@ -34,7 +34,7 @@ There are two ways to render location data, both built on the same data model an
 
 | Item | Version |
 |------|---------|
-| WordPress | 5.8+ |
+| WordPress | 6.6+ |
 | PHP | 7.4+ |
 
 ## Installation

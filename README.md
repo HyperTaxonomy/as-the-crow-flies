@@ -23,7 +23,7 @@ A WordPress plugin that attaches physical locations (addresses or coordinates) t
 
 ## Requirements
 
-- WordPress 5.8+
+- WordPress 6.6+
 - PHP 7.4+
 
 ## Installation
