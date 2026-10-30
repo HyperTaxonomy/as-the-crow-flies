@@ -1751,3 +1751,91 @@ msgstr[2] "Показаны местоположения для %d выбран�
 msgid "Select a taxonomy and one or more terms in the sidebar."
 msgstr ""
 "Выберите таксономию, а также один или несколько терминов на боковой панели."
+
+#: blocks/location-finder/block.json
+msgctxt "block title"
+msgid "Location Finder"
+msgstr "Location Finder"
+
+#: blocks/location-finder/block.json
+#, fuzzy
+msgctxt "block description"
+msgid "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms."
+msgstr "Интерактивный поиск: посетитель вводит почтовый индекс или использует местоположение из браузера, чтобы найти ближайшие термины таксономии."
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "location"
+msgstr "location"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "distance"
+msgstr "distance"
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "proximity"
+msgstr "proximity"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr "map"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "nearby"
+msgstr "nearby"
+
+#: blocks/nearest-location/block.json
+msgctxt "block title"
+msgid "Nearest Location"
+msgstr "Nearest Location"
+
+#: blocks/nearest-location/block.json
+#, fuzzy
+msgctxt "block description"
+msgid "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt."
+msgstr "Компактный блок с одним ближайшим к посетителю местоположением, определённым через геолокацию браузера или по запрошенному почтовому индексу."
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "nearest"
+msgstr "nearest"
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "closest"
+msgstr "closest"
+
+#: blocks/term-locations/block.json
+msgctxt "block title"
+msgid "Term Locations"
+msgstr "Term Locations"
+
+#: blocks/term-locations/block.json
+#, fuzzy
+msgctxt "block description"
+msgid "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes."
+msgstr "Статический список всех местоположений, относящихся к определённому термину таксономии. Обновляется автоматически при изменении данных местоположений."
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "locations"
+msgstr "locations"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "addresses"
+msgstr "addresses"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "term"
+msgstr "term"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "taxonomy"
+msgstr "taxonomy"

@@ -1610,3 +1610,88 @@ msgstr[1] ""
 #: blocks/term-locations/index.js:211
 msgid "Select a taxonomy and one or more terms in the sidebar."
 msgstr ""
+
+#: blocks/location-finder/block.json
+msgctxt "block title"
+msgid "Location Finder"
+msgstr ""
+
+#: blocks/location-finder/block.json
+msgctxt "block description"
+msgid "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms."
+msgstr ""
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "location"
+msgstr ""
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "distance"
+msgstr ""
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "proximity"
+msgstr ""
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr ""
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "nearby"
+msgstr ""
+
+#: blocks/nearest-location/block.json
+msgctxt "block title"
+msgid "Nearest Location"
+msgstr ""
+
+#: blocks/nearest-location/block.json
+msgctxt "block description"
+msgid "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt."
+msgstr ""
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "nearest"
+msgstr ""
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "closest"
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block title"
+msgid "Term Locations"
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block description"
+msgid "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes."
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "locations"
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "addresses"
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "term"
+msgstr ""
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "taxonomy"
+msgstr ""
