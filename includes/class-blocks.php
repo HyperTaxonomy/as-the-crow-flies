@@ -302,7 +302,7 @@ class ATCF_Blocks {
 			}
 		}
 
-		$limit = max( 0, (int) ( $attributes['limit'] ?? 0 ) );
+		$limit = max( 0, (int) ( $attributes['limit'] ?? 5 ) );
 
 		$args = array( 'orderby' => 'label' );
 		if ( $country ) {

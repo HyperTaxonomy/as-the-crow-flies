@@ -250,7 +250,7 @@ Renders a static list of all locations attached to one or more taxonomy terms. U
 | Terms | — | One or more terms from the chosen taxonomy. Type at least 2 characters to search. Leave empty to show all terms' locations. |
 | Sort by distance from postal code | — | When set, locations are sorted nearest-first from this postal code and a distance label is shown. Leave blank to sort by label. |
 | Unit | site default | Miles or Kilometers. Used for the distance label when sorting by postal code. |
-| Max results | 0 (all) | Cap the number of locations shown. Leave blank or set to 0 to show all locations. |
+| Max results | 5 | Cap the number of locations shown. Leave blank or set to 0 to show all locations. |
 | Output style | Unordered list | `ul`, `ol`, `div`, or `table`. |
 | Item template | — | Custom per-row template. When set, the **Columns shown** toggles are ignored. See [Item templates](#item-templates). |
 | Directions provider | Site default | Per-block override. |
