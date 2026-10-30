@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the as-the-crow-flies package.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: as-the-crow-flies 1.0.0\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 08:20-0400\n"
+"POT-Creation-Date: 2026-10-30 08:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,6 +159,8 @@ msgstr ""
 
 #: includes/class-admin.php:107 includes/class-locations-page.php:890
 #: includes/class-locations-page.php:943 includes/class-settings-page.php:527
+#: blocks/location-finder/index.js:47 blocks/nearest-location/index.js:44
+#: blocks/term-locations/index.js:33
 msgid "OpenStreetMap"
 msgstr ""
 
@@ -253,7 +255,7 @@ msgid "As the Crow Flies"
 msgstr ""
 
 #: includes/class-blocks.php:230 includes/class-locations-global.php:260
-#: includes/class-shortcodes.php:810
+#: includes/class-shortcodes.php:810 blocks/term-locations/index.js:208
 msgid "Postal code"
 msgstr ""
 
@@ -288,6 +290,7 @@ msgstr ""
 #: includes/class-locations-page.php:272 includes/class-locations-page.php:429
 #: includes/class-locations-page.php:857 includes/class-locations-page.php:977
 #: includes/class-shortcodes.php:103 includes/class-shortcodes.php:544
+#: blocks/location-finder/index.js:223
 msgid "Label"
 msgstr ""
 
@@ -298,7 +301,7 @@ msgid "Address"
 msgstr ""
 
 #: includes/class-blocks.php:368 includes/class-shortcodes.php:105
-#: includes/class-shortcodes.php:546
+#: includes/class-shortcodes.php:546 blocks/location-finder/index.js:222
 msgid "Distance"
 msgstr ""
 
@@ -358,13 +361,13 @@ msgid "About %s miles away"
 msgstr ""
 
 #: includes/class-locations-global.php:47
-#: includes/class-locations-global.php:48
+#: includes/class-locations-global.php:48 blocks/term-locations/index.js:112
 msgid "Terms"
 msgstr ""
 
 #: includes/class-locations-global.php:60
 #: includes/class-locations-global.php:61
-#: includes/class-locations-global.php:169
+#: includes/class-locations-global.php:169 blocks/term-locations/index.js:223
 msgid "Term Locations"
 msgstr ""
 
@@ -467,6 +470,7 @@ msgstr ""
 #: includes/class-locations-global.php:353
 #: includes/class-locations-page.php:216 includes/class-locations-page.php:317
 #: includes/class-locations-page.php:431 includes/class-locations-page.php:990
+#: blocks/term-locations/index.js:198
 msgid "City"
 msgstr ""
 
@@ -582,6 +586,8 @@ msgstr ""
 #: includes/class-locations-global.php:357
 #: includes/class-locations-page.php:435 includes/class-locations-page.php:862
 #: includes/class-locations-page.php:1005 includes/class-settings-page.php:429
+#: blocks/location-finder/index.js:259 blocks/nearest-location/index.js:221
+#: blocks/term-locations/index.js:213
 msgid "Country"
 msgstr ""
 
@@ -756,7 +762,7 @@ msgstr ""
 msgid "Last page"
 msgstr ""
 
-#: includes/class-locations-page.php:860
+#: includes/class-locations-page.php:860 blocks/term-locations/index.js:203
 msgid "State / Region"
 msgstr ""
 
@@ -914,11 +920,13 @@ msgstr ""
 msgid "Default units"
 msgstr ""
 
-#: includes/class-settings-page.php:200
+#: includes/class-settings-page.php:200 blocks/location-finder/index.js:205
+#: blocks/nearest-location/index.js:196 blocks/term-locations/index.js:135
 msgid "Miles"
 msgstr ""
 
-#: includes/class-settings-page.php:204
+#: includes/class-settings-page.php:204 blocks/location-finder/index.js:206
+#: blocks/nearest-location/index.js:197 blocks/term-locations/index.js:136
 msgid "Kilometers"
 msgstr ""
 
@@ -1109,19 +1117,23 @@ msgstr ""
 msgid "TSV file"
 msgstr ""
 
-#: includes/class-settings-page.php:521
+#: includes/class-settings-page.php:521 blocks/location-finder/index.js:251
+#: blocks/nearest-location/index.js:213 blocks/term-locations/index.js:167
 msgid "Directions provider"
 msgstr ""
 
-#: includes/class-settings-page.php:524
+#: includes/class-settings-page.php:524 blocks/location-finder/index.js:44
+#: blocks/nearest-location/index.js:41 blocks/term-locations/index.js:30
 msgid "Google Maps"
 msgstr ""
 
-#: includes/class-settings-page.php:525
+#: includes/class-settings-page.php:525 blocks/location-finder/index.js:45
+#: blocks/nearest-location/index.js:42 blocks/term-locations/index.js:31
 msgid "Apple Maps"
 msgstr ""
 
-#: includes/class-settings-page.php:526
+#: includes/class-settings-page.php:526 blocks/location-finder/index.js:46
+#: blocks/nearest-location/index.js:43 blocks/term-locations/index.js:32
 msgid "Waze"
 msgstr ""
 

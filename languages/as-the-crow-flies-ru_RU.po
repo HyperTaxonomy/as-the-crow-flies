@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: as-the-crow-flies 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 08:20-0400\n"
+"POT-Creation-Date: 2026-10-30 08:35-0400\n"
 "PO-Revision-Date: 2026-07-10 13:08-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -172,6 +172,8 @@ msgstr "Перепись (?)"
 
 #: includes/class-admin.php:107 includes/class-locations-page.php:890
 #: includes/class-locations-page.php:943 includes/class-settings-page.php:527
+#: blocks/location-finder/index.js:47 blocks/nearest-location/index.js:44
+#: blocks/term-locations/index.js:33
 msgid "OpenStreetMap"
 msgstr "OpenStreetMap"
 
@@ -267,7 +269,7 @@ msgid "As the Crow Flies"
 msgstr "As the Crow Flies"
 
 #: includes/class-blocks.php:230 includes/class-locations-global.php:260
-#: includes/class-shortcodes.php:810
+#: includes/class-shortcodes.php:810 blocks/term-locations/index.js:208
 msgid "Postal code"
 msgstr "Почтовый индекс"
 
@@ -302,6 +304,7 @@ msgstr "Выберите термин в настройках блока."
 #: includes/class-locations-page.php:272 includes/class-locations-page.php:429
 #: includes/class-locations-page.php:857 includes/class-locations-page.php:977
 #: includes/class-shortcodes.php:103 includes/class-shortcodes.php:544
+#: blocks/location-finder/index.js:223
 msgid "Label"
 msgstr "Название"
 
@@ -312,7 +315,7 @@ msgid "Address"
 msgstr "Адрес"
 
 #: includes/class-blocks.php:368 includes/class-shortcodes.php:105
-#: includes/class-shortcodes.php:546
+#: includes/class-shortcodes.php:546 blocks/location-finder/index.js:222
 msgid "Distance"
 msgstr "Расстояние"
 
@@ -372,13 +375,13 @@ msgid "About %s miles away"
 msgstr "Примерно в %s милях"
 
 #: includes/class-locations-global.php:47
-#: includes/class-locations-global.php:48
+#: includes/class-locations-global.php:48 blocks/term-locations/index.js:112
 msgid "Terms"
 msgstr "Термины"
 
 #: includes/class-locations-global.php:60
 #: includes/class-locations-global.php:61
-#: includes/class-locations-global.php:169
+#: includes/class-locations-global.php:169 blocks/term-locations/index.js:223
 msgid "Term Locations"
 msgstr "Местоположения терминов"
 
@@ -487,6 +490,7 @@ msgstr "Все страны"
 #: includes/class-locations-global.php:353
 #: includes/class-locations-page.php:216 includes/class-locations-page.php:317
 #: includes/class-locations-page.php:431 includes/class-locations-page.php:990
+#: blocks/term-locations/index.js:198
 msgid "City"
 msgstr "Город"
 
@@ -604,6 +608,8 @@ msgstr "Индекс"
 #: includes/class-locations-global.php:357
 #: includes/class-locations-page.php:435 includes/class-locations-page.php:862
 #: includes/class-locations-page.php:1005 includes/class-settings-page.php:429
+#: blocks/location-finder/index.js:259 blocks/nearest-location/index.js:221
+#: blocks/term-locations/index.js:213
 msgid "Country"
 msgstr "Страна"
 
@@ -783,7 +789,7 @@ msgstr "Следующая страница"
 msgid "Last page"
 msgstr "Последняя страница"
 
-#: includes/class-locations-page.php:860
+#: includes/class-locations-page.php:860 blocks/term-locations/index.js:203
 msgid "State / Region"
 msgstr "Штат / Регион"
 
@@ -962,11 +968,13 @@ msgstr "Единицы измерения"
 msgid "Default units"
 msgstr "Единицы измерения по умолчанию"
 
-#: includes/class-settings-page.php:200
+#: includes/class-settings-page.php:200 blocks/location-finder/index.js:205
+#: blocks/nearest-location/index.js:196 blocks/term-locations/index.js:135
 msgid "Miles"
 msgstr "Мили"
 
-#: includes/class-settings-page.php:204
+#: includes/class-settings-page.php:204 blocks/location-finder/index.js:206
+#: blocks/nearest-location/index.js:197 blocks/term-locations/index.js:136
 msgid "Kilometers"
 msgstr "Километры"
 
@@ -1173,19 +1181,23 @@ msgstr "Код в формате ISO 3166-1 alpha-2 (например: GB, DE, A
 msgid "TSV file"
 msgstr "TSV-файл"
 
-#: includes/class-settings-page.php:521
+#: includes/class-settings-page.php:521 blocks/location-finder/index.js:251
+#: blocks/nearest-location/index.js:213 blocks/term-locations/index.js:167
 msgid "Directions provider"
 msgstr "Сервис маршрутов"
 
-#: includes/class-settings-page.php:524
+#: includes/class-settings-page.php:524 blocks/location-finder/index.js:44
+#: blocks/nearest-location/index.js:41 blocks/term-locations/index.js:30
 msgid "Google Maps"
 msgstr "Google Maps"
 
-#: includes/class-settings-page.php:525
+#: includes/class-settings-page.php:525 blocks/location-finder/index.js:45
+#: blocks/nearest-location/index.js:42 blocks/term-locations/index.js:31
 msgid "Apple Maps"
 msgstr "Apple Maps"
 
-#: includes/class-settings-page.php:526
+#: includes/class-settings-page.php:526 blocks/location-finder/index.js:46
+#: blocks/nearest-location/index.js:43 blocks/term-locations/index.js:32
 msgid "Waze"
 msgstr "Waze"
 
@@ -1492,7 +1504,7 @@ msgstr "— Все таксономии —"
 
 #: blocks/location-finder/index.js:94 blocks/nearest-location/index.js:91
 #: blocks/term-locations/index.js:83
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "%1$s (ID: %2$d)"
 msgstr "%1$s (ID: %2$d)"
 
@@ -1741,7 +1753,6 @@ msgid "Address line"
 msgstr "Строка адреса"
 
 #: blocks/term-locations/index.js:225
-#, fuzzy
 msgid "Select a taxonomy in the sidebar."
 msgstr "Выберите таксономию на боковой панели."
 
@@ -1754,9 +1765,12 @@ msgstr[1] "Показаны местоположения для %d выбран�
 msgstr[2] "Показаны местоположения для %d выбранных терминов."
 
 #: blocks/term-locations/index.js:229
-#, fuzzy
-msgid "Showing locations for all terms in this taxonomy. Select one or more terms in the sidebar to narrow the list."
-msgstr "Показаны местоположения всех терминов этой таксономии. Выберите один или несколько терминов на боковой панели, чтобы сузить список."
+msgid ""
+"Showing locations for all terms in this taxonomy. Select one or more terms "
+"in the sidebar to narrow the list."
+msgstr ""
+"Показаны местоположения всех терминов этой таксономии. Выберите один или "
+"несколько терминов на боковой панели, чтобы сузить список."
 
 #: blocks/location-finder/block.json
 msgctxt "block title"
