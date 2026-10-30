@@ -323,8 +323,9 @@ class ATCF_Geocoder {
 	 * @return int Number of locations actually finalized (written a terminal result).
 	 */
 	private static function apply_results( array $locations, array $results ): int {
-		$deadline  = microtime( true ) + self::MAX_NOMINATIM_FALLBACK_SECONDS;
-		$processed = 0;
+		$deadline     = microtime( true ) + self::MAX_NOMINATIM_FALLBACK_SECONDS;
+		$processed    = 0;
+		$any_geocoded = false;
 
 		foreach ( $locations as $id => $loc ) {
 			if ( ! isset( $results[ $id ] ) ) {
@@ -341,6 +342,7 @@ class ATCF_Geocoder {
 				if ( ! empty( $result['normalized_street'] ) ) {
 					ATCF_Locations::set_normalized_address( $id, $result['normalized_street'] );
 				}
+				$any_geocoded = true;
 				$processed++;
 				continue;
 			}
@@ -357,10 +359,21 @@ class ATCF_Geocoder {
 			$nominatim = self::call_nominatim_api( $loc );
 			if ( null !== $nominatim ) {
 				ATCF_Locations::set_geocode_result( $id, 'matched_nominatim', $nominatim['lat'], $nominatim['lng'] );
+				$any_geocoded = true;
 			} else {
 				ATCF_Locations::set_geocode_result( $id, 'no_match' );
 			}
 			$processed++;
+		}
+
+		// set_geocode_result() only flushes the per-term cache; it deliberately doesn't
+		// fire atcf_location_changed itself (this runs per-row, and a batch can be
+		// thousands of rows — firing it per-row would mean that many redundant
+		// atcf_query cache flushes). Fire it once here instead, and only when a location
+		// actually went from "no coordinates" to "has coordinates", since that's the one
+		// outcome that can change which locations an atcf_query radius search finds.
+		if ( $any_geocoded ) {
+			do_action( 'atcf_location_changed', '' );
 		}
 
 		return $processed;

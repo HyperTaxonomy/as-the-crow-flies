@@ -663,6 +663,14 @@ msgstr ""
 
 #: includes/class-locations-global.php:733
 #, php-format
+msgid "%d row failed due to a validation error."
+msgid_plural "%d rows failed due to validation errors."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: includes/class-locations-global.php:741
+#, php-format
 msgid "%d row skipped (unknown term)."
 msgid_plural "%d rows skipped (unknown term)."
 msgstr[0] "Пропущена %d строка (неизвестный термин)."

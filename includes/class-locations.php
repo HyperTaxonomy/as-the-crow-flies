@@ -964,6 +964,9 @@ class ATCF_Locations {
 			)
 		);
 
+		// Spans multiple (possibly all) taxonomies, so signal unscoped, same as
+		// bulk_clear_coords() — any atcf_query result cache must be flushed too.
+		do_action( 'atcf_location_changed', '' );
 		foreach ( $orphans as $term_id ) {
 			static::flush_term_cache( $term_id );
 		}
