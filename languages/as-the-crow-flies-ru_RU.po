@@ -665,9 +665,9 @@ msgstr ""
 #, php-format
 msgid "%d row failed due to a validation error."
 msgid_plural "%d rows failed due to validation errors."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Не импортирована %d строка (ошибка проверки)."
+msgstr[1] "Не импортированы %d строки (ошибки проверки)."
+msgstr[2] "Не импортировано %d строк (ошибки проверки)."
 
 #: includes/class-locations-global.php:741
 #, php-format
