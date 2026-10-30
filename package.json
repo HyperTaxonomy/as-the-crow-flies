@@ -9,6 +9,8 @@
     "lint:js": "wp-scripts lint-js blocks/*/index.js"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.0.0"
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.34.0",
+    "@wordpress/scripts": "^30.0.0",
+    "babel-loader": "9.2.1"
   }
 }

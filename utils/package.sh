@@ -17,7 +17,7 @@
 
 set -e
 
-PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -W)"
+PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PLUGIN_NAME="as-the-crow-flies"
 DIST_DIR="${PLUGIN_ROOT}/dist"
 ZIP_PATH="${DIST_DIR}/${PLUGIN_NAME}.zip"
