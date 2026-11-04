@@ -36,7 +36,7 @@ $centroid = ATCF_Distance::get_centroid( string $postal_code, string $country );
 // Returns ['lat' => float, 'lng' => float] or null.
 
 // Resolve the configured directions provider.
-$provider = ATCF_Distance::resolve_provider( string $override = '' );
+$provider = ATCF_Distance::resolve_provider( string $pref = '' );
 // Returns 'google' | 'apple' | 'waze' | 'osm' | 'geo'.
 
 // Build a directions URL for a location.
@@ -207,6 +207,9 @@ HyperTaxonomy hooks `atcf_term_location_changed` directly (to rebuild TermConnec
 |---|---|---|
 | `atcf_ip_headers` | `string[] $headers` | `$_SERVER` keys IP geolocation reads the visitor's IP from (default `['REMOTE_ADDR']`). |
 | `atcf_cdn_location` | `array\|null $location` | Visitor location from CDN request headers (`{ lat, lng, country, postal_code }` or null). Cloudflare's headers are read by default; map another CDN's headers here. |
+| `atcf_taxonomy_enabled` | `bool $enabled`, `string $taxonomy` | Whether ATCF's location features are enabled for a taxonomy. |
+| `atcf_term_ids_within_radius` | `int[] $term_ids`, `string $postal_code`, `float $radius`, `string $unit`, `string $taxonomy`, `string $country` | Term IDs returned by `atcf_get_term_ids_within_radius()`. |
+| `atcf_term_locations_for_rest` | `array $locations`, `int $term_id` | A term's locations before they are formatted for REST output. HyperTaxonomy hooks this to add locations from its `htax_term_locations` filter. |
 
 ---
 
