@@ -97,6 +97,8 @@ $term_ids = atcf_get_term_ids_with_locations( string $taxonomy );
 
 ### Return shapes
 
+Lookups skip locations whose term can't be resolved with `get_term()`.
+
 `get_for_term` returns an array of **row objects** (as queried with `$wpdb->get_results` in OBJECT mode) with properties: `id`, `term_id`, `taxonomy`, `label`, `address_line`, `address_line2`, `locality`, `region`, `postal_code`, `country`, `lat`, `lng`. These rows do **not** carry distance fields.
 
 `get_locations_within_radius` returns an array of **associative arrays** with the same location keys plus the computed fields `street_address`, `distance_km`, and `distance_miles`.

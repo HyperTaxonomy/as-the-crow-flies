@@ -582,6 +582,9 @@ class ATCF_Distance {
 			ARRAY_A
 		);
 
+		// A row without a term is an orphan.
+		$rows = array_values( array_filter( $rows, static fn( $row ) => get_term( (int) $row['term_id'] ) instanceof WP_Term ) );
+
 		// Append computed fields to each row.
 		foreach ( $rows as &$row ) {
 			$row['distance_km']    = round( (float) $row['distance_km'], 2 );

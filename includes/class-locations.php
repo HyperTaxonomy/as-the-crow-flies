@@ -26,6 +26,9 @@ class ATCF_Locations {
 	 * @return object[]
 	 */
 	public static function get_for_term( int $term_id, string $taxonomy, array $args = array() ): array {
+		if ( ! get_term( $term_id ) instanceof WP_Term ) {
+			return array(); // A row without a term is an orphan.
+		}
 		if ( empty( $args ) ) {
 			return static::get_by_term_id( $term_id );
 		}
@@ -153,6 +156,7 @@ class ATCF_Locations {
 	 * @return object[]
 	 */
 	public static function get_for_terms( array $term_ids, string $taxonomy, array $args = array() ): array {
+		$term_ids = array_values( array_filter( $term_ids, static fn( $id ) => get_term( (int) $id ) instanceof WP_Term ) );
 		if ( empty( $term_ids ) ) {
 			return array();
 		}
