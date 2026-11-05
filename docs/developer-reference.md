@@ -184,7 +184,7 @@ window.atcfGeo.initGeoBtn({
 
 `initGeoBtn` handles: browser permission request, Nominatim reverse geocode, populating the input with the detected postal code or city name, icon loading/used/re-enable states, and re-enable-on-edit. Consumers only need to implement `onSuccess` and `onReset` to store/clear their own coordinate state.
 
-HyperTaxonomy's `[htax_distance_field]` shortcode delegates to this API when ATCF is active.
+HyperTaxonomy's `[ht_distance_field]` shortcode delegates to this API when ATCF is active.
 
 ---
 

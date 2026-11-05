@@ -252,7 +252,7 @@
 	}
 
 	// -------------------------------------------------------------------------
-	// Public geo-input API — used by ATCF and by HT's [htax_distance_field]
+	// Public geo-input API — used by ATCF and by HT's [ht_distance_field]
 	// -------------------------------------------------------------------------
 
 	// Visitor location chain, browser side. The server side (CDN headers, IP geolocation,

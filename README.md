@@ -90,7 +90,7 @@ For all parameters, see [Developer Reference → REST API](https://hypertaxonomy
 
 ## JavaScript API
 
-`window.atcfGeo` provides `reverseGeocode()` and `initGeoBtn()` for plugins that render their own postal code input with a geolocation button — HyperTaxonomy's `[htax_distance_field]` uses this API.
+`window.atcfGeo` provides `reverseGeocode()` and `initGeoBtn()` for plugins that render their own postal code input with a geolocation button — HyperTaxonomy's `[ht_distance_field]` uses this API.
 
 For the full API and lifecycle handling, see [Developer Reference → JavaScript API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference.html#javascript-api).
 
