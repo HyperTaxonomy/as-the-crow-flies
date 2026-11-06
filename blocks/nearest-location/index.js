@@ -193,6 +193,7 @@ registerBlockType( metadata.name, {
 							label={ __( 'Unit', 'as-the-crow-flies' ) }
 							value={ unit }
 							options={ [
+								{ label: __( 'Site default', 'as-the-crow-flies' ), value: '' },
 								{ label: __( 'Miles', 'as-the-crow-flies' ), value: 'miles' },
 								{ label: __( 'Kilometers', 'as-the-crow-flies' ), value: 'km' },
 							] }

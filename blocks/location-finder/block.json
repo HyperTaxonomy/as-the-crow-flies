@@ -35,8 +35,8 @@
     },
     "unit": {
       "type": "string",
-      "default": "miles",
-      "enum": [ "miles", "km" ]
+      "default": "",
+      "enum": [ "", "miles", "km" ]
     },
     "format": {
       "type": "string",

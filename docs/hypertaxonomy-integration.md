@@ -1,6 +1,6 @@
 ---
 title: HyperTaxonomy Integration
-nav_order: 4
+nav_order: 5
 ---
 
 # HyperTaxonomy Integration
@@ -49,7 +49,13 @@ The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the 
 
 ## PowerSearch and Search Widget
 
-ATCF's `near:` operator in HyperTaxonomy's PowerSearch and Search Widget distance filter both use ATCF's REST API and distance engine. No additional configuration is required — enabling a taxonomy in ATCF settings is sufficient.
+The `near:` operator in HyperTaxonomy's PowerSearch, and the Search Widget's distance filter, both use ATCF's distance engine. They find every matching location within the radius. No additional configuration is required — enabling a taxonomy in ATCF settings is sufficient.
+
+---
+
+## Matching locations across sites
+
+With TermConnect active as well as HyperTaxonomy, terms on different sites can match by shared location, even when their slugs and names differ. HyperTaxonomy adds each term's normalized address to the identifiers TermConnect compares across sites.
 
 ---
 

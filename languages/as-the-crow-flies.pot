@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 08:35-0400\n"
+"POT-Creation-Date: 2026-11-06 03:15-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,7 +255,7 @@ msgid "As the Crow Flies"
 msgstr ""
 
 #: includes/class-blocks.php:230 includes/class-locations-global.php:260
-#: includes/class-shortcodes.php:810 blocks/term-locations/index.js:208
+#: includes/class-shortcodes.php:810 blocks/term-locations/index.js:209
 msgid "Postal code"
 msgstr ""
 
@@ -289,25 +289,25 @@ msgstr ""
 #: includes/class-locations-global.php:351
 #: includes/class-locations-page.php:272 includes/class-locations-page.php:429
 #: includes/class-locations-page.php:857 includes/class-locations-page.php:977
-#: includes/class-shortcodes.php:103 includes/class-shortcodes.php:544
-#: blocks/location-finder/index.js:223
+#: includes/class-shortcodes.php:103 includes/class-shortcodes.php:562
+#: blocks/location-finder/index.js:224
 msgid "Label"
 msgstr ""
 
 #: includes/class-blocks.php:366 includes/class-locations-global.php:352
 #: includes/class-locations-page.php:430 includes/class-locations-page.php:858
-#: includes/class-shortcodes.php:104 includes/class-shortcodes.php:545
+#: includes/class-shortcodes.php:104 includes/class-shortcodes.php:563
 msgid "Address"
 msgstr ""
 
 #: includes/class-blocks.php:368 includes/class-shortcodes.php:105
-#: includes/class-shortcodes.php:546 blocks/location-finder/index.js:222
+#: includes/class-shortcodes.php:564 blocks/location-finder/index.js:223
 msgid "Distance"
 msgstr ""
 
 #: includes/class-blocks.php:415 includes/class-blocks.php:459
-#: includes/class-settings-page.php:518 includes/class-shortcodes.php:529
-#: includes/class-shortcodes.php:566 includes/class-shortcodes.php:669
+#: includes/class-settings-page.php:518 includes/class-shortcodes.php:547
+#: includes/class-shortcodes.php:584 includes/class-shortcodes.php:682
 msgid "Directions"
 msgstr ""
 
@@ -367,7 +367,7 @@ msgstr ""
 
 #: includes/class-locations-global.php:60
 #: includes/class-locations-global.php:61
-#: includes/class-locations-global.php:169 blocks/term-locations/index.js:223
+#: includes/class-locations-global.php:169 blocks/term-locations/index.js:224
 msgid "Term Locations"
 msgstr ""
 
@@ -470,7 +470,7 @@ msgstr ""
 #: includes/class-locations-global.php:353
 #: includes/class-locations-page.php:216 includes/class-locations-page.php:317
 #: includes/class-locations-page.php:431 includes/class-locations-page.php:990
-#: blocks/term-locations/index.js:198
+#: blocks/term-locations/index.js:199
 msgid "City"
 msgstr ""
 
@@ -586,8 +586,8 @@ msgstr ""
 #: includes/class-locations-global.php:357
 #: includes/class-locations-page.php:435 includes/class-locations-page.php:862
 #: includes/class-locations-page.php:1005 includes/class-settings-page.php:429
-#: blocks/location-finder/index.js:259 blocks/nearest-location/index.js:221
-#: blocks/term-locations/index.js:213
+#: blocks/location-finder/index.js:260 blocks/nearest-location/index.js:222
+#: blocks/term-locations/index.js:214
 msgid "Country"
 msgstr ""
 
@@ -602,7 +602,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: includes/class-locations-global.php:369 includes/class-shortcodes.php:221
+#: includes/class-locations-global.php:369 includes/class-shortcodes.php:227
 msgid "No locations found."
 msgstr ""
 
@@ -762,7 +762,7 @@ msgstr ""
 msgid "Last page"
 msgstr ""
 
-#: includes/class-locations-page.php:860 blocks/term-locations/index.js:203
+#: includes/class-locations-page.php:860 blocks/term-locations/index.js:204
 msgid "State / Region"
 msgstr ""
 
@@ -843,32 +843,32 @@ msgid ""
 "hourly after import."
 msgstr ""
 
-#: includes/class-locations.php:383
+#: includes/class-locations.php:387
 msgid "Could not save location."
 msgstr ""
 
-#: includes/class-locations.php:430
+#: includes/class-locations.php:434
 msgid "Could not update location."
 msgstr ""
 
-#: includes/class-locations.php:551
+#: includes/class-locations.php:555
 #, php-format
 msgid "Missing required field: %s"
 msgstr ""
 
-#: includes/class-locations.php:601
+#: includes/class-locations.php:605
 msgid "Both latitude and longitude are required."
 msgstr ""
 
-#: includes/class-locations.php:606
+#: includes/class-locations.php:610
 msgid "Invalid coordinates."
 msgstr ""
 
-#: includes/class-rest-api.php:140
+#: includes/class-rest-api.php:142
 msgid "Provide postal_code or lat+lng."
 msgstr ""
 
-#: includes/class-rest-api.php:230
+#: includes/class-rest-api.php:232
 msgid "No postal code found near this location."
 msgstr ""
 
@@ -920,13 +920,13 @@ msgstr ""
 msgid "Default units"
 msgstr ""
 
-#: includes/class-settings-page.php:200 blocks/location-finder/index.js:205
-#: blocks/nearest-location/index.js:196 blocks/term-locations/index.js:135
+#: includes/class-settings-page.php:200 blocks/location-finder/index.js:206
+#: blocks/nearest-location/index.js:197 blocks/term-locations/index.js:136
 msgid "Miles"
 msgstr ""
 
-#: includes/class-settings-page.php:204 blocks/location-finder/index.js:206
-#: blocks/nearest-location/index.js:197 blocks/term-locations/index.js:136
+#: includes/class-settings-page.php:204 blocks/location-finder/index.js:207
+#: blocks/nearest-location/index.js:198 blocks/term-locations/index.js:137
 msgid "Kilometers"
 msgstr ""
 
@@ -1117,8 +1117,8 @@ msgstr ""
 msgid "TSV file"
 msgstr ""
 
-#: includes/class-settings-page.php:521 blocks/location-finder/index.js:251
-#: blocks/nearest-location/index.js:213 blocks/term-locations/index.js:167
+#: includes/class-settings-page.php:521 blocks/location-finder/index.js:252
+#: blocks/nearest-location/index.js:214 blocks/term-locations/index.js:168
 msgid "Directions provider"
 msgstr ""
 
@@ -1263,13 +1263,14 @@ msgstr ""
 
 #: includes/class-settings-page.php:612
 msgid ""
-"Delete all location data and centroid tables when the plugin is uninstalled"
+"Delete all location data, centroid tables, enabled taxonomies and the "
+"country list when the plugin is uninstalled"
 msgstr ""
 
 #: includes/class-settings-page.php:614
 msgid ""
-"When unchecked (default), your location data is preserved if you reinstall. "
-"Plugin settings are always removed on uninstall regardless of this option."
+"When unchecked (default), all of these are preserved if you reinstall. Other "
+"plugin settings are always removed on uninstall regardless of this option."
 msgstr ""
 
 #: includes/class-settings-page.php:658
@@ -1359,11 +1360,11 @@ msgstr ""
 msgid "Current Location"
 msgstr ""
 
-#: includes/class-shortcodes.php:303
+#: includes/class-shortcodes.php:316
 msgid "No results found."
 msgstr ""
 
-#: includes/class-shortcodes.php:455
+#: includes/class-shortcodes.php:473
 msgid "No nearby results found."
 msgstr ""
 
@@ -1375,8 +1376,9 @@ msgstr ""
 msgid "Find nearby"
 msgstr ""
 
-#: blocks/location-finder/index.js:43 blocks/nearest-location/index.js:40
-#: blocks/term-locations/index.js:29
+#: blocks/location-finder/index.js:43 blocks/location-finder/index.js:205
+#: blocks/nearest-location/index.js:40 blocks/nearest-location/index.js:196
+#: blocks/term-locations/index.js:29 blocks/term-locations/index.js:135
 msgid "Site default"
 msgstr ""
 
@@ -1433,99 +1435,99 @@ msgstr ""
 msgid "Unit"
 msgstr ""
 
-#: blocks/location-finder/index.js:211 blocks/term-locations/index.js:142
+#: blocks/location-finder/index.js:212 blocks/term-locations/index.js:143
 msgid "Max results"
 msgstr ""
 
-#: blocks/location-finder/index.js:219
+#: blocks/location-finder/index.js:220
 msgid "Sort by"
 msgstr ""
 
-#: blocks/location-finder/index.js:224
+#: blocks/location-finder/index.js:225
 msgid "Term name"
 msgstr ""
 
-#: blocks/location-finder/index.js:229 blocks/term-locations/index.js:150
+#: blocks/location-finder/index.js:230 blocks/term-locations/index.js:151
 msgid "Output style"
 msgstr ""
 
-#: blocks/location-finder/index.js:232 blocks/term-locations/index.js:153
+#: blocks/location-finder/index.js:233 blocks/term-locations/index.js:154
 msgid "Unordered list"
 msgstr ""
 
-#: blocks/location-finder/index.js:233 blocks/term-locations/index.js:154
+#: blocks/location-finder/index.js:234 blocks/term-locations/index.js:155
 msgid "Ordered list"
 msgstr ""
 
-#: blocks/location-finder/index.js:234 blocks/term-locations/index.js:155
+#: blocks/location-finder/index.js:235 blocks/term-locations/index.js:156
 msgid "Div"
 msgstr ""
 
-#: blocks/location-finder/index.js:235 blocks/term-locations/index.js:156
+#: blocks/location-finder/index.js:236 blocks/term-locations/index.js:157
 msgid "Table"
 msgstr ""
 
-#: blocks/location-finder/index.js:240 blocks/nearest-location/index.js:207
-#: blocks/term-locations/index.js:161
+#: blocks/location-finder/index.js:241 blocks/nearest-location/index.js:208
+#: blocks/term-locations/index.js:162
 msgid "Item template"
 msgstr ""
 
-#: blocks/location-finder/index.js:243 blocks/term-locations/index.js:164
+#: blocks/location-finder/index.js:244 blocks/term-locations/index.js:165
 msgid ""
 "Optional. Use {label}, {address_line}, {city}, {region}, {postal_code}, "
 "{distance}, {directions}, etc."
 msgstr ""
 
-#: blocks/location-finder/index.js:246
+#: blocks/location-finder/index.js:247
 msgid "Show \"Use my location\" button"
 msgstr ""
 
-#: blocks/location-finder/index.js:255
+#: blocks/location-finder/index.js:256
 msgid ""
 "Provider for {directions} and {directions_link_start} in item templates. "
 "\"Site default\" uses the value from ATCF Settings."
 msgstr ""
 
-#: blocks/location-finder/index.js:263
+#: blocks/location-finder/index.js:264
 msgid "Determines postal code format and filters results to this country."
 msgstr ""
 
-#: blocks/location-finder/index.js:267 blocks/nearest-location/index.js:228
+#: blocks/location-finder/index.js:268 blocks/nearest-location/index.js:229
 msgid "Country (ISO code)"
 msgstr ""
 
-#: blocks/location-finder/index.js:270
+#: blocks/location-finder/index.js:271
 msgid "e.g. US, CA, GB"
 msgstr ""
 
-#: blocks/location-finder/index.js:280
+#: blocks/location-finder/index.js:281
 msgid "Location Finder"
 msgstr ""
 
-#: blocks/location-finder/index.js:283
+#: blocks/location-finder/index.js:284
 #, javascript-format
 msgid "Searches taxonomy: %s"
 msgstr ""
 
-#: blocks/location-finder/index.js:284
+#: blocks/location-finder/index.js:285
 msgid "Searches all enabled taxonomies"
 msgstr ""
 
-#: blocks/location-finder/index.js:288
+#: blocks/location-finder/index.js:289
 #, javascript-format
 msgid "Filtered to %d specific term"
 msgid_plural "Filtered to %d specific terms"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blocks/location-finder/index.js:293
+#: blocks/location-finder/index.js:294
 #, javascript-format
 msgid "Expanded from %d HyperTaxonomy term group"
 msgid_plural "Expanded from %d HyperTaxonomy term groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blocks/location-finder/index.js:297
+#: blocks/location-finder/index.js:298
 msgid "Interactive on the frontend — configure in the sidebar."
 msgstr ""
 
@@ -1537,36 +1539,36 @@ msgstr ""
 msgid "Nearest Location Settings"
 msgstr ""
 
-#: blocks/nearest-location/index.js:202
+#: blocks/nearest-location/index.js:203
 msgid "Show distance"
 msgstr ""
 
-#: blocks/nearest-location/index.js:210
+#: blocks/nearest-location/index.js:211
 msgid ""
 "Optional. Use {label}, {address_line}, {city}, {distance}, {directions}, etc."
 msgstr ""
 
-#: blocks/nearest-location/index.js:217 blocks/term-locations/index.js:171
+#: blocks/nearest-location/index.js:218 blocks/term-locations/index.js:172
 msgid "\"Site default\" uses the value from ATCF Settings."
 msgstr ""
 
-#: blocks/nearest-location/index.js:235
+#: blocks/nearest-location/index.js:236
 msgid "Loading prompt text"
 msgstr ""
 
-#: blocks/nearest-location/index.js:238
+#: blocks/nearest-location/index.js:239
 msgid "Shown while location is being resolved."
 msgstr ""
 
-#: blocks/nearest-location/index.js:246
+#: blocks/nearest-location/index.js:247
 msgid "Nearest Location"
 msgstr ""
 
-#: blocks/nearest-location/index.js:247
+#: blocks/nearest-location/index.js:248
 msgid "Shows the single nearest location to the visitor."
 msgstr ""
 
-#: blocks/nearest-location/index.js:249
+#: blocks/nearest-location/index.js:250
 msgid "Resolved client-side — configure in the sidebar."
 msgstr ""
 
@@ -1586,50 +1588,50 @@ msgstr ""
 msgid "Leave blank to sort by label"
 msgstr ""
 
-#: blocks/term-locations/index.js:139
+#: blocks/term-locations/index.js:140
 msgid "Used for the distance label when sorting by postal code."
 msgstr ""
 
-#: blocks/term-locations/index.js:147
+#: blocks/term-locations/index.js:148
 msgid "Leave blank or 0 to show all locations."
 msgstr ""
 
-#: blocks/term-locations/index.js:175
+#: blocks/term-locations/index.js:176
 msgid "Filter by country"
 msgstr ""
 
-#: blocks/term-locations/index.js:179
+#: blocks/term-locations/index.js:180
 msgid "Leave at \"All countries\" to show every location for the term."
 msgstr ""
 
-#: blocks/term-locations/index.js:183
+#: blocks/term-locations/index.js:184
 msgid "Filter by country (ISO code)"
 msgstr ""
 
-#: blocks/term-locations/index.js:186
+#: blocks/term-locations/index.js:187
 msgid "e.g. US, CA, GB. Leave blank to show all."
 msgstr ""
 
-#: blocks/term-locations/index.js:191
+#: blocks/term-locations/index.js:192
 msgid "Columns shown"
 msgstr ""
 
-#: blocks/term-locations/index.js:193
+#: blocks/term-locations/index.js:194
 msgid "Address line"
 msgstr ""
 
-#: blocks/term-locations/index.js:225
+#: blocks/term-locations/index.js:226
 msgid "Select a taxonomy in the sidebar."
 msgstr ""
 
-#: blocks/term-locations/index.js:227
+#: blocks/term-locations/index.js:228
 #, javascript-format
 msgid "Showing locations for %d selected term."
 msgid_plural "Showing locations for %d selected terms."
 msgstr[0] ""
 msgstr[1] ""
 
-#: blocks/term-locations/index.js:229
+#: blocks/term-locations/index.js:230
 msgid ""
 "Showing locations for all terms in this taxonomy. Select one or more terms "
 "in the sidebar to narrow the list."

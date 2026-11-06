@@ -126,6 +126,8 @@ class ATCF_Shortcodes {
 	 * @return string HTML output.
 	 */
 	public static function shortcode_locations( array $atts ): string {
+		$country_known = ! empty( $atts['country'] );
+
 		$a = shortcode_atts( array(
 			'postal_code'   => '',
 			'lat'           => '',
@@ -181,15 +183,19 @@ class ATCF_Shortcodes {
 				$use_coords   = true;
 				$a['lat']     = (string) $ip_loc['lat'];
 				$a['lng']     = (string) $ip_loc['lng'];
-				$a['country'] = $ip_loc['country'] ?? $a['country'];
+				if ( ! empty( $ip_loc['country'] ) ) {
+					$a['country']  = $ip_loc['country'];
+					$country_known = true;
+				}
 			} else {
 				return '';
 			}
 		}
 
+		// Coordinates aren't tied to a country, so only a known country filters them.
 		$args = array(
 			'taxonomy' => sanitize_key( $a['taxonomy'] ),
-			'country'  => strtoupper( $a['country'] ),
+			'country'  => $use_coords && ! $country_known ? '' : strtoupper( $a['country'] ),
 			'limit'    => max( 1, (int) $a['limit'] ),
 			'orderby'  => sanitize_key( $a['orderby'] ),
 		);
@@ -239,6 +245,8 @@ class ATCF_Shortcodes {
 	 * @return string HTML output.
 	 */
 	public static function shortcode_terms( array $atts ): string {
+		$country_known = ! empty( $atts['country'] );
+
 		$a = shortcode_atts( array(
 			'postal_code'   => '',
 			'lat'           => '',
@@ -274,16 +282,21 @@ class ATCF_Shortcodes {
 				$use_coords   = true;
 				$a['lat']     = (string) $ip_loc['lat'];
 				$a['lng']     = (string) $ip_loc['lng'];
-				$a['country'] = $ip_loc['country'] ?? $a['country'];
+				if ( ! empty( $ip_loc['country'] ) ) {
+					$a['country']  = $ip_loc['country'];
+					$country_known = true;
+				}
 			} else {
 				return '';
 			}
 		}
 
+		// No row limit here: limit counts terms, and a term can have several locations
+		// in the radius. Coordinates aren't tied to a country, so only a known country
+		// filters them.
 		$args = array(
 			'taxonomy' => sanitize_key( $a['taxonomy'] ),
-			'country'  => strtoupper( $a['country'] ),
-			'limit'    => max( 1, (int) $a['limit'] ),
+			'country'  => $use_coords && ! $country_known ? '' : strtoupper( $a['country'] ),
 			'orderby'  => sanitize_key( $a['orderby'] ),
 		);
 
@@ -313,6 +326,7 @@ class ATCF_Shortcodes {
 				$term_ids[] = $tid;
 			}
 		}
+		$term_ids = array_slice( $term_ids, 0, max( 1, (int) $a['limit'] ) );
 
 		if ( 'posts' === $a['output'] ) {
 			return self::render_posts_for_terms( $term_ids, $a );
@@ -346,6 +360,7 @@ class ATCF_Shortcodes {
 			'limit'            => 20,
 			'orderby'          => 'distance',
 			'output'              => 'terms',
+			'post_type'           => '',
 			'format'              => 'ul',
 			'item_template'       => '',
 			'class'               => '',
@@ -424,17 +439,15 @@ class ATCF_Shortcodes {
 			return '';
 		}
 
-		// Collect nearby term IDs from all reference points.
-		$seen     = array();
-		$term_ids = array();
-		$loc_map  = array();
+		// Keep each nearby term's nearest location across all reference points. No row
+		// limit here: limit counts terms, and a term can have several locations in the radius.
+		$loc_map = array();
 
 		foreach ( $ref_points as $point ) {
 			$nearby = ATCF_Distance::get_locations_within_radius( '', (float) $a['radius'], $a['unit'], array(
 				'lat'      => $point['lat'],
 				'lng'      => $point['lng'],
 				'taxonomy' => $effective_nearby,
-				'limit'    => (int) $a['limit'],
 				'orderby'  => 'distance',
 			) );
 
@@ -443,13 +456,18 @@ class ATCF_Shortcodes {
 				if ( in_array( $tid, $skip_term_ids, true ) ) {
 					continue;
 				}
-				if ( ! in_array( $tid, $seen, true ) ) {
-					$seen[]        = $tid;
-					$term_ids[]    = $tid;
-					$loc_map[$tid] = $loc;
+				if ( ! isset( $loc_map[ $tid ] ) || (float) $loc['distance_km'] < (float) $loc_map[ $tid ]['distance_km'] ) {
+					$loc_map[ $tid ] = $loc;
 				}
 			}
 		}
+
+		if ( 'label' === $a['orderby'] ) {
+			uasort( $loc_map, static fn( $x, $y ) => strcasecmp( (string) $x['label'], (string) $y['label'] ) );
+		} else {
+			uasort( $loc_map, static fn( $x, $y ) => (float) $x['distance_km'] <=> (float) $y['distance_km'] );
+		}
+		$term_ids = array_slice( array_keys( $loc_map ), 0, max( 1, (int) $a['limit'] ) );
 
 		if ( empty( $term_ids ) ) {
 			return '<p class="atcf-no-results">' . esc_html__( 'No nearby results found.', 'as-the-crow-flies' ) . '</p>';
@@ -608,19 +626,14 @@ class ATCF_Shortcodes {
 			}
 
 			$html .= '<' . $item_tag . ' class="atcf-term">';
-			if ( $item_template ) {
-				// When an item_template is set and nearest location data is available,
-				// merge term fields into the location array so both {name}/{url} and
-				// location placeholders ({directions_url}, {address_line}, etc.) work.
-				if ( isset( $loc_map[ $tid ] ) ) {
-					$merged = array_merge( $loc_map[ $tid ], array(
-						'term_name' => $term->name,
-						'term_url'  => get_term_link( $term ),
-					) );
-					$html .= self::apply_location_template( $item_template, $merged, $unit, $effective );
-				} else {
-					$html .= self::apply_term_template( $item_template, $term, $dist_str );
-				}
+			if ( $item_template && isset( $loc_map[ $tid ] ) ) {
+				// Term fields join the nearest location's, so {term_name} and {term_url}
+				// work alongside the location tokens.
+				$merged = array_merge( $loc_map[ $tid ], array(
+					'term_name' => $term->name,
+					'term_url'  => get_term_link( $term ),
+				) );
+				$html .= self::apply_location_template( $item_template, $merged, $unit, $effective );
 			} else {
 				$html .= '<a href="' . esc_url( get_term_link( $term ) ) . '">' . esc_html( $term->name ) . '</a>';
 				if ( $dist_str ) {
@@ -636,7 +649,7 @@ class ATCF_Shortcodes {
 	/**
 	 * Substitute {placeholder} tokens in a location item template.
 	 *
-	 * Available placeholders: {label}, {address_line}, {address_line2}, {address},
+	 * Available placeholders: {term_name}, {term_url}, {label}, {address_line}, {address_line2}, {address},
 	 * {city}, {region}, {postal_code}, {country}, {distance}, {directions_url},
 	 * {directions_url_google}, {directions_url_apple}, {directions_url_waze},
 	 * {directions_url_osm}, {directions}.
@@ -700,32 +713,9 @@ class ATCF_Shortcodes {
 		) );
 	}
 
-	/**
-	 * Substitute {placeholder} tokens in a term item template.
-	 *
-	 * Available placeholders: {name}, {url}, {distance}.
-	 *
-	 * @param string   $tpl      Template string.
-	 * @param \WP_Term $term     Term object.
-	 * @param string   $dist_str Formatted distance string.
-	 * @return string Rendered HTML.
-	 */
-	private static function apply_term_template( string $tpl, \WP_Term $term, string $dist_str ): string {
-		return strtr( $tpl, array(
-			'{name}'     => esc_html( $term->name ),
-			'{url}'      => esc_url( get_term_link( $term ) ),
-			'{distance}' => esc_html( $dist_str ),
-		) );
-	}
-
 	private static function render_posts_for_terms( array $term_ids, array $a ): string {
 		if ( empty( $term_ids ) ) {
 			return '';
-		}
-
-		$taxonomy = sanitize_key( $a['taxonomy'] ?? '' );
-		if ( '' === $taxonomy && isset( $a['nearby_taxonomy'] ) ) {
-			$taxonomy = sanitize_key( $a['nearby_taxonomy'] );
 		}
 
 		$query_args = array(
@@ -734,14 +724,24 @@ class ATCF_Shortcodes {
 			'post_status'      => 'publish',
 		);
 
-		if ( $taxonomy ) {
-			$query_args['tax_query'] = array( array(
+		// Terms can come from several taxonomies when the shortcode has no taxonomy attribute.
+		$by_taxonomy = array();
+		foreach ( $term_ids as $term_id ) {
+			$term = get_term( (int) $term_id );
+			if ( $term instanceof WP_Term ) {
+				$by_taxonomy[ $term->taxonomy ][] = (int) $term_id;
+			}
+		}
+		$tax_query = array( 'relation' => 'OR' );
+		foreach ( $by_taxonomy as $taxonomy => $ids ) {
+			$tax_query[] = array(
 				'taxonomy'         => $taxonomy,
 				'field'            => 'term_id',
-				'terms'            => $term_ids,
+				'terms'            => $ids,
 				'include_children' => false,
-			) );
+			);
 		}
+		$query_args['tax_query'] = $tax_query;
 
 		$posts = get_posts( $query_args );
 		if ( empty( $posts ) ) {

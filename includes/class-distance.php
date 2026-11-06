@@ -468,7 +468,8 @@ class ATCF_Distance {
 	 * @param float  $ref_lng Reference longitude.
 	 * @param float  $radius  Search radius.
 	 * @param string $unit    'miles' or 'km'.
-	 * @param array  $args    taxonomy, term_id, country, limit, orderby.
+	 * @param array  $args    taxonomy, term_id, term_ids, country, limit (omit or 0 for every
+	 *                        location in the radius), orderby.
 	 * @return array[]
 	 */
 	private static function query_locations_near(
@@ -481,7 +482,7 @@ class ATCF_Distance {
 		global $wpdb;
 
 		$radius_km = 'miles' === $unit ? $radius * self::KM_PER_MILE : $radius;
-		$limit     = isset( $args['limit'] ) ? max( 1, (int) $args['limit'] ) : 20;
+		$limit     = isset( $args['limit'] ) ? max( 0, (int) $args['limit'] ) : 0;
 		$orderby   = $args['orderby'] ?? 'distance';
 
 		$where  = array();
@@ -551,7 +552,7 @@ class ATCF_Distance {
 				$order_sql = 'l.label ASC';
 				break;
 			case 'term_name':
-				$order_sql = 'l.term_id ASC';
+				$order_sql = 't.name ASC, l.label ASC';
 				break;
 			default:
 				$order_sql = 'distance_km ASC';
@@ -559,7 +560,14 @@ class ATCF_Distance {
 		}
 
 		$params[] = $radius_km;
-		$params[] = $limit;
+
+		$limit_sql = '';
+		if ( $limit > 0 ) {
+			$limit_sql = 'LIMIT %d';
+			$params[]  = $limit;
+		}
+
+		$term_join = 'term_name' === $orderby ? "LEFT JOIN {$wpdb->terms} t ON t.term_id = l.term_id" : '';
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
@@ -573,10 +581,11 @@ class ATCF_Distance {
 				 FROM {$wpdb->prefix}atcf_locations l
 				 LEFT JOIN {$wpdb->prefix}atcf_postal_centroids c
 				        ON c.country = l.country AND c.postal_code = l.postal_code
+				 {$term_join}
 				 {$where_sql}
 				 HAVING distance_km <= %f AND distance_km IS NOT NULL
 				 ORDER BY {$order_sql}
-				 LIMIT %d",
+				 {$limit_sql}",
 				$params
 			),
 			ARRAY_A

@@ -609,9 +609,9 @@ class ATCF_Settings_Page {
 						<label>
 							<input type="hidden" name="atcf_delete_on_uninstall" value="0" />
 							<input type="checkbox" name="atcf_delete_on_uninstall" value="1" <?php checked( (bool) get_option( 'atcf_delete_on_uninstall', false ) ); ?> />
-							<?php esc_html_e( 'Delete all location data and centroid tables when the plugin is uninstalled', 'as-the-crow-flies' ); ?>
+							<?php esc_html_e( 'Delete all location data, centroid tables, enabled taxonomies and the country list when the plugin is uninstalled', 'as-the-crow-flies' ); ?>
 						</label>
-						<p class="description"><?php esc_html_e( 'When unchecked (default), your location data is preserved if you reinstall. Plugin settings are always removed on uninstall regardless of this option.', 'as-the-crow-flies' ); ?></p>
+						<p class="description"><?php esc_html_e( 'When unchecked (default), all of these are preserved if you reinstall. Other plugin settings are always removed on uninstall regardless of this option.', 'as-the-crow-flies' ); ?></p>
 					</td>
 				</tr>
 			</table>

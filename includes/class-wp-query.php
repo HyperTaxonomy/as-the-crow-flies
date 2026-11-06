@@ -70,7 +70,6 @@ class ATCF_WP_Query {
 					'lat'      => $lat,
 					'lng'      => $lng,
 					'taxonomy' => $aq['taxonomy'],
-					'limit'    => 9999,
 				)
 			);
 		} else {
@@ -88,7 +87,6 @@ class ATCF_WP_Query {
 				array(
 					'country'  => $aq['country'],
 					'taxonomy' => $aq['taxonomy'],
-					'limit'    => 9999,
 				)
 			);
 		}

@@ -24,8 +24,6 @@ function atcf_uninstall_cleanup() {
 		'atcf_db_version',
 		'atcf_us_centroids_imported',
 		'atcf_us_centroids_enabled',
-		'atcf_country_centroids',
-		'atcf_enabled_taxonomies',
 		'atcf_distance_units',
 		'atcf_location_match_radius',
 		'atcf_find_terms_radius',
@@ -60,6 +58,9 @@ function atcf_uninstall_cleanup() {
 
 	// Only drop tables and centroid data if the user opted in.
 	if ( $delete_data ) {
+		delete_option( 'atcf_country_centroids' );
+		delete_option( 'atcf_enabled_taxonomies' );
+
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}atcf_locations" );
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}atcf_postal_centroids" );
 	}

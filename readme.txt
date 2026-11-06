@@ -28,7 +28,7 @@ As the Crow Flies lets you attach physical locations (addresses and/or coordinat
 * IP-based approximate location as a fallback — choose from FreeIPAPI, ipapi.co, or ipwho.is (all free, no key required)
 * CSV import/export for bulk location management
 * WP_Query integration with nested `atcf_query` parameter
-* REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/nearest-postal-code`
+* REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/visitor-location`, `/atcf/v1/nearest-postal-code`
 * Privacy control to disable location data in REST API responses — shortcodes and server-side distance filtering are unaffected either way
 * Optional integration with HyperTaxonomy for term group support within shortcodes and blocks
 * Provides distance filtering within HyperTaxonomy's PowerSearch and Search Widget
@@ -47,7 +47,7 @@ As the Crow Flies lets you attach physical locations (addresses and/or coordinat
 1. Upload the plugin files to `/wp-content/plugins/as-the-crow-flies/`
 2. Activate the plugin through the **Plugins** screen
 3. Go to **Settings → As the Crow Flies → General** to enable taxonomies, set default distance units, and configure location matching
-4. Edit taxonomy terms to add location data, or use the CSV import
+4. Edit taxonomy terms to add location data, or use the CSV import. See [Locations & Settings](https://hypertaxonomy.org/as-the-crow-flies/locations-settings.html)
 
 == Shortcodes ==
 
@@ -82,15 +82,15 @@ For full details, see [HyperTaxonomy Integration](https://hypertaxonomy.org/as-t
 
 == Output Formatting ==
 
-All three shortcodes and the Location Finder and Nearest Location blocks accept a `format` attribute (shortcodes) or **Output style** setting (blocks) that controls the wrapper element:
+All three shortcodes accept a `format` attribute, and the Location Finder and Term Locations blocks have an **Output style** setting, which control the wrapper element:
 
 | Value | Shortcode | Block label | Output |
 |-------|-----------|-------------|--------|
 | `ul` | `format="ul"` | Unordered list | `<ul>` with `<li>` items (default) |
 | `ol` | `format="ol"` | Ordered list | `<ol>` with `<li>` items |
 | `div` | `format="div"` | Div | `<div>` wrapper with `<div>` items |
-| `table` | `format="table"` | Table | `<table>` with a header row (Label, Address, Distance, Directions) |
-| `json` | `format="json"` | — | `<script type="application/json">` data blob; shortcode only |
+| `table` | `format="table"`, in `[atcf_locations]` only | Table | `<table>` with a header row (Label, Address, Distance, Directions) |
+| `json` | `format="json"`, in `[atcf_locations]` only | — | `<script type="application/json">` data blob |
 
 The `table` format renders a fixed four-column layout. For full control over the per-row markup, use an `item_template` with any list format.
 
@@ -120,7 +120,7 @@ This controls:
 
 * The `{directions_url}`, `{directions}`, and `{directions_link_start}` template tokens, which resolve to the configured provider's URL
 * The default "Directions" link rendered when no `item_template` is set
-* The `directions_url` field returned by the REST API
+* The default "Directions" link in the Location Finder and Nearest Location blocks
 
 Per-provider tokens (`{directions_url_google}`, `{directions_url_apple}`, etc.) are always available regardless of this setting.
 

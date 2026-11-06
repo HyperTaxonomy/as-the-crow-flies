@@ -15,7 +15,7 @@ A WordPress plugin that attaches physical locations (addresses or coordinates) t
 - IP-based approximate location as a fallback (FreeIPAPI, ipapi.co, or ipwho.is — no key required)
 - CSV import/export for bulk location management
 - `WP_Query` integration via nested `atcf_query` parameter
-- REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/nearest-postal-code`
+- REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/visitor-location`, `/atcf/v1/nearest-postal-code`
 - Privacy control to suppress location data in API responses while keeping server-side distance filtering fully functional
 - Optional integration with [HyperTaxonomy](https://hypertaxonomy.org) for term group support within shortcodes and blocks
 - Provides distance filtering within HyperTaxonomy's PowerSearch and Search Widget

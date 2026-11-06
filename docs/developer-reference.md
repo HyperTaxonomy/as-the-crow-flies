@@ -1,6 +1,6 @@
 ---
 title: Developer Reference
-nav_order: 3
+nav_order: 4
 ---
 
 # Developer Reference
@@ -30,6 +30,20 @@ $locations = ATCF_Distance::get_locations_within_radius(
     string $unit,          // 'miles' or 'km'
     array  $args           // taxonomy, term_id, term_ids[], country, lat, lng, limit, orderby
 );
+// Omit limit (or pass 0) for every location in the radius. orderby: 'distance', 'label', 'term_name'.
+
+// Locations for several terms in one taxonomy.
+$locations = ATCF_Locations::get_for_terms( array $term_ids, string $taxonomy, array $args = [] );
+
+// Create, change or delete a location. insert() and update() return a WP_Error on failure.
+$id = ATCF_Locations::insert( array $data );
+// $data: term_id, taxonomy, label, address_line, address_line2, locality, region, postal_code, country, lat, lng.
+$result = ATCF_Locations::update( int $id, array $data );
+$deleted = ATCF_Locations::delete( int $id );
+
+// Local terms with a location matching any of these Schema.org Place objects, as HyperTaxonomy's
+// htax_locations REST field provides them. Uses the Location Matching settings.
+$term_ids = atcf_find_terms_by_location( array $schema_locations );
 
 // Single centroid lookup.
 $centroid = ATCF_Distance::get_centroid( string $postal_code, string $country );
@@ -227,13 +241,13 @@ The visitor's location from the server side of the chain — CDN headers, IP geo
 |-----------|------|-------------|
 | `postal_code` | string | Reference postal code. |
 | `lat` / `lng` | float | Reference coordinates (alternative to postal code). |
-| `country` | string | ISO country code (default `US`). |
+| `country` | string | ISO country code; limits results to this country. Postal codes default to `US`. Coordinates aren't limited unless this is set. |
 | `radius` | float | Search radius. |
 | `unit` | string | `miles` or `km`. |
 | `term` | integer | Single term ID. |
 | `term_ids[]` | integer[] | Multiple term IDs (e.g. `term_ids[]=1&term_ids[]=2`). Supersedes `term` when provided. |
 | `taxonomy` | string | Taxonomy slug. |
-| `limit` | integer | Maximum results (default 20). |
+| `limit` | integer | Maximum results (default 20, up to 100). |
 | `orderby` | string | `distance`, `label`, or `term_name`. |
 | `directions_provider` | string | `google` (default), `apple`, `osm`, `waze`, or `geo`. Provider used to build the `directions_url` in each result row. |
 

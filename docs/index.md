@@ -11,6 +11,7 @@ Part of the [HyperTaxonomy suite](https://hypertaxonomy.org) of interoperable Wo
 
 ## Documentation map
 
+- **[Locations & Settings](locations-settings.html)** — for site owners: adding locations, geocoding, CSV import and export, every setting, and uninstalling.
 - **[Shortcodes & Blocks](usage.html)** — the user-facing reference: the three shortcodes and three blocks with full attribute and inspector tables, item-template tokens, output formats, directions providers, and CSS classes.
 - **[Developer Reference](developer-reference.html)** — for theme and plugin developers: the PHP API, the `window.atcfGeo` JavaScript API, actions, the REST API, and `WP_Query` `atcf_query` integration.
 - **[HyperTaxonomy Integration](hypertaxonomy-integration.html)** — what becomes available when HyperTaxonomy is active alongside this plugin: term group expansion, PowerSearch / Search Widget distance filtering, and term-merge location preservation.
@@ -34,7 +35,7 @@ There are two ways to render location data, both built on the same data model an
 1. Install from the [WordPress.org plugin directory](https://wordpress.org/plugins/as-the-crow-flies/), or download the zip from [GitHub Releases](https://github.com/HyperTaxonomy/as-the-crow-flies/releases).
 2. Upload via **Plugins → Add New → Upload Plugin**.
 3. Activate, then go to **Settings → As the Crow Flies → General** to enable taxonomies, set default distance units, and configure location matching.
-4. Edit taxonomy terms to add location data, or use the CSV import.
+4. Edit taxonomy terms to add location data, or use the CSV import. See [Locations & Settings](locations-settings.html).
 
 ## License
 

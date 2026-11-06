@@ -117,7 +117,9 @@ class ATCF_REST_API {
 			'taxonomy' => $request->get_param( 'taxonomy' ) ?? '',
 			'term_id'  => $request->get_param( 'term' ) ? (int) $request->get_param( 'term' ) : 0,
 			'term_ids' => array_values( array_filter( array_map( 'absint', (array) ( $request->get_param( 'term_ids' ) ?? array() ) ) ) ),
-			'country'  => $request->get_param( 'country' ) ?? 'US',
+			// Coordinates aren't tied to a country, so only a given country filters them.
+			// A postal code is always read in a country's format, so it defaults to US.
+			'country'  => $request->get_param( 'country' ) ?: ( $use_coords ? '' : 'US' ),
 			'limit'    => min( 100, max( 1, (int) $request->get_param( 'limit' ) ) ),
 			'orderby'  => $request->get_param( 'orderby' ) ?? 'distance',
 		);
@@ -263,7 +265,7 @@ class ATCF_REST_API {
 				'validate_callback' => array( __CLASS__, 'validate_lng' ),
 			),
 			'country'            => array(
-				'default'           => 'US',
+				'default'           => '',
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 			),
