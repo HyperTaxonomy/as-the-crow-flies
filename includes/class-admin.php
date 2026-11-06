@@ -111,7 +111,6 @@ class ATCF_Admin {
 			'locationFilter'      => $location_filter_config,
 			'hiddenColumns'       => array_values( get_hidden_columns( get_current_screen() ) ),
 			'locationMatchRadius' => (float) get_option( 'atcf_location_match_radius', 82.0 ),
-			'distanceUnits'       => (string) get_option( 'atcf_distance_units', 'miles' ),
 			'distanceSubUnit'     => 'km' === get_option( 'atcf_distance_units', 'miles' )
 				? __( 'meters', 'as-the-crow-flies' )
 				: __( 'feet', 'as-the-crow-flies' ),

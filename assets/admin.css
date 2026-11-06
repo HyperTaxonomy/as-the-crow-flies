@@ -339,12 +339,6 @@
 .atcf-filter-input.atcf-filter-region       { width:  65px; }
 .atcf-filter-input.atcf-filter-postal       { width:  80px; }
 
-.atcf-settings-page .atcf-locations-actions {
-	display: flex;
-	gap: 8px;
-	margin: 0 0 12px;
-}
-
 .atcf-settings-page .atcf-count {
 	color: #50575e;
 	font-style: italic;

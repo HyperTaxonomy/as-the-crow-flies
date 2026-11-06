@@ -112,7 +112,6 @@ class ATCF_Shortcodes {
 			'restUrl'            => esc_url_raw( rest_url( 'atcf/v1/' ) ),
 			'nonce'              => wp_create_nonce( 'wp_rest' ),
 			'directionsProvider' => ATCF_Distance::resolve_provider(),
-			'ipGeoEnabled'       => (bool) get_option( 'atcf_ip_geo_enabled', true ),
 			'i18n'       => array(
 				'locating'          => __( 'Finding your location…', 'as-the-crow-flies' ),
 				'denied'            => __( 'Location access denied.', 'as-the-crow-flies' ),
