@@ -221,7 +221,8 @@ class ATCF_Geocoder {
 
 		$code = wp_remote_retrieve_response_code( $response );
 		if ( 200 !== (int) $code ) {
-			return new WP_Error( 'atcf_census_http', "Census Geocoder returned HTTP {$code}" );
+			/* translators: %d: HTTP status code */
+			return new WP_Error( 'atcf_census_http', sprintf( __( 'Census Geocoder returned HTTP %d', 'as-the-crow-flies' ), (int) $code ) );
 		}
 
 		return self::parse_response( wp_remote_retrieve_body( $response ) );

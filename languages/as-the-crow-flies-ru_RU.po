@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: as-the-crow-flies 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 03:15-0500\n"
-"PO-Revision-Date: 2026-11-06 03:15-0500\n"
+"POT-Creation-Date: 2026-11-06 12:52-0500\n"
+"PO-Revision-Date: 2026-11-06 14:30-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: ru\n"
@@ -79,20 +79,20 @@ msgstr ""
 msgid "Could not identify lat/lng columns in the uploaded file."
 msgstr "Не удалось определить столбцы широты/долготы в загруженном файле."
 
-#: includes/class-admin.php:77 includes/class-admin.php:316
+#: includes/class-admin.php:77 includes/class-admin.php:315
 #: includes/class-locations-page.php:177
 msgid "All Locations"
 msgstr "Все местоположения"
 
-#: includes/class-admin.php:78 includes/class-admin.php:317
+#: includes/class-admin.php:78 includes/class-admin.php:316
 msgid "Has Locations"
 msgstr "С местоположениями"
 
-#: includes/class-admin.php:79 includes/class-admin.php:318
+#: includes/class-admin.php:79 includes/class-admin.php:317
 msgid "No Locations"
 msgstr "Без местоположений"
 
-#: includes/class-admin.php:81 includes/class-admin.php:320
+#: includes/class-admin.php:81 includes/class-admin.php:319
 msgid "By Country"
 msgstr "По странам"
 
@@ -143,7 +143,7 @@ msgstr "Геокодировать"
 msgid "Clear"
 msgstr "Очистить"
 
-#: includes/class-admin.php:99 includes/class-shortcodes.php:100
+#: includes/class-admin.php:99 includes/class-shortcodes.php:121
 msgid "An error occurred. Please try again."
 msgstr "Произошла ошибка. Попробуйте ещё раз."
 
@@ -151,58 +151,58 @@ msgstr "Произошла ошибка. Попробуйте ещё раз."
 msgid "Geocoding…"
 msgstr "Идёт геокодирование…"
 
-#: includes/class-admin.php:103 includes/class-locations-page.php:892
-#: includes/class-locations-page.php:933
+#: includes/class-admin.php:103 includes/class-locations-page.php:874
+#: includes/class-locations-page.php:915
 msgid "User-provided"
 msgstr "Указано пользователем"
 
-#: includes/class-admin.php:104 includes/class-locations-page.php:888
-#: includes/class-locations-page.php:937
+#: includes/class-admin.php:104 includes/class-locations-page.php:870
+#: includes/class-locations-page.php:919
 msgid "Pending"
 msgstr "В ожидании"
 
-#: includes/class-admin.php:105 includes/class-locations-page.php:889
-#: includes/class-locations-page.php:939
+#: includes/class-admin.php:105 includes/class-locations-page.php:871
+#: includes/class-locations-page.php:921
 msgid "Census"
 msgstr "Перепись"
 
-#: includes/class-admin.php:106 includes/class-locations-page.php:941
+#: includes/class-admin.php:106 includes/class-locations-page.php:923
 msgid "Census (tie)"
 msgstr "Перепись (?)"
 
-#: includes/class-admin.php:107 includes/class-locations-page.php:890
-#: includes/class-locations-page.php:943 includes/class-settings-page.php:527
+#: includes/class-admin.php:107 includes/class-locations-page.php:872
+#: includes/class-locations-page.php:925 includes/class-settings-page.php:527
 #: blocks/location-finder/index.js:47 blocks/nearest-location/index.js:44
 #: blocks/term-locations/index.js:33
 msgid "OpenStreetMap"
 msgstr "OpenStreetMap"
 
-#: includes/class-admin.php:108 includes/class-locations-page.php:891
-#: includes/class-locations-page.php:945
+#: includes/class-admin.php:108 includes/class-locations-page.php:873
+#: includes/class-locations-page.php:927
 msgid "No match"
 msgstr "Нет совпадений"
 
-#: includes/class-admin.php:109 includes/class-locations-page.php:947
+#: includes/class-admin.php:109 includes/class-locations-page.php:929
 msgid "Failed"
 msgstr "Ошибка"
 
-#: includes/class-admin.php:116 includes/class-settings-page.php:149
+#: includes/class-admin.php:115 includes/class-settings-page.php:149
 #: includes/class-settings-page.php:290
 msgid "meters"
 msgstr "метры"
 
-#: includes/class-admin.php:117 includes/class-settings-page.php:150
+#: includes/class-admin.php:116 includes/class-settings-page.php:150
 #: includes/class-settings-page.php:289
 msgid "feet"
 msgstr "футы"
 
-#: includes/class-admin.php:149 includes/class-admin.php:204
+#: includes/class-admin.php:148 includes/class-admin.php:203
 #: includes/class-locations-page.php:33 includes/class-locations-page.php:34
-#: includes/class-locations-page.php:61 includes/class-locations-page.php:882
+#: includes/class-locations-page.php:61 includes/class-locations-page.php:864
 msgid "Locations"
 msgstr "Местоположения"
 
-#: includes/class-admin.php:155
+#: includes/class-admin.php:154
 #, php-format
 msgid "Manage %d location →"
 msgid_plural "Manage %d locations →"
@@ -210,20 +210,20 @@ msgstr[0] "Управление %d местоположением →"
 msgstr[1] "Управление %d местоположениями →"
 msgstr[2] "Управление %d местоположениями →"
 
-#: includes/class-admin.php:157
+#: includes/class-admin.php:156
 msgid "Add locations →"
 msgstr "Добавить местоположения →"
 
-#: includes/class-admin.php:450 includes/class-admin.php:472
-#: includes/class-admin.php:547 includes/class-admin.php:572
-#: includes/class-admin.php:589 includes/class-admin.php:628
-#: includes/class-admin.php:657 includes/class-admin.php:685
-#: includes/class-admin.php:716 includes/class-locations-global.php:75
-#: includes/class-locations-global.php:551
-#: includes/class-locations-global.php:631
-#: includes/class-locations-global.php:645
-#: includes/class-locations-global.php:660
-#: includes/class-locations-global.php:673 includes/class-locations-page.php:74
+#: includes/class-admin.php:449 includes/class-admin.php:471
+#: includes/class-admin.php:546 includes/class-admin.php:571
+#: includes/class-admin.php:588 includes/class-admin.php:627
+#: includes/class-admin.php:656 includes/class-admin.php:684
+#: includes/class-admin.php:715 includes/class-locations-global.php:75
+#: includes/class-locations-global.php:533
+#: includes/class-locations-global.php:613
+#: includes/class-locations-global.php:627
+#: includes/class-locations-global.php:642
+#: includes/class-locations-global.php:655 includes/class-locations-page.php:74
 #: includes/class-locations-page.php:636 includes/class-locations-page.php:669
 #: includes/class-locations-page.php:692 includes/class-locations-page.php:718
 #: includes/class-locations-page.php:723 includes/class-locations-page.php:737
@@ -235,31 +235,31 @@ msgstr "Добавить местоположения →"
 msgid "Permission denied."
 msgstr "Доступ запрещён."
 
-#: includes/class-admin.php:457 includes/class-admin.php:486
-#: includes/class-admin.php:662 includes/class-admin.php:690
-#: includes/class-admin.php:722
+#: includes/class-admin.php:456 includes/class-admin.php:485
+#: includes/class-admin.php:661 includes/class-admin.php:689
+#: includes/class-admin.php:721
 msgid "Invalid parameters."
 msgstr "Недопустимые параметры."
 
-#: includes/class-admin.php:489 includes/class-locations-global.php:599
+#: includes/class-admin.php:488 includes/class-locations-global.php:581
 #: includes/class-settings-page.php:662 includes/class-settings-page.php:685
 msgid "Invalid file upload."
 msgstr "Недопустимый файл для загрузки."
 
-#: includes/class-admin.php:494 includes/class-csv.php:43
+#: includes/class-admin.php:493 includes/class-csv.php:58
 #: includes/class-locations-page.php:84
 msgid "Term not found."
 msgstr "Термин не найден."
 
-#: includes/class-admin.php:551 includes/class-admin.php:576
+#: includes/class-admin.php:550 includes/class-admin.php:575
 msgid "Invalid ID."
 msgstr "Недопустимый идентификатор."
 
-#: includes/class-admin.php:556
+#: includes/class-admin.php:555
 msgid "Not found."
 msgstr "Не найдено."
 
-#: includes/class-admin.php:726
+#: includes/class-admin.php:725
 msgid "Location not found or does not belong to this term."
 msgstr "Местоположение не найдено или не связано с этим термином."
 
@@ -269,16 +269,16 @@ msgid "As the Crow Flies"
 msgstr "As the Crow Flies"
 
 #: includes/class-blocks.php:230 includes/class-locations-global.php:260
-#: includes/class-shortcodes.php:810 blocks/term-locations/index.js:209
+#: includes/class-shortcodes.php:815 blocks/term-locations/index.js:209
 msgid "Postal code"
 msgstr "Почтовый индекс"
 
-#: includes/class-blocks.php:231 includes/class-shortcodes.php:809
+#: includes/class-blocks.php:231 includes/class-shortcodes.php:814
 msgid "Enter postal code"
 msgstr "Введите почтовый индекс"
 
 #: includes/class-blocks.php:235 includes/class-blocks.php:236
-#: includes/class-shortcodes.php:816 includes/class-shortcodes.php:817
+#: includes/class-shortcodes.php:821 includes/class-shortcodes.php:822
 msgid "Share current location"
 msgstr "Поделиться текущим местоположением"
 
@@ -291,7 +291,7 @@ msgstr "Радиус поиска"
 msgid "%1$d %2$s"
 msgstr "%1$d %2$s"
 
-#: includes/class-blocks.php:256 includes/class-shortcodes.php:825
+#: includes/class-blocks.php:256 includes/class-shortcodes.php:830
 msgid "Search"
 msgstr "Поиск"
 
@@ -302,26 +302,26 @@ msgstr "Выберите термин в настройках блока."
 #: includes/class-blocks.php:365 includes/class-locations-global.php:202
 #: includes/class-locations-global.php:351
 #: includes/class-locations-page.php:272 includes/class-locations-page.php:429
-#: includes/class-locations-page.php:857 includes/class-locations-page.php:977
-#: includes/class-shortcodes.php:103 includes/class-shortcodes.php:562
+#: includes/class-locations-page.php:839 includes/class-locations-page.php:959
+#: includes/class-shortcodes.php:124 includes/class-shortcodes.php:567
 #: blocks/location-finder/index.js:224
 msgid "Label"
 msgstr "Название"
 
 #: includes/class-blocks.php:366 includes/class-locations-global.php:352
-#: includes/class-locations-page.php:430 includes/class-locations-page.php:858
-#: includes/class-shortcodes.php:104 includes/class-shortcodes.php:563
+#: includes/class-locations-page.php:430 includes/class-locations-page.php:840
+#: includes/class-shortcodes.php:125 includes/class-shortcodes.php:568
 msgid "Address"
 msgstr "Адрес"
 
-#: includes/class-blocks.php:368 includes/class-shortcodes.php:105
-#: includes/class-shortcodes.php:564 blocks/location-finder/index.js:223
+#: includes/class-blocks.php:368 includes/class-shortcodes.php:126
+#: includes/class-shortcodes.php:569 blocks/location-finder/index.js:223
 msgid "Distance"
 msgstr "Расстояние"
 
 #: includes/class-blocks.php:415 includes/class-blocks.php:459
-#: includes/class-settings-page.php:518 includes/class-shortcodes.php:547
-#: includes/class-shortcodes.php:584 includes/class-shortcodes.php:682
+#: includes/class-settings-page.php:518 includes/class-shortcodes.php:552
+#: includes/class-shortcodes.php:589 includes/class-shortcodes.php:687
 msgid "Directions"
 msgstr "Маршрут"
 
@@ -329,50 +329,55 @@ msgstr "Маршрут"
 msgid "Finding your nearest location…"
 msgstr "Идёт поиск ближайшего к вам местоположения…"
 
-#: includes/class-csv.php:80
+#: includes/class-csv.php:95
 #, php-format
 msgid "Row %1$d: term_slug \"%2$s\" does not match current term \"%3$s\"."
 msgstr "Строка %1$d: term_slug «%2$s» не совпадает с текущим термином «%3$s»."
 
-#: includes/class-csv.php:150
+#: includes/class-csv.php:165
 #, php-format
 msgid "Row %d: taxonomy and term_slug are required."
 msgstr "Строка %d: требуются taxonomy и term_slug."
 
-#: includes/class-csv.php:223
+#: includes/class-csv.php:238
 #, php-format
 msgid "Conflicts found on rows: %s. Upload rejected."
 msgstr "Обнаружены конфликты в строках: %s. Загрузка отклонена."
 
-#: includes/class-csv.php:494
+#: includes/class-csv.php:509
 msgid "Could not open file for reading."
 msgstr "Не удалось открыть файл для чтения."
 
-#: includes/class-distance.php:280 includes/class-shortcodes.php:110
+#: includes/class-distance.php:315 includes/class-shortcodes.php:131
 msgid "less than a kilometer away"
 msgstr "менее чем в километре"
 
-#: includes/class-distance.php:281 includes/class-shortcodes.php:106
+#: includes/class-distance.php:316 includes/class-shortcodes.php:127
 msgid "less than a mile away"
 msgstr "менее чем в миле"
 
-#: includes/class-distance.php:285 includes/class-shortcodes.php:111
+#: includes/class-distance.php:320 includes/class-shortcodes.php:132
 msgid "about a kilometer away"
 msgstr "примерно в километре"
 
-#: includes/class-distance.php:286 includes/class-shortcodes.php:107
+#: includes/class-distance.php:321 includes/class-shortcodes.php:128
 msgid "about a mile away"
 msgstr "примерно в миле"
 
-#: includes/class-distance.php:291 includes/class-shortcodes.php:113
+#: includes/class-distance.php:326 includes/class-shortcodes.php:134
 #, php-format
 msgid "About %s km away"
 msgstr "Примерно в %s км"
 
-#: includes/class-distance.php:293 includes/class-shortcodes.php:109
+#: includes/class-distance.php:328 includes/class-shortcodes.php:130
 #, php-format
 msgid "About %s miles away"
 msgstr "Примерно в %s милях"
+
+#: includes/class-geocoder.php:225
+#, php-format
+msgid "Census Geocoder returned HTTP %d"
+msgstr "Геокодер Бюро переписи населения США вернул HTTP статус %d"
 
 #: includes/class-locations-global.php:47
 #: includes/class-locations-global.php:48 blocks/term-locations/index.js:112
@@ -489,7 +494,7 @@ msgstr "Все страны"
 #: includes/class-locations-global.php:258
 #: includes/class-locations-global.php:353
 #: includes/class-locations-page.php:216 includes/class-locations-page.php:317
-#: includes/class-locations-page.php:431 includes/class-locations-page.php:990
+#: includes/class-locations-page.php:431 includes/class-locations-page.php:972
 #: blocks/term-locations/index.js:199
 msgid "City"
 msgstr "Город"
@@ -503,21 +508,21 @@ msgstr "Населённый пункт"
 #: includes/class-locations-global.php:259
 #: includes/class-locations-global.php:354
 #: includes/class-locations-page.php:217 includes/class-locations-page.php:318
-#: includes/class-locations-page.php:432 includes/class-locations-page.php:994
+#: includes/class-locations-page.php:432 includes/class-locations-page.php:976
 msgid "State"
 msgstr "Штат"
 
 #: includes/class-locations-global.php:259
 #: includes/class-locations-global.php:354
 #: includes/class-locations-page.php:217 includes/class-locations-page.php:318
-#: includes/class-locations-page.php:432 includes/class-locations-page.php:994
+#: includes/class-locations-page.php:432 includes/class-locations-page.php:976
 msgid "Region"
 msgstr "Регион"
 
 #: includes/class-locations-global.php:260
 #: includes/class-locations-global.php:355
 #: includes/class-locations-page.php:225 includes/class-locations-page.php:319
-#: includes/class-locations-page.php:433 includes/class-locations-page.php:998
+#: includes/class-locations-page.php:433 includes/class-locations-page.php:980
 msgid "Zip"
 msgstr "Индекс"
 
@@ -534,7 +539,7 @@ msgstr "Без координат"
 #: includes/class-locations-global.php:268
 #: includes/class-locations-global.php:360
 #: includes/class-locations-page.php:327 includes/class-locations-page.php:438
-#: includes/class-locations-page.php:864 includes/class-settings-page.php:367
+#: includes/class-locations-page.php:846 includes/class-settings-page.php:367
 msgid "Status"
 msgstr "Статус"
 
@@ -601,30 +606,30 @@ msgstr "Термин"
 
 #: includes/class-locations-global.php:355
 #: includes/class-locations-page.php:225 includes/class-locations-page.php:319
-#: includes/class-locations-page.php:433 includes/class-locations-page.php:998
+#: includes/class-locations-page.php:433 includes/class-locations-page.php:980
 msgid "Postal"
 msgstr "Индекс"
 
 #: includes/class-locations-global.php:357
-#: includes/class-locations-page.php:435 includes/class-locations-page.php:862
-#: includes/class-locations-page.php:1005 includes/class-settings-page.php:429
+#: includes/class-locations-page.php:435 includes/class-locations-page.php:844
+#: includes/class-locations-page.php:987 includes/class-settings-page.php:429
 #: blocks/location-finder/index.js:260 blocks/nearest-location/index.js:222
 #: blocks/term-locations/index.js:214
 msgid "Country"
 msgstr "Страна"
 
 #: includes/class-locations-global.php:359
-#: includes/class-locations-page.php:437 includes/class-locations-page.php:863
+#: includes/class-locations-page.php:437 includes/class-locations-page.php:845
 msgid "Coords"
 msgstr "Координаты"
 
 #: includes/class-locations-global.php:361
-#: includes/class-locations-page.php:439 includes/class-locations-page.php:865
+#: includes/class-locations-page.php:439 includes/class-locations-page.php:847
 #: includes/class-settings-page.php:433
 msgid "Actions"
 msgstr "Действия"
 
-#: includes/class-locations-global.php:369 includes/class-shortcodes.php:227
+#: includes/class-locations-global.php:369 includes/class-shortcodes.php:240
 msgid "No locations found."
 msgstr "Ни одного местоположения не найдено."
 
@@ -658,16 +663,16 @@ msgstr "Удалить все местоположения"
 msgid "↓ Export CSV"
 msgstr "↓ Экспортировать CSV"
 
-#: includes/class-locations-global.php:596
+#: includes/class-locations-global.php:578
 msgid "Permission denied or no file."
 msgstr "Доступ запрещён или файл отсутствует."
 
-#: includes/class-locations-global.php:724
+#: includes/class-locations-global.php:706
 #, php-format
 msgid "Import complete: %1$d inserted, %2$d updated, %3$d skipped."
 msgstr "Импорт завершён: добавлено — %1$d, обновлено — %2$d, пропущено — %3$d."
 
-#: includes/class-locations-global.php:733
+#: includes/class-locations-global.php:715
 #, php-format
 msgid "%d row failed due to a validation error."
 msgid_plural "%d rows failed due to validation errors."
@@ -675,7 +680,7 @@ msgstr[0] "Не импортирована %d строка (ошибка про�
 msgstr[1] "Не импортированы %d строки (ошибки проверки)."
 msgstr[2] "Не импортировано %d строк (ошибки проверки)."
 
-#: includes/class-locations-global.php:741
+#: includes/class-locations-global.php:723
 #, php-format
 msgid "%d row skipped (unknown term)."
 msgid_plural "%d rows skipped (unknown term)."
@@ -683,7 +688,7 @@ msgstr[0] "Пропущена %d строка (неизвестный терми
 msgstr[1] "Пропущены %d строки (неизвестный термин)."
 msgstr[2] "Пропущено %d строк (неизвестный термин)."
 
-#: includes/class-locations-global.php:748
+#: includes/class-locations-global.php:730
 #, php-format
 msgid "Geocoding complete: %s location processed."
 msgid_plural "Geocoding complete: %s locations processed."
@@ -691,7 +696,7 @@ msgstr[0] "Геокодирование завершено: обработано
 msgstr[1] "Геокодирование завершено: обработано %s местоположения."
 msgstr[2] "Геокодирование завершено: обработано %s местоположений."
 
-#: includes/class-locations-global.php:749
+#: includes/class-locations-global.php:731
 #: includes/class-locations-page.php:184
 msgid "Location deleted."
 msgstr "Местоположение удалено."
@@ -733,11 +738,11 @@ msgstr "Адрес, строка 1"
 msgid "Address line 2 (optional) — suite, apt, floor, etc."
 msgstr "Адрес, строка 2 (необязательно) — офис, квартира, этаж и т. д."
 
-#: includes/class-locations-page.php:216 includes/class-locations-page.php:859
+#: includes/class-locations-page.php:216 includes/class-locations-page.php:841
 msgid "City / Locality"
 msgstr "Город / Населённый пункт"
 
-#: includes/class-locations-page.php:233 includes/class-locations-page.php:1014
+#: includes/class-locations-page.php:233 includes/class-locations-page.php:996
 msgid "CC"
 msgstr "Код страны"
 
@@ -765,7 +770,7 @@ msgstr ""
 msgid "Update Location"
 msgstr "Обновить местоположение"
 
-#: includes/class-locations-page.php:248 includes/class-locations-page.php:1036
+#: includes/class-locations-page.php:248 includes/class-locations-page.php:1018
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -789,15 +794,15 @@ msgstr "Следующая страница"
 msgid "Last page"
 msgstr "Последняя страница"
 
-#: includes/class-locations-page.php:860 blocks/term-locations/index.js:204
+#: includes/class-locations-page.php:842 blocks/term-locations/index.js:204
 msgid "State / Region"
 msgstr "Штат / Регион"
 
-#: includes/class-locations-page.php:861
+#: includes/class-locations-page.php:843
 msgid "Zip / Postal"
 msgstr "Почтовый индекс"
 
-#: includes/class-locations-page.php:884
+#: includes/class-locations-page.php:866
 msgid ""
 "Each location row stores a physical address that can be used for distance-"
 "based filtering and proximity search."
@@ -805,7 +810,7 @@ msgstr ""
 "Каждая строка местоположения хранит физический адрес, который можно "
 "использовать для фильтрации по расстоянию и поиска по близости."
 
-#: includes/class-locations-page.php:885
+#: includes/class-locations-page.php:867
 msgid ""
 "Click Edit to open an inline form and update the fields without leaving the "
 "page. Press Escape to cancel."
@@ -813,28 +818,28 @@ msgstr ""
 "Нажмите «Изменить», чтобы открыть встроенную форму и обновить поля, не "
 "покидая страницу. Нажмите Escape для отмены."
 
-#: includes/class-locations-page.php:886
+#: includes/class-locations-page.php:868
 msgid "Status values"
 msgstr "Значения статуса"
 
-#: includes/class-locations-page.php:888
+#: includes/class-locations-page.php:870
 msgid "Queued for automatic geocoding on the next hourly run."
 msgstr ""
 "Поставлено в очередь на автоматическое геокодирование при следующем "
 "ежечасном запуске."
 
-#: includes/class-locations-page.php:889
+#: includes/class-locations-page.php:871
 msgid "Coordinates resolved via the US Census Geocoder."
 msgstr "Координаты определены через геокодер Бюро переписи населения США."
 
-#: includes/class-locations-page.php:890
+#: includes/class-locations-page.php:872
 msgid ""
 "Coordinates resolved via Nominatim (Census could not match the address)."
 msgstr ""
 "Координаты определены через Nominatim (Бюро переписи населения США не смогло "
 "сопоставить адрес)."
 
-#: includes/class-locations-page.php:891
+#: includes/class-locations-page.php:873
 msgid ""
 "Neither geocoder could resolve the address. Edit the address or enter "
 "coordinates manually."
@@ -842,36 +847,36 @@ msgstr ""
 "Ни один геокодер не смог определить адрес. Измените адрес или введите "
 "координаты вручную."
 
-#: includes/class-locations-page.php:892
+#: includes/class-locations-page.php:874
 msgid ""
 "Coordinates were entered manually and will not be overwritten by geocoding."
 msgstr "Координаты введены вручную и не будут перезаписаны геокодированием."
 
-#: includes/class-locations-page.php:981
+#: includes/class-locations-page.php:963
 msgid "Street"
 msgstr "Улица"
 
-#: includes/class-locations-page.php:985
+#: includes/class-locations-page.php:967
 msgid "Unit / Suite"
 msgstr "Номер квартиры или офиса"
 
-#: includes/class-locations-page.php:1020
+#: includes/class-locations-page.php:1002
 msgid "Lat"
 msgstr "Широта"
 
-#: includes/class-locations-page.php:1024
+#: includes/class-locations-page.php:1006
 msgid "Lng"
 msgstr "Долгота"
 
-#: includes/class-locations-page.php:1033
+#: includes/class-locations-page.php:1015
 msgid "Save"
 msgstr "Сохранить"
 
-#: includes/class-locations-page.php:1051
+#: includes/class-locations-page.php:1033
 msgid "About coordinates"
 msgstr "О координатах"
 
-#: includes/class-locations-page.php:1052
+#: includes/class-locations-page.php:1034
 msgid ""
 "Distance calculations between locations with known coordinates are supported "
 "worldwide. When coordinates are not available, the centroid of the postal "
@@ -1455,43 +1460,43 @@ msgstr ""
 "Показаны результаты рядом с местоположением, используемым по умолчанию, "
 "поскольку ваше определить не удалось."
 
-#: includes/class-shortcodes.php:95
+#: includes/class-shortcodes.php:116
 msgid "Finding your location…"
 msgstr "Идёт определение вашего местоположения…"
 
-#: includes/class-shortcodes.php:96
+#: includes/class-shortcodes.php:117
 msgid "Location access denied."
 msgstr "Доступ к местоположению запрещён."
 
-#: includes/class-shortcodes.php:98
+#: includes/class-shortcodes.php:119
 msgid "Loading…"
 msgstr "Идёт загрузка…"
 
-#: includes/class-shortcodes.php:99
+#: includes/class-shortcodes.php:120
 msgid "No locations found in this area."
 msgstr "В этой области местоположения не найдены."
 
-#: includes/class-shortcodes.php:101
+#: includes/class-shortcodes.php:122
 msgid "Please enter a valid postal code."
 msgstr "Введите корректный почтовый индекс."
 
-#: includes/class-shortcodes.php:102
+#: includes/class-shortcodes.php:123
 msgid "Current Location"
 msgstr "Текущее местоположение"
 
-#: includes/class-shortcodes.php:316
+#: includes/class-shortcodes.php:321
 msgid "No results found."
 msgstr "Результатов не найдено."
 
-#: includes/class-shortcodes.php:473
+#: includes/class-shortcodes.php:478
 msgid "No nearby results found."
 msgstr "Поблизости результатов не найдено."
 
-#: includes/class-shortcodes.php:748
+#: includes/class-shortcodes.php:753
 msgid "No posts found."
 msgstr "Записи не найдены."
 
-#: includes/class-shortcodes.php:828 includes/class-shortcodes.php:836
+#: includes/class-shortcodes.php:833 includes/class-shortcodes.php:841
 msgid "Find nearby"
 msgstr "Найти поблизости"
 
