@@ -124,6 +124,41 @@ class ATCF_Distance {
 	}
 
 	/**
+	 * Build a coordinate box that contains every point within a radius, for pre-filtering.
+	 *
+	 * The latitude box is always safe. The longitude box is only safe when it cannot wrap the
+	 * antimeridian or span a pole, where it could wrongly exclude points in range, so the
+	 * longitude bounds are null in those cases. Callers must still check the precise distance.
+	 *
+	 * @since 1.0.0
+	 * @param float $lat       Center latitude.
+	 * @param float $lng       Center longitude.
+	 * @param float $radius_km Radius in kilometers.
+	 * @return array { lat_min: float, lat_max: float, lng_min: ?float, lng_max: ?float }
+	 */
+	public static function bounding_box( float $lat, float $lng, float $radius_km ): array {
+		$lat_delta = $radius_km / 110.574;
+		$box       = array(
+			'lat_min' => $lat - $lat_delta,
+			'lat_max' => $lat + $lat_delta,
+			'lng_min' => null,
+			'lng_max' => null,
+		);
+
+		$cos = cos( deg2rad( $lat ) );
+		if ( $cos > 0.0001 ) {
+			$lng_delta = $radius_km / ( 111.320 * $cos );
+			if ( $lng_delta < 180.0
+				&& $box['lat_max'] < 90.0 && $box['lat_min'] > -90.0
+				&& ( $lng - $lng_delta ) >= -180.0 && ( $lng + $lng_delta ) <= 180.0 ) {
+				$box['lng_min'] = $lng - $lng_delta;
+				$box['lng_max'] = $lng + $lng_delta;
+			}
+		}
+		return $box;
+	}
+
+	/**
 	 * Check whether a single location row is within radius of a coordinate pair.
 	 *
 	 * @since 1.0.0
@@ -520,29 +555,16 @@ class ATCF_Distance {
 		}
 
 		// Bounding-box pre-filter: skip the expensive haversine for rows clearly
-		// outside the radius. The box is a superset of the radius circle, so it
-		// never drops a true match (the HAVING still filters precisely). Applied to
-		// the coalesced coords so centroid-fallback rows are preserved.
-		//
-		// The latitude box is always a valid superset. The longitude box is only
-		// safe when it cannot wrap the antimeridian or span a pole; otherwise it
-		// could wrongly exclude in-range points, so it is skipped (HAVING still
-		// catches them).
-		$lat_delta = $radius_km / 110.574;
-		$where[]   = 'COALESCE(l.lat, c.lat) BETWEEN %f AND %f';
-		$params[]  = $ref_lat - $lat_delta;
-		$params[]  = $ref_lat + $lat_delta;
-
-		$cos = cos( deg2rad( $ref_lat ) );
-		if ( $cos > 0.0001 ) {
-			$lng_delta = $radius_km / ( 111.320 * $cos );
-			if ( $lng_delta < 180.0
-				&& ( $ref_lat + $lat_delta ) < 90.0 && ( $ref_lat - $lat_delta ) > -90.0
-				&& ( $ref_lng - $lng_delta ) >= -180.0 && ( $ref_lng + $lng_delta ) <= 180.0 ) {
-				$where[]  = 'COALESCE(l.lng, c.lng) BETWEEN %f AND %f';
-				$params[] = $ref_lng - $lng_delta;
-				$params[] = $ref_lng + $lng_delta;
-			}
+		// outside the radius (the HAVING still filters precisely). Applied to the
+		// coalesced coords so centroid-fallback rows are preserved.
+		$box      = self::bounding_box( $ref_lat, $ref_lng, $radius_km );
+		$where[]  = 'COALESCE(l.lat, c.lat) BETWEEN %f AND %f';
+		$params[] = $box['lat_min'];
+		$params[] = $box['lat_max'];
+		if ( null !== $box['lng_min'] ) {
+			$where[]  = 'COALESCE(l.lng, c.lng) BETWEEN %f AND %f';
+			$params[] = $box['lng_min'];
+			$params[] = $box['lng_max'];
 		}
 
 		$where_sql = $where ? ( 'WHERE ' . implode( ' AND ', $where ) ) : '';
@@ -943,13 +965,15 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 					$from_coords[ (int) $row->term_id ] = true;
 				}
 			} else {
-				$lat_delta  = $radius_km / 110.574;
-				$lng_delta  = $radius_km / ( 111.320 * max( 0.001, cos( deg2rad( $lat ) ) ) );
+				$box        = ATCF_Distance::bounding_box( $lat, $lng, $radius_km );
+				$lng_filter = null !== $box['lng_min']
+					? $wpdb->prepare( 'AND lng BETWEEN %f AND %f', $box['lng_min'], $box['lng_max'] )
+					: '';
 				$candidates = $wpdb->get_results( $wpdb->prepare(
 					"SELECT term_id, lat, lng, label FROM {$table}
 					  WHERE lat IS NOT NULL AND lng IS NOT NULL
-					    AND lat BETWEEN %f AND %f AND lng BETWEEN %f AND %f",
-					$lat - $lat_delta, $lat + $lat_delta, $lng - $lng_delta, $lng + $lng_delta
+					    AND lat BETWEEN %f AND %f {$lng_filter}",
+					$box['lat_min'], $box['lat_max']
 				) );
 				foreach ( $candidates as $row ) {
 					if ( ATCF_Distance::great_circle_distance( $lat, $lng, (float) $row->lat, (float) $row->lng ) > $radius_km ) {
