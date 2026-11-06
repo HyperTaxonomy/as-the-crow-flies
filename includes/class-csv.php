@@ -16,6 +16,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_CSV {
 
+	/**
+	 * Stop a spreadsheet from treating an exported value as a formula.
+	 *
+	 * @since 1.0.0
+	 * @param mixed $value Cell value.
+	 * @return string
+	 */
+	public static function safe_cell( $value ): string {
+		$value = (string) $value;
+		if ( '' !== $value && in_array( $value[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
+			return "'" . $value;
+		}
+		return $value;
+	}
+
 	// Column names recognised in CSV headers (lowercase).
 	const KNOWN_COLUMNS = array(
 		'taxonomy', 'term_slug', 'country', 'label',

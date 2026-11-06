@@ -772,13 +772,13 @@ class ATCF_Locations_Page {
 		$locations = ATCF_Locations::get_for_term( $term_id, $taxonomy );
 		foreach ( $locations as $loc ) {
 			fputcsv( $out, array(
-				self::atcf_csv_safe( $loc->label ),
-				self::atcf_csv_safe( $loc->address_line ),
-				self::atcf_csv_safe( $loc->address_line2 ),
-				self::atcf_csv_safe( $loc->locality ),
-				self::atcf_csv_safe( $loc->region ),
-				self::atcf_csv_safe( $loc->postal_code ),
-				self::atcf_csv_safe( $loc->country ),
+				ATCF_CSV::safe_cell( $loc->label ),
+				ATCF_CSV::safe_cell( $loc->address_line ),
+				ATCF_CSV::safe_cell( $loc->address_line2 ),
+				ATCF_CSV::safe_cell( $loc->locality ),
+				ATCF_CSV::safe_cell( $loc->region ),
+				ATCF_CSV::safe_cell( $loc->postal_code ),
+				ATCF_CSV::safe_cell( $loc->country ),
 				$loc->lat ?? '',
 				$loc->lng ?? '',
 			) );
@@ -791,24 +791,6 @@ class ATCF_Locations_Page {
 	// --------------------------------------------------------------------------
 	// Helpers
 	// --------------------------------------------------------------------------
-
-	/**
-	 * Neutralize CSV formula injection in a user-supplied text field.
-	 *
-	 * Spreadsheet apps treat cells beginning with =, +, -, @, tab, or CR as
-	 * formulas; prefixing a single quote forces them to be read as text.
-	 *
-	 * @since 1.0.0
-	 * @param mixed $value Field value.
-	 * @return string Sanitized value safe for CSV output.
-	 */
-	private static function atcf_csv_safe( $value ): string {
-		$value = (string) $value;
-		if ( '' !== $value && in_array( $value[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
-			return "'" . $value;
-		}
-		return $value;
-	}
 
 	private static function delete_url( int $location_id, int $term_id ): string {
 		return wp_nonce_url(

@@ -527,24 +527,6 @@ class ATCF_Locations_Global {
 	// Handlers
 	// --------------------------------------------------------------------------
 
-	/**
-	 * Neutralize CSV formula injection in a user-supplied text field.
-	 *
-	 * Spreadsheet apps treat cells beginning with =, +, -, @, tab, or CR as
-	 * formulas; prefixing a single quote forces them to be read as text.
-	 *
-	 * @since 1.0.0
-	 * @param mixed $value Field value.
-	 * @return string Sanitized value safe for CSV output.
-	 */
-	private static function atcf_csv_safe( $value ): string {
-		$value = (string) $value;
-		if ( '' !== $value && in_array( $value[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
-			return "'" . $value;
-		}
-		return $value;
-	}
-
 	public static function handle_export(): void {
 		check_admin_referer( 'atcf_export_all' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -572,14 +554,14 @@ class ATCF_Locations_Global {
 				$slug = ( $term && ! is_wp_error( $term ) ) ? $term->slug : '';
 				fputcsv( $out, array(
 					$loc->taxonomy,
-					self::atcf_csv_safe( $slug ),
-					self::atcf_csv_safe( $loc->country ),
-					self::atcf_csv_safe( $loc->label ),
-					self::atcf_csv_safe( $loc->address_line ),
-					self::atcf_csv_safe( $loc->address_line2 ),
-					self::atcf_csv_safe( $loc->locality ),
-					self::atcf_csv_safe( $loc->region ),
-					self::atcf_csv_safe( $loc->postal_code ),
+					ATCF_CSV::safe_cell( $slug ),
+					ATCF_CSV::safe_cell( $loc->country ),
+					ATCF_CSV::safe_cell( $loc->label ),
+					ATCF_CSV::safe_cell( $loc->address_line ),
+					ATCF_CSV::safe_cell( $loc->address_line2 ),
+					ATCF_CSV::safe_cell( $loc->locality ),
+					ATCF_CSV::safe_cell( $loc->region ),
+					ATCF_CSV::safe_cell( $loc->postal_code ),
 					$loc->lat ?? '', $loc->lng ?? '',
 				) );
 			}

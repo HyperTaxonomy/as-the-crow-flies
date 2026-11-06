@@ -70,6 +70,28 @@ class ATCF_Shortcodes {
 		return __( "Showing results near the default location — we couldn't determine yours.", 'as-the-crow-flies' );
 	}
 
+	/**
+	 * Fill in a shortcode's coordinates, and its country if known, from the visitor's location.
+	 *
+	 * @since 1.0.0
+	 * @param array $a             Shortcode attributes.
+	 * @param bool  $country_known Set to true when the visitor's country is known.
+	 * @return bool False when the visitor's location can't be determined.
+	 */
+	private static function apply_visitor_location( array &$a, bool &$country_known ): bool {
+		$location = self::visitor_location();
+		if ( ! $location ) {
+			return false;
+		}
+		$a['lat'] = (string) $location['lat'];
+		$a['lng'] = (string) $location['lng'];
+		if ( ! empty( $location['country'] ) ) {
+			$a['country']  = $location['country'];
+			$country_known = true;
+		}
+		return true;
+	}
+
 	public static function enqueue_frontend_assets(): void {
 		wp_register_style(
 			'atcf-frontend',
@@ -178,18 +200,10 @@ class ATCF_Shortcodes {
 		}
 
 		if ( ! $use_coords && '' === $a['postal_code'] ) {
-			$ip_loc = self::visitor_location();
-			if ( $ip_loc ) {
-				$use_coords   = true;
-				$a['lat']     = (string) $ip_loc['lat'];
-				$a['lng']     = (string) $ip_loc['lng'];
-				if ( ! empty( $ip_loc['country'] ) ) {
-					$a['country']  = $ip_loc['country'];
-					$country_known = true;
-				}
-			} else {
+			if ( ! self::apply_visitor_location( $a, $country_known ) ) {
 				return '';
 			}
+			$use_coords = true;
 		}
 
 		// Coordinates aren't tied to a country, so only a known country filters them.
@@ -277,18 +291,10 @@ class ATCF_Shortcodes {
 		}
 
 		if ( ! $use_coords && '' === $a['postal_code'] ) {
-			$ip_loc = self::visitor_location();
-			if ( $ip_loc ) {
-				$use_coords   = true;
-				$a['lat']     = (string) $ip_loc['lat'];
-				$a['lng']     = (string) $ip_loc['lng'];
-				if ( ! empty( $ip_loc['country'] ) ) {
-					$a['country']  = $ip_loc['country'];
-					$country_known = true;
-				}
-			} else {
+			if ( ! self::apply_visitor_location( $a, $country_known ) ) {
 				return '';
 			}
+			$use_coords = true;
 		}
 
 		// No row limit here: limit counts terms, and a term can have several locations
