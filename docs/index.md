@@ -7,7 +7,7 @@ nav_order: 1
 
 Attach physical locations (addresses and/or coordinates) to taxonomy terms and let visitors filter WordPress content by distance from any location — no external map API required. Distance is computed from bundled US Zip Code centroids, uploadable GeoNames postal data for any country, or explicit lat/lng coordinates, and works worldwide. Each term can hold multiple locations; results report the distance to the nearest one, with direction links included.
 
-Part of the [HyperTaxonomy suite](https://hypertaxonomy.org) of interoperable WordPress taxonomy plugins. Works on its own, with [more available when HyperTaxonomy is active](hypertaxonomy-integration.html).
+Part of the [HyperTaxonomy Suite](https://hypertaxonomy.org) of interoperable WordPress taxonomy plugins. Works on its own, with [more available when HyperTaxonomy is active](hypertaxonomy-integration.html).
 
 ## Documentation map
 
