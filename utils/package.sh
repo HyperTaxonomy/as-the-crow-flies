@@ -105,6 +105,7 @@ rules = parse_gitignore(os.path.join(src, '.gitignore'))
 # .wordpress-org/ — WordPress.org SVN listing assets live in SVN assets/, not plugin zip.
 rules += [
     ('.wordpress-org',    True,  False),
+    ('docs',              True,  True),
     ('webpack.config.js',  False, False),
     ('package.json',       False, False),
     ('package-lock.json',  False, False),
