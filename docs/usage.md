@@ -26,6 +26,13 @@ The user-facing reference for displaying and filtering locations: three shortcod
 
 When nothing answers, the feature shows nothing (or, in HyperTaxonomy searches, isn't filtered by distance and says so).
 
+## Display approaches
+
+There are two ways to render location data, both built on the same data model and distance-query engine — the difference is only in how and where addresses are rendered.
+
+- **Shortcode / block** — insert `[atcf_locations]` or the Term Locations block anywhere in a post to pull location data from any term, regardless of that post's own taxonomy assignments. Useful when the displayed locations and the filtering/search terms don't need to match, or when authors control placement through the editor.
+- **Custom taxonomy + theme template** — create a taxonomy specifically for your location entities (e.g. "Branches", "Offices"), enable it in settings, and attach addresses to its terms. Theme templates then retrieve locations automatically from the post's assigned terms via `get_the_terms()` + `ATCF_Locations::get_for_term( $term->term_id, $taxonomy )`, with no shortcode required. Suits sites where location data is a structural property of the content rather than an editorial choice.
+
 ## Shortcodes
 
 ### [atcf_locations] — Location Finder
