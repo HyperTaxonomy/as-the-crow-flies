@@ -57,10 +57,9 @@ Output: `dist/as-the-crow-flies.zip`
 
 Full documentation is published at [hypertaxonomy.org/as-the-crow-flies](https://hypertaxonomy.org/as-the-crow-flies) (source in [`docs/`](docs/)):
 
-- **[Shortcodes & Blocks](docs/usage.md)** — the three shortcodes and three blocks with full attribute and inspector tables, item-template tokens, output formats, directions providers, and CSS classes.
-- **[Developer Reference](docs/developer-reference.md)** — the PHP API, the `window.atcfGeo` JavaScript API, actions, the REST API, and `WP_Query` `atcf_query` integration.
-- **[HyperTaxonomy Integration](docs/hypertaxonomy-integration.md)** — term group expansion, PowerSearch / Search Widget distance filtering, and term-merge location preservation.
-- **[Architecture](docs/architecture/index.md)** — file structure and loading, function and hook references, and the database schema. Coding standards for the whole suite are in HyperTaxonomy's [Contributing guide](https://hypertaxonomy.org/hypertaxonomy/architecture/contributing.html).
+- **[User Guide](docs/user-guide/index.md)** — adding locations, geocoding, CSV import and export, every setting, the three shortcodes and three blocks, and what HyperTaxonomy adds.
+- **[Developer Reference](docs/developer-reference/index.md)** — the PHP API, `WP_Query` `atcf_query` integration, the `window.atcfGeo` JavaScript API, the REST API, actions and filters, and the external services used.
+- **[Architecture](docs/architecture/index.md)** — file structure and loading, function and hook references, and data storage. Coding standards for the whole suite are in HyperTaxonomy's [Contributing guide](https://hypertaxonomy.org/hypertaxonomy/architecture/contributing.html).
 
 The shortcode and block reference is also published in [readme.txt](readme.txt) and on the WordPress.org plugin page.
 
@@ -81,19 +80,19 @@ $locations = ATCF_Locations::get_for_term( $term_id, $taxonomy );
 $nearby    = ATCF_Distance::get_locations_within_radius( $postal_code, $radius, $unit, $args );
 ```
 
-For all methods, return shapes, and parameters, see [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference.html#php-api).
+For all methods, return shapes, and parameters, see [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/php-api.html).
 
 ## REST API
 
 `GET /wp-json/atcf/v1/locations` — locations within a radius, with taxonomy/term filtering, sorting, and a privacy option to suppress coordinates/addresses. `GET /wp-json/atcf/v1/nearest-postal-code` — resolve the nearest centroid to a coordinate.
 
-For all parameters, see [Developer Reference → REST API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference.html#rest-api).
+For all parameters, see [Developer Reference → REST API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/rest-api.html).
 
 ## JavaScript API
 
 `window.atcfGeo` provides `reverseGeocode()` and `initGeoBtn()` for plugins that render their own postal code input with a geolocation button — HyperTaxonomy's `[ht_distance_field]` uses this API.
 
-For the full API and lifecycle handling, see [Developer Reference → JavaScript API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference.html#javascript-api).
+For the full API and lifecycle handling, see [Developer Reference → JavaScript API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/javascript-api.html).
 
 ## Actions
 

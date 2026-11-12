@@ -47,7 +47,7 @@ As the Crow Flies lets you attach physical locations (addresses and/or coordinat
 1. Upload the plugin files to `/wp-content/plugins/as-the-crow-flies/`
 2. Activate the plugin through the **Plugins** screen
 3. Go to **Settings → As the Crow Flies → General** to enable taxonomies, set default distance units, and configure location matching
-4. Edit taxonomy terms to add location data, or use the CSV import. See [Locations & Settings](https://hypertaxonomy.org/as-the-crow-flies/locations-settings.html)
+4. Edit taxonomy terms to add location data, or use the CSV import. See [Locations & Settings](https://hypertaxonomy.org/as-the-crow-flies/user-guide/locations-settings.html)
 
 == Shortcodes ==
 
@@ -62,13 +62,13 @@ Three shortcodes for displaying and filtering locations by proximity:
 [atcf_locations postal_code="10001" country="US" radius="25" unit="miles"]
 ```
 
-For all attributes, output formats, item templates, and more examples, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/usage.html#shortcodes).
+For all attributes, output formats, item templates, and more examples, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/user-guide/shortcodes-blocks.html#shortcodes).
 
 == Blocks ==
 
 Three Gutenberg blocks, available in the block inserter under **As the Crow Flies**: **Location Finder** (interactive postal code / geolocation search form, equivalent to `[atcf_locations form="yes"]`), **Term Locations** (static list of a term's locations, no shortcode equivalent), and **Nearest Location** (single nearest location, resolved client-side via browser geolocation with IP fallback).
 
-For all inspector panel settings, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/usage.html#blocks).
+For all inspector panel settings, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/user-guide/shortcodes-blocks.html#blocks).
 
 == HyperTaxonomy Integration ==
 
@@ -78,7 +78,7 @@ When [HyperTaxonomy](https://hypertaxonomy.org) is active, ATCF gains: automatic
 [atcf_locations group="7" radius="10"]
 ```
 
-For full details, see [HyperTaxonomy Integration](https://hypertaxonomy.org/as-the-crow-flies/hypertaxonomy-integration.html).
+For full details, see [HyperTaxonomy Integration](https://hypertaxonomy.org/as-the-crow-flies/user-guide/hypertaxonomy-integration.html).
 
 == Output Formatting ==
 
@@ -103,7 +103,7 @@ All three shortcodes (`item_template` attribute) and all three blocks (**Item te
 {label} — {address_line}, {city}, {region} {postal_code}
 ```
 
-For the complete token reference, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/usage.html#item-templates).
+For the complete token reference, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/user-guide/shortcodes-blocks.html#item-templates).
 
 == Directions ==
 
@@ -141,7 +141,7 @@ All three shortcodes accept a `class` attribute; all three blocks use WordPress'
 [atcf_locations postal_code="10001" class="store-finder compact"]
 ```
 
-For the complete class reference, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/usage.html#css-classes).
+For the complete class reference, see [Shortcodes & Blocks](https://hypertaxonomy.org/as-the-crow-flies/user-guide/shortcodes-blocks.html#css-classes).
 
 == Frequently Asked Questions ==
 
@@ -165,7 +165,7 @@ Yes — this is a natural fit for a dedicated custom taxonomy.
 
 Create a custom taxonomy for your location entities (e.g. "Branches", "Stores", "Offices"), enable it in **Settings → As the Crow Flies → General**, and attach addresses to its terms. When a post is assigned a term from that taxonomy, a theme template can read the post's terms and render their locations directly — no shortcode required. This suits sites where location data is a structural property of the content rather than an editorial choice, for example a staff directory where every "Staff Member" post shows the office addresses associated with that person's "Office" terms.
 
-The PHP and REST code recipe for retrieving a term's locations from a theme template is documented in the [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference.html#php-api).
+The PHP and REST code recipe for retrieving a term's locations from a theme template is documented in the [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/php-api.html).
 
 = What external services does this plugin use? =
 

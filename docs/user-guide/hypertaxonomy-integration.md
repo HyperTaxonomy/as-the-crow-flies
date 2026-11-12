@@ -1,6 +1,7 @@
 ---
 title: HyperTaxonomy Integration
-nav_order: 5
+parent: User Guide
+nav_order: 3
 ---
 
 # HyperTaxonomy Integration
@@ -37,7 +38,7 @@ The **Location Finder** and **Nearest Location** block inspector panels show a *
 
 Group members and directly-selected terms are deduplicated automatically.
 
-The underlying expansion is also available programmatically via `atcf_expand_htax_groups()` — see the [Developer Reference](developer-reference.html#php-api).
+The underlying expansion is also available programmatically via `atcf_expand_htax_groups()` — see the [PHP API](../developer-reference/php-api.html).
 
 ---
 

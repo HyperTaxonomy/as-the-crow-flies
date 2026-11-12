@@ -1,6 +1,7 @@
 ---
 title: Shortcodes & Blocks
-nav_order: 3
+parent: User Guide
+nav_order: 2
 ---
 
 # Shortcodes & Blocks

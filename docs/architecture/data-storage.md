@@ -1,12 +1,12 @@
 ---
-title: Database Schema
+title: Data Storage
 parent: Architecture
 nav_order: 4
 ---
 
-# Database Schema
+# Data Storage
 
-As the Crow Flies keeps locations in two custom tables, and its settings and caches in options and transients. It uses no term, post or user meta. For what uninstalling removes, see [Locations & Settings](../locations-settings.html#uninstalling).
+As the Crow Flies keeps locations in two custom tables, and its settings and caches in options and transients. It uses no term, post or user meta. For what uninstalling removes, see [Locations & Settings](../user-guide/locations-settings.html#uninstalling).
 
 ## Tables
 
@@ -47,7 +47,7 @@ Primary key: `(country, postal_code)`. US rows come from the bundled `data/posta
 
 ## Options
 
-Settings, saved by Settings → As the Crow Flies and described in [Locations & Settings](../locations-settings.html#settings):
+Settings, saved by Settings → As the Crow Flies and described in [Locations & Settings](../user-guide/locations-settings.html#settings):
 
 | Option | Type | Default |
 |---|---|---|

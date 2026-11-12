@@ -1,12 +1,13 @@
 ---
 title: Locations & Settings
-nav_order: 2
+parent: User Guide
+nav_order: 1
 ---
 
 # Locations & Settings
 {: .no_toc }
 
-How to add locations to terms, import them in bulk, and configure the plugin. To display locations on your site, see [Shortcodes & Blocks](usage.html).
+How to add locations to terms, import them in bulk, and configure the plugin. To display locations on your site, see [Shortcodes & Blocks](shortcodes-blocks.html).
 
 ## Table of contents
 {: .no_toc .text-delta }
@@ -119,12 +120,12 @@ Locations with their own coordinates work in any country, with or without this d
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| **Directions provider** | See [Directions](usage.html#directions). | Google Maps |
+| **Directions provider** | See [Directions](shortcodes-blocks.html#directions). | Google Maps |
 | **Enable IP geolocation** | Estimate the visitor's location from their IP address when the browser can't provide it. The IP address is sent to the provider you choose. | On |
 | **Provider** | FreeIPAPI, ipapi.co or ipwho.is. None needs an API key. | FreeIPAPI |
 | **Cache TTL** | How long to keep each IP lookup, in seconds. | `86400` |
 | **Fallback location** | Latitude and longitude for "near me" features to use when the visitor's location can't be determined. Results based on it carry a note. | Empty |
-| **Return location data via REST API** | When off, `/atcf/v1/locations` returns an empty list. See the [privacy note](developer-reference.html#rest-api). | On |
+| **Return location data via REST API** | When off, `/atcf/v1/locations` returns an empty list. See the [privacy note](../developer-reference/rest-api.html#privacy). | On |
 | **Delete data on uninstall** | See [Uninstalling](#uninstalling). | Off |
 
 ---
