@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Blocks {
 
+	/**
+	 * Hook the block category, block registration and editor data.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_filter( 'block_categories_all',    array( __CLASS__, 'add_block_category' ), 10, 1 );
 		add_action( 'init',                    array( __CLASS__, 'register_blocks' ) );

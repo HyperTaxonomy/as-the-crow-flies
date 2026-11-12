@@ -51,6 +51,11 @@ register_deactivation_hook( __FILE__, array( 'ATCF_Activator', 'deactivate' ) );
 
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'atcf_plugin_action_links' );
 
+/**
+ * Add a Settings link to the plugin's row on the Plugins screen.
+ *
+ * @since 1.0.0
+ */
 function atcf_plugin_action_links( array $links ): array {
 	$settings_link = '<a href="' . esc_url( admin_url( 'admin.php?page=as-the-crow-flies' ) ) . '">'
 		. esc_html__( 'Settings', 'as-the-crow-flies' ) . '</a>';
@@ -60,6 +65,11 @@ function atcf_plugin_action_links( array $links ): array {
 
 add_action( 'plugins_loaded', 'atcf_init' );
 
+/**
+ * Register the plugin's components.
+ *
+ * @since 1.0.0
+ */
 function atcf_init(): void {
 	ATCF_WP_Query::register();
 	ATCF_REST_API::register();

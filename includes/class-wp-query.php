@@ -24,6 +24,11 @@ class ATCF_WP_Query {
 	 */
 	private static array $query_distances = array();
 
+	/**
+	 * Hook the atcf_query support into WP_Query.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_filter( 'pre_get_posts',  array( __CLASS__, 'handle_atcf_query' ), 10, 1 );
 		add_filter( 'posts_orderby',  array( __CLASS__, 'handle_orderby' ), 10, 2 );

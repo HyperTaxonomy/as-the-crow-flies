@@ -18,6 +18,7 @@ Part of the [HyperTaxonomy Suite](https://hypertaxonomy.org) of interoperable Wo
 - **[Shortcodes & Blocks](usage.html)** — the user-facing reference: the three shortcodes and three blocks with full attribute and inspector tables, item-template tokens, output formats, directions providers, and CSS classes.
 - **[Developer Reference](developer-reference.html)** — for theme and plugin developers: the PHP API, the `window.atcfGeo` JavaScript API, actions, the REST API, and `WP_Query` `atcf_query` integration.
 - **[HyperTaxonomy Integration](hypertaxonomy-integration.html)** — what becomes available when HyperTaxonomy is active alongside this plugin: term group expansion, PowerSearch / Search Widget distance filtering, and term-merge location preservation.
+- **[Architecture](architecture/)** — for contributors: file structure and loading, function and hook references, and the database schema.
 
 ## Requirements
 

@@ -14,6 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Locations_Page {
 
+	/**
+	 * Hook the per-term locations screen and its form handlers.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_action( 'admin_menu',                       array( __CLASS__, 'register_page' ) );
 		add_action( 'load-admin_page_atcf-locations',   array( __CLASS__, 'set_menu_state' ) );
@@ -24,6 +29,11 @@ class ATCF_Locations_Page {
 		add_action( 'admin_post_atcf_bulk_locations',    array( __CLASS__, 'handle_bulk' ) );
 	}
 
+	/**
+	 * Add the per-term locations screen, which has no menu entry.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register_page(): void {
 		// Null parent gives hookname admin_page_atcf-locations, which is what WP looks for
 		// when the user browses admin.php?page=atcf-locations. Any non-null parent changes
@@ -69,6 +79,11 @@ class ATCF_Locations_Page {
 	// Page render
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Render a term's locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function render(): void {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
@@ -628,6 +643,11 @@ class ATCF_Locations_Page {
 	// Form handlers
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Apply a bulk action to a term's selected locations.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_bulk(): void {
 		$term_id = absint( $_POST['term_id'] ?? 0 );
 		check_admin_referer( 'atcf_bulk_locations_' . $term_id, 'atcf_bulk_nonce' );
@@ -661,6 +681,11 @@ class ATCF_Locations_Page {
 		exit;
 	}
 
+	/**
+	 * Save a location added or edited on a term's locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_save(): void {
 		$term_id = absint( $_POST['term_id'] ?? 0 );
 		check_admin_referer( 'atcf_save_location_' . $term_id, 'atcf_nonce' );
@@ -709,6 +734,11 @@ class ATCF_Locations_Page {
 		exit;
 	}
 
+	/**
+	 * Delete a location from a term's locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_delete(): void {
 		$term_id     = absint( $_GET['term_id'] ?? 0 );
 		$location_id = absint( $_GET['location_id'] ?? 0 );
@@ -729,6 +759,11 @@ class ATCF_Locations_Page {
 		exit;
 	}
 
+	/**
+	 * Download a CSV template for a term.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_template_download(): void {
 		$term_id = absint( $_GET['term_id'] ?? 0 );
 		check_admin_referer( 'atcf_template_' . $term_id );
@@ -750,6 +785,11 @@ class ATCF_Locations_Page {
 		exit;
 	}
 
+	/**
+	 * Download a term's locations as CSV.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_export(): void {
 		$term_id  = absint( $_GET['term_id'] ?? 0 );
 		$taxonomy = sanitize_key( $_GET['taxonomy'] ?? '' );
@@ -803,6 +843,11 @@ class ATCF_Locations_Page {
 		);
 	}
 
+	/**
+	 * US state codes and names.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function us_states(): array {
 		return array(
 			'AL' => 'Alabama',        'AK' => 'Alaska',         'AZ' => 'Arizona',
@@ -876,6 +921,11 @@ class ATCF_Locations_Page {
 		) );
 	}
 
+	/**
+	 * Table header cell that sorts the table by its column.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function sortable_th( string $label, string $column, string $current, string $order, bool $hidden = false ): string {
 		$is_current = $current === $column;
 		$next_order = ( $is_current && $order === 'ASC' ) ? 'desc' : 'asc';
@@ -902,6 +952,11 @@ class ATCF_Locations_Page {
 		);
 	}
 
+	/**
+	 * HTML allowed in sortable header cells.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function kses_th(): array {
 		return array(
 			'th'   => array( 'class' => true ),
@@ -910,6 +965,11 @@ class ATCF_Locations_Page {
 		);
 	}
 
+	/**
+	 * Label for a location's geocoding status.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function geocode_status_label( ?string $status ): string {
 		if ( null === $status ) {
 			return __( 'User-provided', 'as-the-crow-flies' );

@@ -35,6 +35,11 @@ class ATCF_HT_Integration {
 	 */
 	private static array $location_snapshots = array();
 
+	/**
+	 * Hook the HyperTaxonomy merge actions that keep locations on merged terms.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_action( 'htax_before_merge_terms', array( __CLASS__, 'snapshot_before_merge' ), 10, 4 );
 		add_action( 'htax_after_merge_terms',  array( __CLASS__, 'sync_after_merge' ),       10, 4 );

@@ -12,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Settings_Page {
 
+	/**
+	 * Hook the settings page and its form handlers.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_action( 'admin_menu',  array( __CLASS__, 'add_menu' ) );
 		add_action( 'admin_init',  array( __CLASS__, 'register_settings' ) );
@@ -26,6 +31,11 @@ class ATCF_Settings_Page {
 		// are handled by ATCF_Locations_Global::register().
 	}
 
+	/**
+	 * Add Settings → As the Crow Flies.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function add_menu(): void {
 		add_options_page(
 			__( 'As the Crow Flies', 'as-the-crow-flies' ),
@@ -60,6 +70,11 @@ class ATCF_Settings_Page {
 		return array( 'lat' => (float) $parts[0], 'lng' => (float) $parts[1] );
 	}
 
+	/**
+	 * Register the options saved by each settings tab.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register_settings(): void {
 		// General tab — only these options are processed when the General tab is saved.
 		register_setting( 'atcf_settings_general', 'atcf_enabled_taxonomies',         array( 'type' => 'array',   'default' => array() ) );
@@ -86,6 +101,11 @@ class ATCF_Settings_Page {
 	// Page render
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Render the settings page and its tabs.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function render(): void {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
@@ -626,6 +646,11 @@ class ATCF_Settings_Page {
 	// Action handlers
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Download and import the Census ZCTA file.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_download_census(): void {
 		check_admin_referer( 'atcf_download_census' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -639,6 +664,11 @@ class ATCF_Settings_Page {
 		}
 	}
 
+	/**
+	 * Re-import the bundled US postal code centroids.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_reimport_us(): void {
 		check_admin_referer( 'atcf_reimport_us' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -648,6 +678,11 @@ class ATCF_Settings_Page {
 		self::redirect_tab( 'postal-codes', 'reimported' );
 	}
 
+	/**
+	 * Import an uploaded ZCTA file.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_upload_zcta(): void {
 		global $wpdb;
 		check_admin_referer( 'atcf_upload_zcta' );
@@ -671,6 +706,11 @@ class ATCF_Settings_Page {
 		}
 	}
 
+	/**
+	 * Import an uploaded GeoNames postal code file for a country.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_upload_geonames(): void {
 		check_admin_referer( 'atcf_upload_geonames' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -693,6 +733,11 @@ class ATCF_Settings_Page {
 		}
 	}
 
+	/**
+	 * Turn the US postal code centroids on or off.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_toggle_us(): void {
 		check_admin_referer( 'atcf_toggle_us' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -702,6 +747,11 @@ class ATCF_Settings_Page {
 		self::redirect_tab( 'postal-codes', 'saved' );
 	}
 
+	/**
+	 * Turn a country's postal code centroids on or off.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_toggle_country(): void {
 		$country = strtoupper( sanitize_text_field( wp_unslash( $_GET['country'] ?? '' ) ) );
 		check_admin_referer( 'atcf_toggle_country_' . $country );
@@ -716,6 +766,11 @@ class ATCF_Settings_Page {
 		self::redirect_tab( 'postal-codes', 'saved' );
 	}
 
+	/**
+	 * Delete a country's postal code centroids.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_delete_country(): void {
 		$country = strtoupper( sanitize_text_field( wp_unslash( $_GET['country'] ?? '' ) ) );
 		check_admin_referer( 'atcf_delete_country_' . $country );

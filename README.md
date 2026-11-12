@@ -60,6 +60,7 @@ Full documentation is published at [hypertaxonomy.org/as-the-crow-flies](https:/
 - **[Shortcodes & Blocks](docs/usage.md)** — the three shortcodes and three blocks with full attribute and inspector tables, item-template tokens, output formats, directions providers, and CSS classes.
 - **[Developer Reference](docs/developer-reference.md)** — the PHP API, the `window.atcfGeo` JavaScript API, actions, the REST API, and `WP_Query` `atcf_query` integration.
 - **[HyperTaxonomy Integration](docs/hypertaxonomy-integration.md)** — term group expansion, PowerSearch / Search Widget distance filtering, and term-merge location preservation.
+- **[Architecture](docs/architecture/index.md)** — file structure and loading, function and hook references, and the database schema. Coding standards for the whole suite are in HyperTaxonomy's [Contributing guide](https://hypertaxonomy.org/hypertaxonomy/architecture/contributing.html).
 
 The shortcode and block reference is also published in [readme.txt](readme.txt) and on the WordPress.org plugin page.
 

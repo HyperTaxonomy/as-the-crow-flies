@@ -19,6 +19,11 @@ class ATCF_Shortcodes {
 	/** @var bool Whether the shortcode being rendered used the site's fallback location. */
 	private static $used_fallback_location = false;
 
+	/**
+	 * Register the three shortcodes and their assets.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_shortcode( 'atcf_locations', static fn( $atts ) => self::render_with_location_note( 'shortcode_locations', $atts ) );
 		add_shortcode( 'atcf_terms',     static fn( $atts ) => self::render_with_location_note( 'shortcode_terms', $atts ) );
@@ -92,6 +97,11 @@ class ATCF_Shortcodes {
 		return true;
 	}
 
+	/**
+	 * Register the front-end scripts and styles the shortcodes use.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function enqueue_frontend_assets(): void {
 		wp_register_style(
 			'atcf-frontend',

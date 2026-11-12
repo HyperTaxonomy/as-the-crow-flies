@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Admin {
 
+	/**
+	 * Hook the admin assets, term edit panel, term list columns and AJAX handlers.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 
@@ -43,6 +48,11 @@ class ATCF_Admin {
 	// Assets
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Load the admin scripts and styles on the screens that need them.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function enqueue_assets( string $hook ): void {
 		$screens = array( 'edit-tags.php', 'term.php', 'admin_page_atcf-locations', 'settings_page_as-the-crow-flies' );
 		if ( ! in_array( $hook, $screens, true ) && false === strpos( $hook, '_page_atcf-locations' ) ) {
@@ -190,6 +200,8 @@ class ATCF_Admin {
 	}
 
 	/**
+	 * Add the Locations column to term lists for enabled taxonomies.
+	 *
 	 * @param string[] $columns Existing columns.
 	 * @return string[]
 	 */
@@ -540,6 +552,11 @@ class ATCF_Admin {
 	// AJAX — geocode single location
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: geocode one location.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_geocode_location(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -565,6 +582,11 @@ class ATCF_Admin {
 	// AJAX — clear coordinates for one location
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: clear one location's coordinates.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_clear_location_coords(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -582,6 +604,11 @@ class ATCF_Admin {
 	// AJAX — global page: clear all coords (optionally filtered by taxonomy)
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: clear the coordinates of all locations, or one taxonomy's, from the Term Locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_gl_clear_all_coords(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -621,6 +648,11 @@ class ATCF_Admin {
 	// AJAX — global page: delete all locations (optionally filtered by taxonomy)
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: delete all locations, or one taxonomy's, from the Term Locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_gl_delete_all(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -650,6 +682,11 @@ class ATCF_Admin {
 	// AJAX — clear coordinates for all locations of a term
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: clear the coordinates of a term's locations.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_clear_term_coords(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -678,6 +715,11 @@ class ATCF_Admin {
 	// AJAX — geocode all locations for a term
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: geocode a term's locations.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_geocode_term(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -709,6 +751,11 @@ class ATCF_Admin {
 	// AJAX — inline save a location
 	// --------------------------------------------------------------------------
 
+	/**
+	 * AJAX: save a location edited inline.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function ajax_save_location_inline(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_categories' ) ) {

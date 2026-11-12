@@ -17,6 +17,11 @@ class ATCF_Locations_Global {
 
 	const PAGE_SLUG = 'atcf-locations-global';
 
+	/**
+	 * Hook the Term Locations screen and its export, import, template, geocode and delete handlers.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		// Priority 15 so we run after HT's admin_menu at priority 10.
 		add_action( 'admin_menu', array( __CLASS__, 'add_menu' ), 15 );
@@ -33,6 +38,11 @@ class ATCF_Locations_Global {
 	// Menu registration
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Add the Term Locations screen, under the shared Terms menu when it exists.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function add_menu(): void {
 		// Reuse HyperTaxonomy's shared Terms top-level menu when present.
 		$parent = ATCF_HT_Integration::terms_menu_slug();
@@ -70,6 +80,11 @@ class ATCF_Locations_Global {
 	// Page render
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Render the Term Locations screen.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function render(): void {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
@@ -527,6 +542,11 @@ class ATCF_Locations_Global {
 	// Handlers
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Download all locations, or one taxonomy's, as CSV.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_export(): void {
 		check_admin_referer( 'atcf_export_all' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -572,6 +592,11 @@ class ATCF_Locations_Global {
 		exit;
 	}
 
+	/**
+	 * Import locations from an uploaded CSV file.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_import(): void {
 		check_admin_referer( 'atcf_import_global' );
 		if ( ! current_user_can( 'manage_categories' ) || empty( $_FILES['atcf_csv']['tmp_name'] ) || UPLOAD_ERR_OK !== (int) $_FILES['atcf_csv']['error'] ) {
@@ -607,6 +632,11 @@ class ATCF_Locations_Global {
 		exit;
 	}
 
+	/**
+	 * Download a blank CSV template.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_template(): void {
 		check_admin_referer( 'atcf_global_template' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -621,6 +651,11 @@ class ATCF_Locations_Global {
 		exit;
 	}
 
+	/**
+	 * Geocode pending locations now.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_geocode(): void {
 		check_admin_referer( 'atcf_geocode_now' );
 		if ( ! current_user_can( 'manage_categories' ) ) {
@@ -635,6 +670,11 @@ class ATCF_Locations_Global {
 		exit;
 	}
 
+	/**
+	 * Delete one location.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_delete(): void {
 		$id = absint( $_GET['location_id'] ?? 0 );
 		check_admin_referer( 'atcf_gl_delete_location_' . $id );
@@ -649,6 +689,11 @@ class ATCF_Locations_Global {
 		exit;
 	}
 
+	/**
+	 * Apply a bulk action to the selected locations.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function handle_bulk_delete(): void {
 		check_admin_referer( 'atcf_gl_bulk_delete' );
 		if ( ! current_user_can( 'manage_categories' ) ) {

@@ -14,6 +14,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+/**
+ * Remove the plugin's settings, caches and cron event, and its tables when Delete data on uninstall is on.
+ *
+ * @since 1.0.0
+ */
 function atcf_uninstall_cleanup() {
 	global $wpdb;
 

@@ -17,6 +17,11 @@ class ATCF_REST_API {
 
 	const NAMESPACE = 'atcf/v1';
 
+	/**
+	 * Hook the REST route registration.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register(): void {
 		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
 	}
@@ -47,6 +52,11 @@ class ATCF_REST_API {
 		return $response;
 	}
 
+	/**
+	 * Register the atcf/v1 routes.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function register_routes(): void {
 		register_rest_route( self::NAMESPACE, '/locations', array(
 			'methods'             => WP_REST_Server::READABLE,
@@ -322,10 +332,20 @@ class ATCF_REST_API {
 	// Validators
 	// --------------------------------------------------------------------------
 
+	/**
+	 * Whether a value is a valid latitude, or null.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function validate_lat( $value ): bool {
 		return null === $value || ( is_numeric( $value ) && (float) $value >= -90.0 && (float) $value <= 90.0 );
 	}
 
+	/**
+	 * Whether a value is a valid longitude, or null.
+	 *
+	 * @since 1.0.0
+	 */
 	public static function validate_lng( $value ): bool {
 		return null === $value || ( is_numeric( $value ) && (float) $value >= -180.0 && (float) $value <= 180.0 );
 	}
