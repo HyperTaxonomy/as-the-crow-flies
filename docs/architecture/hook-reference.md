@@ -9,7 +9,7 @@ nav_order: 3
 
 The hook registrations in As the Crow Flies that you can't guess from a callback's name: priorities chosen to run before or after other code, hooks registered per taxonomy, and the HyperTaxonomy hooks it uses. Routine registrations (menus, scripts, AJAX and REST handlers, shortcodes, blocks, notices) are left out; search the code for `add_action( 'hook_name'` to find any of them.
 
-The hooks As the Crow Flies fires for other code are documented in the Developer Reference: [Actions & Filters](../developer-reference/hooks.html).
+The hooks As the Crow Flies fires for other code are documented in the Developer Reference: [Actions & Filters](../developer-reference/actions-filters.html).
 
 ## Table of contents
 {: .no_toc .text-delta }

@@ -9,11 +9,11 @@ has_toc: false
 
 For theme developers and plugin authors who work with As the Crow Flies in code. For adding locations and showing them on the site, see the [User Guide](../user-guide/).
 
-- **[PHP API](php-api.html)** — reading and changing locations, radius searches, postal-code centroids, directions links, the visitor-location chain, and the theme functions.
 - **[WP_Query Integration](wp-query.html)** — limiting any `WP_Query` to posts near a point with `atcf_query`, and ordering by distance.
-- **[JavaScript API](javascript-api.html)** — `window.atcfGeo`: the browser side of the visitor-location chain and the geolocation button helper.
+- **[PHP API](php-api.html)** — reading and changing locations, radius searches, postal-code centroids, directions links, the visitor-location chain, and the theme functions.
+- **[Actions & Filters](actions-filters.html)** — `atcf_location_changed`, `atcf_term_location_changed`, and the filters for visitor location, enabled taxonomies and REST output.
 - **[REST API](rest-api.html)** — the `visitor-location`, `locations` and `nearest-postal-code` endpoints, and what the REST privacy setting covers.
-- **[Actions & Filters](hooks.html)** — `atcf_location_changed`, `atcf_term_location_changed`, and the filters for visitor location, enabled taxonomies and REST output.
+- **[JavaScript API](javascript-api.html)** — `window.atcfGeo`: the browser side of the visitor-location chain and the geolocation button helper.
 
 ## External services
 

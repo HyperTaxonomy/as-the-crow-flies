@@ -98,7 +98,7 @@ Go to **Settings → As the Crow Flies**.
 | **Enabled Taxonomies** | Which taxonomies can have locations. | None |
 | **Default units** | Miles or kilometers, used wherever a shortcode, block or query doesn't choose. | Miles |
 
-**Location Matching** decides when two locations count as the same place. Merging terms in HyperTaxonomy and matching terms across sites through TermConnect both use it, so these settings only matter with [HyperTaxonomy](hypertaxonomy-integration.html).
+**Location Matching** decides when two locations count as the same place. Merging terms in HyperTaxonomy and matching terms across sites through TermConnect both use it, so these settings only matter with [HyperTaxonomy](working-with-hypertaxonomy.html).
 
 | Setting | Description | Default |
 |---------|-------------|---------|

@@ -1,7 +1,7 @@
 ---
 title: WP_Query Integration
 parent: Developer Reference
-nav_order: 2
+nav_order: 1
 ---
 
 # WP_Query Integration

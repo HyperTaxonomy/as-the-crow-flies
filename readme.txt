@@ -78,7 +78,7 @@ When [HyperTaxonomy](https://hypertaxonomy.org) is active, ATCF gains: automatic
 [atcf_locations group="7" radius="10"]
 ```
 
-For full details, see [HyperTaxonomy Integration](https://hypertaxonomy.org/as-the-crow-flies/user-guide/hypertaxonomy-integration.html).
+For full details, see [Working with HyperTaxonomy](https://hypertaxonomy.org/as-the-crow-flies/user-guide/working-with-hypertaxonomy.html).
 
 == Output Formatting ==
 

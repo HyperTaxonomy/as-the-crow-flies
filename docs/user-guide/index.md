@@ -11,4 +11,4 @@ For WordPress site owners and content editors who add locations and show them on
 
 - **[Locations & Settings](locations-settings.html)** — adding locations, geocoding, CSV import and export, every setting, and uninstalling.
 - **[Shortcodes & Blocks](shortcodes-blocks.html)** — the three shortcodes and three blocks with full attribute and inspector tables, item-template tokens, output formats, directions providers, and CSS classes.
-- **[HyperTaxonomy Integration](hypertaxonomy-integration.html)** — what becomes available when HyperTaxonomy is active too: term group expansion, PowerSearch and Search Widget distance filtering, matching locations across sites, and keeping locations when terms are merged.
+- **[Working with HyperTaxonomy](working-with-hypertaxonomy.html)** — what becomes available when HyperTaxonomy is active too: term group expansion, PowerSearch and Search Widget distance filtering, matching locations across sites, and keeping locations when terms are merged.

@@ -1,10 +1,10 @@
 ---
-title: HyperTaxonomy Integration
+title: Working with HyperTaxonomy
 parent: User Guide
 nav_order: 3
 ---
 
-# HyperTaxonomy Integration
+# Working with HyperTaxonomy
 
 When [HyperTaxonomy](https://hypertaxonomy.org) is active alongside As the Crow Flies, additional features become available. None require configuration beyond enabling the relevant taxonomies in ATCF settings.
 

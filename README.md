@@ -58,7 +58,7 @@ Output: `dist/as-the-crow-flies.zip`
 Full documentation is published at [hypertaxonomy.org/as-the-crow-flies](https://hypertaxonomy.org/as-the-crow-flies) (source in [`docs/`](docs/)):
 
 - **[User Guide](docs/user-guide/index.md)** — adding locations, geocoding, CSV import and export, every setting, the three shortcodes and three blocks, and what HyperTaxonomy adds.
-- **[Developer Reference](docs/developer-reference/index.md)** — the PHP API, `WP_Query` `atcf_query` integration, the `window.atcfGeo` JavaScript API, the REST API, actions and filters, and the external services used.
+- **[Developer Reference](docs/developer-reference/index.md)** — `WP_Query` `atcf_query` integration, the PHP API, actions and filters, the REST API, the `window.atcfGeo` JavaScript API, and the external services used.
 - **[Architecture](docs/architecture/index.md)** — file structure and loading, function and hook references, and data storage. Coding standards for the whole suite are in HyperTaxonomy's [Contributing guide](https://hypertaxonomy.org/hypertaxonomy/architecture/contributing.html).
 
 The shortcode and block reference is also published in [readme.txt](readme.txt) and on the WordPress.org plugin page.
