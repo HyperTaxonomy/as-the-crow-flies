@@ -20,6 +20,4 @@ in `.distignore` beyond the folder itself.
 
 ## Current state
 
-Icon and banner art already in place (moved here from the old `wp-assets/`
-folder): `icon-128x128.png`, `icon-256x256.png`, `banner-772x250.png`,
-`banner-1544x500.png`. No `screenshot-N.png` files yet.
+Icons, banners, and `screenshot-1.png` … `screenshot-7.png` (matching the readme's seven captions) are in place.

@@ -43,6 +43,8 @@ The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the 
 
 The `near:` operator in HyperTaxonomy's PowerSearch, and the Search Widget's distance filter, both use ATCF's distance engine. They find every matching location within the radius. No additional configuration is required — enabling a taxonomy in ATCF settings is sufficient.
 
+![A search form with a distance field set to within 250 miles of a ZIP code, and the matching posts below](../assets/images/screenshots/distance-field.png)
+
 ---
 
 ## Matching locations across sites

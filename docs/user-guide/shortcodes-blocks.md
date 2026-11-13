@@ -223,9 +223,15 @@ Stores near the visitor (no term or postal code):
 
 The plugin provides three Gutenberg blocks, available in the block inserter under **As the Crow Flies**.
 
+In the editor, the Location Finder and Term Locations blocks show a live preview of their output as you change their settings. Nearest Location shows a placeholder instead, because the location it shows depends on each visitor.
+
+![The Term Locations block in the editor: As the Crow Flies's blocks in the inserter, the block's live preview of a tag's locations, and its settings](../assets/images/screenshots/blocks-editor.png)
+
 ### Location Finder block
 
 Renders an interactive search form: the visitor enters a postal code (or clicks the crosshair button to use browser geolocation), picks a radius, and sees nearby locations. Results are fetched from the REST API and rendered in place — no page reload required.
+
+![The Location Finder on a page: a ZIP code and radius, and the two nearest locations with distances and directions links](../assets/images/screenshots/location-finder.png)
 
 **Block settings (inspector panel):**
 

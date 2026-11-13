@@ -21,7 +21,11 @@ How to add locations to terms, import them in bulk, and configure the plugin. To
 
 Start by enabling a taxonomy at **Settings → As the Crow Flies → General**, under **Enabled Taxonomies**. Its term edit screens then show a **Locations** panel, its term lists can show a **Locations** column, and it appears in the block settings. The column is hidden by default, so turn it on from **Screen Options**.
 
+![The Tags list with the Locations column circled, showing how many locations each tag has](../assets/images/screenshots/tags-list-locations.png)
+
 ### For one term
+
+![A tag's Locations page: the Add Location form, the tag's two locations, and the CSV import](../assets/images/screenshots/term-locations.png)
 
 Edit the term and click **Add locations →** to open its Locations page. Each location has these fields:
 
@@ -98,6 +102,8 @@ Go to **Settings → As the Crow Flies**.
 | **Enabled Taxonomies** | Which taxonomies can have locations. | None |
 | **Default units** | Miles or kilometers, used wherever a shortcode, block or query doesn't choose. | Miles |
 
+![The General settings tab: enabled taxonomies, default units and location matching](../assets/images/screenshots/settings-general.png)
+
 **Location Matching** decides when two locations count as the same place. Merging terms in HyperTaxonomy and matching terms across sites through TermConnect both use it, so these settings only matter with [HyperTaxonomy](working-with-hypertaxonomy.html).
 
 | Setting | Description | Default |
@@ -110,6 +116,8 @@ Go to **Settings → As the Crow Flies**.
 ### Postal Codes
 
 Distances from a postal code are measured from the center of that postal code's area.
+
+![The Postal Codes tab: US ZIP code data and the form for adding another country from GeoNames](../assets/images/screenshots/settings-postal-codes.png)
 
 - **US Zip Code Data** comes bundled, with about 33,000 Zip codes. You can disable it, download the current data from the Census Bureau, upload a file, or restore the bundled copy.
 - **Other Countries** takes a free per-country postal code file from GeoNames. Enter the country code and upload the TSV file. Each country can then be enabled, disabled or deleted.

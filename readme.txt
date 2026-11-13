@@ -176,8 +176,8 @@ The PHP and REST code recipe for retrieving a term's locations from a theme temp
 == Screenshots ==
 
 1. Per-term locations management page with add/edit/delete
-2. Term list with Locations column showing location counts
-3. Location Finder Gutenberg block configuration in post editor
+2. Term list with the Locations column showing each term's location count
+3. As the Crow Flies blocks in the post editor — a Term Locations block with its settings and live preview
 4. Location Finder block in action on the frontend
 5. Distance filtering in action on the frontend, from a postal code or browser geolocation
 6. Plugin settings — General tab
