@@ -27,6 +27,17 @@ $locations = ATCF_Locations::get_for_term( int $term_id, string $taxonomy, array
 // Locations for several terms in one taxonomy.
 $locations = ATCF_Locations::get_for_terms( array $term_ids, string $taxonomy, array $args = [] );
 
+// All locations for one term by ID; no taxonomy needed, since term IDs are unique across taxonomies.
+$locations = ATCF_Locations::get_by_term_id( int $term_id );
+// Same row shape as get_for_term(), ordered by location ID.
+
+// Locations for a term and everything under it, in one query: the term, its descendants
+// (get_term_children()), minus $exclude_ids, plus $additional_ids, deduplicated. The two lists let a
+// caller widen or narrow the scope without ATCF knowing why; HyperTaxonomy passes hidden terms to
+// exclude and included terms to add.
+$locations = ATCF_Locations::get_aggregated( int $term_id, string $taxonomy, array $exclude_ids = [], array $additional_ids = [] );
+// Same row shape as get_for_term().
+
 // Create, change or delete a location. insert() and update() return a WP_Error on failure.
 $id = ATCF_Locations::insert( array $data );
 // $data: term_id, taxonomy, label, address_line, address_line2, locality, region, postal_code, country, lat, lng.
@@ -40,6 +51,10 @@ $term_ids = atcf_get_term_ids_with_locations( string $taxonomy );
 // Local terms with a location matching any of these Schema.org Place objects, as HyperTaxonomy's
 // htax_locations REST field provides them. Uses the Location Matching settings.
 $term_ids = atcf_find_terms_by_location( array $schema_locations );
+
+// A term's locations as Schema.org Place objects: the format of HyperTaxonomy's htax_locations
+// REST field. Cached for the request; null when the term has no locations.
+$places = ATCF_REST_API::format_term_locations( int $term_id );
 ```
 
 ## Radius searches
@@ -81,6 +96,11 @@ $centroid = ATCF_Distance::get_centroid( string $postal_code, string $country );
 $centroid = atcf_get_postal_centroid( string $postal_code, string $country = 'US' );        // ['lat','lng'] or null
 $nearest  = atcf_get_nearest_postal_code( float $lat, float $lng, string $country = 'US', float $max_km = 0.0 );
 // Returns ['postal_code', 'country', 'distance_km'] or null.
+
+// Regex that validates a country's postal codes, anchored with ^ and $; null for countries without
+// a known format. Match it against the uppercase input.
+$pattern = atcf_get_postal_code_format( string $country );   // e.g. 'CA' → '/^[A-Z]\d[A-Z]\s?\d[A-Z]\d$/'
+if ( $pattern && preg_match( $pattern, strtoupper( $input ) ) ) { /* valid */ }
 ```
 
 ## Directions
