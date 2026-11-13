@@ -117,7 +117,7 @@ HyperTaxonomy hooks `atcf_term_location_changed` directly (to rebuild TermConnec
 
 As the Crow Flies is translation-ready and ships with a complete translation template: `languages/as-the-crow-flies.pot`.
 
-To contribute a translation: copy the template to `languages/as-the-crow-flies-<locale>.po`, translate it, and open a pull request — the build compiles it (and, for block-editor strings, generates the required JSON) automatically. See `utils/make-pot.sh` and `utils/make-json.py`.
+To contribute a translation: copy the template to `languages/as-the-crow-flies-<locale>.po`, translate it, and open a pull request — the build compiles it (and, for block-editor strings, generates the required JSON) automatically. See [`utils/make-pot.sh`](utils/make-pot.sh) and [`utils/make-json.py`](utils/make-json.py).
 
 ## License
 
