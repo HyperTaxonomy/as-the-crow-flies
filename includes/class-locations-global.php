@@ -207,32 +207,7 @@ class ATCF_Locations_Global {
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 								<?php wp_nonce_field( 'atcf_import_global' ); ?>
 								<input type="hidden" name="action" value="atcf_import_global_csv" />
-								<div class="form-field">
-									<label><input type="file" name="atcf_csv" accept=".csv" required /></label>
-									<p><a href="<?php echo esc_url( $template_url ); ?>"><?php esc_html_e( '↓ Download CSV template', 'as-the-crow-flies' ); ?></a></p>
-								</div>
-								<fieldset class="atcf-conflict-detection">
-									<legend><?php esc_html_e( 'Match existing rows by:', 'as-the-crow-flies' ); ?></legend>
-									<label><input type="checkbox" name="conflict_address" value="1" class="atcf-conflict-address" <?php checked( (bool) get_option( 'atcf_conflict_address', true ) ); ?> /> <?php esc_html_e( 'Address + postal code', 'as-the-crow-flies' ); ?></label>
-									<label><input type="checkbox" name="conflict_label" value="1" <?php checked( (bool) get_option( 'atcf_conflict_label', false ) ); ?> /> <?php esc_html_e( 'Label', 'as-the-crow-flies' ); ?></label>
-									<label><input type="checkbox" name="conflict_coords" value="1" class="atcf-conflict-coords" <?php checked( (bool) get_option( 'atcf_conflict_coords', false ) ); ?> /> <?php esc_html_e( 'Coordinates', 'as-the-crow-flies' ); ?></label>
-								<div class="atcf-coords-proximity-row" style="display:none;margin-left:22px;margin-top:2px;">
-									<label><input type="radio" name="conflict_coords_mode" value="exact" class="atcf-coords-mode" checked /> <?php esc_html_e( 'Exact match', 'as-the-crow-flies' ); ?></label>
-									<label>
-										<input type="radio" name="conflict_coords_mode" value="within" class="atcf-coords-mode" />
-										<?php esc_html_e( 'Within', 'as-the-crow-flies' ); ?>
-										<input type="number" name="conflict_coords_radius" class="atcf-coords-radius-input small-text" step="1" min="0" disabled />
-										<span class="atcf-coords-subunit"></span>
-										<?php esc_html_e( 'of each other', 'as-the-crow-flies' ); ?>
-									</label>
-								</div>
-								</fieldset>
-								<fieldset class="atcf-upload-mode">
-									<legend><?php esc_html_e( 'On conflict:', 'as-the-crow-flies' ); ?></legend>
-									<label><input type="radio" name="upload_mode" value="update" checked /> <?php esc_html_e( 'Update', 'as-the-crow-flies' ); ?></label>
-									<label><input type="radio" name="upload_mode" value="skip" /> <?php esc_html_e( 'Skip', 'as-the-crow-flies' ); ?></label>
-									<label><input type="radio" name="upload_mode" value="reject" /> <?php esc_html_e( 'Reject all', 'as-the-crow-flies' ); ?></label>
-								</fieldset>
+								<?php ATCF_Locations_Page::render_import_options( $template_url ); ?>
 								<p class="submit">
 									<button type="submit" class="button button-primary"><?php esc_html_e( 'Import', 'as-the-crow-flies' ); ?></button>
 								</p>
@@ -318,29 +293,7 @@ class ATCF_Locations_Global {
 							       onclick="if(this.closest('.bulkactions').querySelector('select').value==='-1'){return false;}" />
 						</div>
 						<?php if ( $pages > 1 ) : ?>
-						<div class="tablenav-pages">
-							<span class="displaying-num"><?php printf( esc_html( _n( '%d item', '%d items', $total, 'as-the-crow-flies' ) ), (int) $total ); ?></span>
-							<span class="pagination-links">
-								<?php if ( $page > 1 ) : ?>
-									<a class="first-page button" href="<?php echo esc_url( add_query_arg( 'paged', 1 ) ); ?>"><span aria-hidden="true">&laquo;</span></a>
-									<a class="prev-page button"  href="<?php echo esc_url( add_query_arg( 'paged', $page - 1 ) ); ?>"><span aria-hidden="true">&lsaquo;</span></a>
-								<?php else : ?>
-									<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&laquo;</span>
-									<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&lsaquo;</span>
-								<?php endif; ?>
-								<span class="paging-input">
-									<input class="current-page" type="text" name="paged" value="<?php echo esc_attr( $page ); ?>" size="<?php echo esc_attr( strlen( (string) $pages ) ); ?>" form="atcf-gl-pager-top" />
-									<span class="tablenav-paging-text"> <?php esc_html_e( 'of', 'as-the-crow-flies' ); ?> <span class="total-pages"><?php echo (int) $pages; ?></span></span>
-								</span>
-								<?php if ( $page < $pages ) : ?>
-									<a class="next-page button" href="<?php echo esc_url( add_query_arg( 'paged', $page + 1 ) ); ?>"><span aria-hidden="true">&rsaquo;</span></a>
-									<a class="last-page button" href="<?php echo esc_url( add_query_arg( 'paged', $pages ) ); ?>"><span aria-hidden="true">&raquo;</span></a>
-								<?php else : ?>
-									<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&rsaquo;</span>
-									<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&raquo;</span>
-								<?php endif; ?>
-							</span>
-						</div>
+						<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-gl-pager-top' ); ?>
 						<?php endif; ?>
 						<br class="clear" />
 					</div>
@@ -463,29 +416,7 @@ class ATCF_Locations_Global {
 
 						<?php if ( $pages > 1 ) : ?>
 						<div class="tablenav bottom">
-							<div class="tablenav-pages">
-								<span class="displaying-num"><?php printf( esc_html( _n( '%d item', '%d items', $total, 'as-the-crow-flies' ) ), (int) $total ); ?></span>
-								<span class="pagination-links">
-									<?php if ( $page > 1 ) : ?>
-										<a class="first-page button" href="<?php echo esc_url( add_query_arg( 'paged', 1 ) ); ?>"><span aria-hidden="true">&laquo;</span></a>
-										<a class="prev-page button"  href="<?php echo esc_url( add_query_arg( 'paged', $page - 1 ) ); ?>"><span aria-hidden="true">&lsaquo;</span></a>
-									<?php else : ?>
-										<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&laquo;</span>
-										<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&lsaquo;</span>
-									<?php endif; ?>
-									<span class="paging-input">
-										<input class="current-page" type="text" name="paged" value="<?php echo esc_attr( $page ); ?>" size="<?php echo esc_attr( strlen( (string) $pages ) ); ?>" form="atcf-gl-pager" />
-										<span class="tablenav-paging-text"> <?php esc_html_e( 'of', 'as-the-crow-flies' ); ?> <span class="total-pages"><?php echo (int) $pages; ?></span></span>
-									</span>
-									<?php if ( $page < $pages ) : ?>
-										<a class="next-page button" href="<?php echo esc_url( add_query_arg( 'paged', $page + 1 ) ); ?>"><span aria-hidden="true">&rsaquo;</span></a>
-										<a class="last-page button" href="<?php echo esc_url( add_query_arg( 'paged', $pages ) ); ?>"><span aria-hidden="true">&raquo;</span></a>
-									<?php else : ?>
-										<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&rsaquo;</span>
-										<span class="tablenav-pages-navspan button disabled" aria-hidden="true">&raquo;</span>
-									<?php endif; ?>
-								</span>
-							</div>
+							<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-gl-pager' ); ?>
 							<br class="clear" />
 						</div>
 						<form id="atcf-gl-pager" method="get" action="" style="display:none;">
