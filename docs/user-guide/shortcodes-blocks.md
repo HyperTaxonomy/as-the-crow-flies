@@ -9,14 +9,6 @@ nav_order: 2
 
 The user-facing reference for displaying and filtering locations: three shortcodes, three blocks, the shared item-template token set, output formats, directions providers, and CSS classes.
 
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
 **Visitor location ("near me").** Everything in ATCF and HyperTaxonomy that needs the visitor's location uses one chain, defined in `atcf_get_visitor_location()` (server) and `atcfGeo` (browser):
 
 1. a place the visitor typed (postal code, term) — always wins, and is not part of the chain;
@@ -26,6 +18,14 @@ The user-facing reference for displaying and filtering locations: three shortcod
 5. the **Fallback location** from Settings → Advanced, when set. Results based on it carry a note: "Showing results near the default location — we couldn't determine yours."
 
 When nothing answers, the feature shows nothing (or, in HyperTaxonomy searches, isn't filtered by distance and says so).
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Display approaches
 

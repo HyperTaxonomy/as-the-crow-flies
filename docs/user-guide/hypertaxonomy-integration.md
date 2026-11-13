@@ -5,17 +5,8 @@ nav_order: 3
 ---
 
 # HyperTaxonomy Integration
-{: .no_toc }
 
 When [HyperTaxonomy](https://hypertaxonomy.org) is active alongside As the Crow Flies, additional features become available. None require configuration beyond enabling the relevant taxonomies in ATCF settings.
-
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
 
 ## Term group expansion
 

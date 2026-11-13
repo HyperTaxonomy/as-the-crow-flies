@@ -2,6 +2,7 @@
 title: Architecture
 nav_order: 4
 has_children: true
+has_toc: false
 ---
 
 # As the Crow Flies Architecture
