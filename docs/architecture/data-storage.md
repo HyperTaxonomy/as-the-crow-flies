@@ -12,7 +12,7 @@ As the Crow Flies keeps locations in two custom tables, and its settings and cac
 
 ### `{prefix}atcf_locations`
 
-One row per location. A term can have any number of locations.
+One row per location. A term can have any number of locations. The [PHP API](../developer-reference/php-api.html#locations) reads and writes these rows; its [Return shapes](../developer-reference/php-api.html#return-shapes) say which columns callers get.
 
 | Column | Type | Notes |
 |---|---|---|
