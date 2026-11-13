@@ -452,21 +452,38 @@ class ATCF_Admin {
 	// --------------------------------------------------------------------------
 
 	/**
-	 * AJAX: clear all locations for a term.
+	 * Stop an admin AJAX request unless its nonce is valid and the user can manage terms.
+	 *
+	 * @since 1.0.0
 	 */
-	public static function ajax_clear_term_locations(): void {
+	private static function verify_ajax_request(): void {
 		check_ajax_referer( 'atcf_admin', 'nonce' );
-
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
 		}
+	}
 
+	/**
+	 * The term ID and taxonomy an admin AJAX request names; stops the request if either is missing.
+	 *
+	 * @since 1.0.0
+	 * @return array{0: int, 1: string}
+	 */
+	private static function term_request(): array {
 		$term_id  = absint( $_POST['term_id'] ?? 0 );
 		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
-
 		if ( ! $term_id || ! $taxonomy ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid parameters.', 'as-the-crow-flies' ) ), 400 );
 		}
+		return array( $term_id, $taxonomy );
+	}
+
+	/**
+	 * AJAX: clear all locations for a term.
+	 */
+	public static function ajax_clear_term_locations(): void {
+		self::verify_ajax_request();
+		[ $term_id, $taxonomy ] = self::term_request();
 
 		$deleted = ATCF_Locations::delete_for_term( $term_id, $taxonomy );
 		wp_send_json_success( array( 'deleted' => $deleted ) );
@@ -558,10 +575,7 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_geocode_location(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
+		self::verify_ajax_request();
 		$id = absint( $_POST['location_id'] ?? 0 );
 		if ( ! $id ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid ID.', 'as-the-crow-flies' ) ) );
@@ -588,10 +602,7 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_clear_location_coords(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
+		self::verify_ajax_request();
 		$id = absint( $_POST['location_id'] ?? 0 );
 		if ( ! $id ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid ID.', 'as-the-crow-flies' ) ) );
@@ -610,10 +621,7 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_gl_clear_all_coords(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
+		self::verify_ajax_request();
 		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
 		global $wpdb;
 		// Collect affected terms before the change so per-term listeners (e.g. TC's
@@ -654,10 +662,7 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_gl_delete_all(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
+		self::verify_ajax_request();
 		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
 		global $wpdb;
 		// Collect affected terms before the delete so per-term listeners (e.g. TC's
@@ -688,15 +693,8 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_clear_term_coords(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
-		$term_id  = absint( $_POST['term_id'] ?? 0 );
-		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
-		if ( ! $term_id || ! $taxonomy ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid parameters.', 'as-the-crow-flies' ) ), 400 );
-		}
+		self::verify_ajax_request();
+		[ $term_id, $taxonomy ] = self::term_request();
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare(
 			"UPDATE {$wpdb->prefix}atcf_locations
@@ -721,15 +719,8 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_geocode_term(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
-		$term_id  = absint( $_POST['term_id'] ?? 0 );
-		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
-		if ( ! $term_id || ! $taxonomy ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid parameters.', 'as-the-crow-flies' ) ), 400 );
-		}
+		self::verify_ajax_request();
+		[ $term_id, $taxonomy ] = self::term_request();
 		global $wpdb;
 		// Geocode all US locations except those with user-provided coordinates
 		// (geocode_status IS NULL with lat already set means the admin manually
@@ -757,10 +748,7 @@ class ATCF_Admin {
 	 * @since 1.0.0
 	 */
 	public static function ajax_save_location_inline(): void {
-		check_ajax_referer( 'atcf_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'as-the-crow-flies' ) ), 403 );
-		}
+		self::verify_ajax_request();
 		$id       = absint( $_POST['location_id'] ?? 0 );
 		$term_id  = absint( $_POST['term_id'] ?? 0 );
 		$taxonomy = sanitize_key( $_POST['taxonomy'] ?? '' );
