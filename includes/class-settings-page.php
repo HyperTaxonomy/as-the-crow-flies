@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin settings page — three tabs: Locations, Postal Codes, Advanced.
+ * Plugin settings page — three tabs: General, Postal Codes, Advanced.
  *
  * @package AsCrowFlies
  * @since   1.0.0
