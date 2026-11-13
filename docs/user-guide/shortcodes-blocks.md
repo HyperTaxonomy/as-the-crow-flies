@@ -231,7 +231,7 @@ In the editor, the Location Finder and Term Locations blocks show a live preview
 
 Renders an interactive search form: the visitor enters a postal code (or clicks the crosshair button to use browser geolocation), picks a radius, and sees nearby locations. Results are fetched from the REST API and rendered in place — no page reload required.
 
-![The Location Finder on a page: a ZIP code and radius, and the two nearest locations with distances and directions links](../assets/images/screenshots/location-finder.png)
+[![The Location Finder on a page: a ZIP code and radius, and the two nearest locations with distances and directions links](../assets/images/screenshots/location-finder.png){: .screenshot-small}](../assets/images/screenshots/location-finder.png)
 
 **Block settings (inspector panel):**
 

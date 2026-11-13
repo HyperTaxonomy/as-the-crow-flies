@@ -25,8 +25,6 @@ Start by enabling a taxonomy at **Settings → As the Crow Flies → General**, 
 
 ### For one term
 
-![A tag's Locations page: the Add Location form, the tag's two locations, and the CSV import](../assets/images/screenshots/term-locations.png)
-
 Edit the term and click **Add locations →** to open its Locations page. Each location has these fields:
 
 | Field | Notes |
@@ -36,6 +34,8 @@ Edit the term and click **Add locations →** to open its Locations page. Each l
 | **City**, **State**, **Zip** | Once other countries are enabled, the labels become **City / Locality**, **Region** and **Postal**. |
 | **CC** | ISO country code, such as `US`, `CA` or `GB`. Shown once other countries are enabled. |
 | **Latitude** and **Longitude** | Optional. When blank, US addresses are converted to coordinates automatically. If that fails, the postal code's center is used. |
+
+![A tag's Locations page: the Add Location form, the tag's two locations, and the CSV import](../assets/images/screenshots/term-locations.png)
 
 A term can have any number of locations. Distance results use whichever one is nearest.
 
