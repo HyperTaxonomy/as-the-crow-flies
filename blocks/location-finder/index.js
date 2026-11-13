@@ -13,10 +13,12 @@ import {
 	SelectControl,
 	TextControl,
 	ToggleControl,
+	Disabled,
 } from '@wordpress/components';
 import { useState, Fragment } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { decodeEntities } from '@wordpress/html-entities';
+import ServerSideRender from '@wordpress/server-side-render';
 import metadata from './block.json';
 
 registerBlockType( metadata.name, {
@@ -276,28 +278,36 @@ registerBlockType( metadata.name, {
 				</InspectorControls>
 
 				<div { ...blockProps }>
-					<div className="atcf-editor-placeholder">
-						<span className="dashicons dashicons-admin-site" style={ { fontSize: '2em', marginRight: '8px' } } />
-						<strong>{ __( 'Location Finder', 'as-the-crow-flies' ) }</strong>
-						<p>
-							{ taxonomy
-								? /* translators: %s: taxonomy slug */ sprintf( __( 'Searches taxonomy: %s', 'as-the-crow-flies' ), taxonomy )
-								: __( 'Searches all enabled taxonomies', 'as-the-crow-flies' ) }
-						</p>
-						{ taxonomy && termIds && termIds.length > 0 && (
-							<p>
-								{ /* translators: %d: number of terms */ sprintf( _n( 'Filtered to %d specific term', 'Filtered to %d specific terms', termIds.length, 'as-the-crow-flies' ), termIds.length ) }
-							</p>
-						) }
-						{ htaxActive && groupIds && groupIds.length > 0 && (
-							<p>
-								{ /* translators: %d: number of groups */ sprintf( _n( 'Expanded from %d HyperTaxonomy term group', 'Expanded from %d HyperTaxonomy term groups', groupIds.length, 'as-the-crow-flies' ), groupIds.length ) }
-							</p>
-						) }
-						<p className="atcf-editor-note">
-							{ __( 'Interactive on the frontend — configure in the sidebar.', 'as-the-crow-flies' ) }
-						</p>
-					</div>
+					<Disabled>
+						<ServerSideRender
+							block={ metadata.name }
+							attributes={ attributes }
+							EmptyResponsePlaceholder={ () => (
+								<div className="atcf-editor-placeholder">
+									<span className="dashicons dashicons-admin-site" style={ { fontSize: '2em', marginRight: '8px' } } />
+									<strong>{ __( 'Location Finder', 'as-the-crow-flies' ) }</strong>
+									<p>
+										{ taxonomy
+											? /* translators: %s: taxonomy slug */ sprintf( __( 'Searches taxonomy: %s', 'as-the-crow-flies' ), taxonomy )
+											: __( 'Searches all enabled taxonomies', 'as-the-crow-flies' ) }
+									</p>
+									{ taxonomy && termIds && termIds.length > 0 && (
+										<p>
+											{ /* translators: %d: number of terms */ sprintf( _n( 'Filtered to %d specific term', 'Filtered to %d specific terms', termIds.length, 'as-the-crow-flies' ), termIds.length ) }
+										</p>
+									) }
+									{ htaxActive && groupIds && groupIds.length > 0 && (
+										<p>
+											{ /* translators: %d: number of groups */ sprintf( _n( 'Expanded from %d HyperTaxonomy term group', 'Expanded from %d HyperTaxonomy term groups', groupIds.length, 'as-the-crow-flies' ), groupIds.length ) }
+										</p>
+									) }
+									<p className="atcf-editor-note">
+										{ __( 'Interactive on the frontend — configure in the sidebar.', 'as-the-crow-flies' ) }
+									</p>
+								</div>
+							) }
+						/>
+					</Disabled>
 				</div>
 			</>
 		);

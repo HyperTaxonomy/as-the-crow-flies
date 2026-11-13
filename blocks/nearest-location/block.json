@@ -9,6 +9,7 @@
   "description": "Compact callout showing the single nearest location to the visitor, resolved via browser geolocation or a postal code prompt.",
   "keywords": [ "nearest", "closest", "location", "proximity" ],
   "textdomain": "as-the-crow-flies",
+  "example": {},
   "editorScript": "file:./build/index.js",
   "attributes": {
     "taxonomy": {

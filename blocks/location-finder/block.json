@@ -9,6 +9,7 @@
   "description": "Interactive finder: visitor enters a postal code or uses browser location to find nearby taxonomy terms.",
   "keywords": [ "location", "distance", "proximity", "map", "nearby" ],
   "textdomain": "as-the-crow-flies",
+  "example": {},
   "editorScript": "file:./build/index.js",
   "attributes": {
     "taxonomy": {

@@ -10,10 +10,12 @@ import {
 	SelectControl,
 	TextControl,
 	ToggleControl,
+	Disabled,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { decodeEntities } from '@wordpress/html-entities';
+import ServerSideRender from '@wordpress/server-side-render';
 import metadata from './block.json';
 
 registerBlockType( metadata.name, {
@@ -219,17 +221,25 @@ registerBlockType( metadata.name, {
 				</InspectorControls>
 
 				<div { ...blockProps }>
-					<div className="atcf-editor-placeholder">
-						<span className="dashicons dashicons-admin-site-alt3" style={ { fontSize: '2em', marginRight: '8px' } } />
-						<strong>{ __( 'Term Locations', 'as-the-crow-flies' ) }</strong>
-						{ ! taxonomy ? (
-							<p>{ __( 'Select a taxonomy in the sidebar.', 'as-the-crow-flies' ) }</p>
-						) : termIds && termIds.length > 0 ? (
-							<p>{ sprintf( _n( 'Showing locations for %d selected term.', 'Showing locations for %d selected terms.', termIds.length, 'as-the-crow-flies' ), termIds.length ) }</p>
-						) : (
-							<p>{ __( 'Showing locations for all terms in this taxonomy. Select one or more terms in the sidebar to narrow the list.', 'as-the-crow-flies' ) }</p>
-						) }
-					</div>
+					<Disabled>
+						<ServerSideRender
+							block={ metadata.name }
+							attributes={ attributes }
+							EmptyResponsePlaceholder={ () => (
+								<div className="atcf-editor-placeholder">
+									<span className="dashicons dashicons-admin-site-alt3" style={ { fontSize: '2em', marginRight: '8px' } } />
+									<strong>{ __( 'Term Locations', 'as-the-crow-flies' ) }</strong>
+									{ ! taxonomy ? (
+										<p>{ __( 'Select a taxonomy in the sidebar.', 'as-the-crow-flies' ) }</p>
+									) : termIds && termIds.length > 0 ? (
+										<p>{ sprintf( _n( 'Showing locations for %d selected term.', 'Showing locations for %d selected terms.', termIds.length, 'as-the-crow-flies' ), termIds.length ) }</p>
+									) : (
+										<p>{ __( 'Showing locations for all terms in this taxonomy. Select one or more terms in the sidebar to narrow the list.', 'as-the-crow-flies' ) }</p>
+									) }
+								</div>
+							) }
+						/>
+					</Disabled>
 				</div>
 			</>
 		);

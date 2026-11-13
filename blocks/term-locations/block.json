@@ -9,6 +9,7 @@
   "description": "Static list of all locations belonging to a specific taxonomy term. Updates automatically when location data changes.",
   "keywords": [ "locations", "addresses", "term", "taxonomy" ],
   "textdomain": "as-the-crow-flies",
+  "example": {},
   "editorScript": "file:./build/index.js",
   "attributes": {
     "taxonomy": {
