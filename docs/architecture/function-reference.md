@@ -19,14 +19,14 @@ As the Crow Flies's functions and public and protected methods, by file, with ea
 
 ## Plugin root
 
-### `as-the-crow-flies.php`
+### Main plugin file (`as-the-crow-flies.php`)
 
 Main plugin file.
 
 - `atcf_plugin_action_links( array $links )` — Add a Settings link to the plugin's row on the Plugins screen.
 - `atcf_init()` — Register the plugin's components.
 
-### `uninstall.php`
+### Uninstall (`uninstall.php`)
 
 Uninstall script for As the Crow Flies.
 
@@ -34,7 +34,7 @@ Uninstall script for As the Crow Flies.
 
 ## Includes
 
-### `includes/class-activator.php`
+### Activation (`includes/class-activator.php`)
 
 Plugin activation: table creation and initial data import.
 
@@ -52,7 +52,7 @@ Plugin activation: table creation and initial data import.
 - `ATCF_Activator::import_zcta_from_tsv( string $tmp_path )` — Import US centroid data from a Census Gazetteer tab-delimited file.
 - `ATCF_Activator::import_zcta_file( string $tmp_path )` — Import US centroid data from an uploaded ZCTA CSV file. Expected columns (with or without header): postal_code, lat, lng
 
-### `includes/class-admin.php`
+### Term edit panel and column (`includes/class-admin.php`)
 
 Admin integration: term edit panel and term list column.
 
@@ -82,7 +82,7 @@ Admin integration: term edit panel and term list column.
 - `ATCF_Admin::ajax_geocode_term()` — AJAX: geocode a term's locations.
 - `ATCF_Admin::ajax_save_location_inline()` — AJAX: save a location edited inline.
 
-### `includes/class-blocks.php`
+### Blocks (`includes/class-blocks.php`)
 
 Gutenberg block registration.
 
@@ -97,7 +97,7 @@ Gutenberg block registration.
 - `ATCF_Blocks::render_term_locations( array $attributes )` — Render atcf/term-locations — static location list for a specific term.
 - `ATCF_Blocks::render_nearest_location( array $attributes )` — Render atcf/nearest-location — compact callout for the nearest location.
 
-### `includes/class-csv.php`
+### CSV import and export (`includes/class-csv.php`)
 
 CSV import and export for location data.
 
@@ -108,7 +108,7 @@ CSV import and export for location data.
 - `ATCF_CSV::import_term_scoped( string $tmp_path, int $term_id, string $taxonomy, string $mode, array $conflict )` — Import a term-scoped CSV file.
 - `ATCF_CSV::import_global( string $tmp_path, string $mode, array $conflict )` — Import a global CSV file (taxonomy + term_slug columns).
 
-### `includes/class-distance.php`
+### Distance and postal codes (`includes/class-distance.php`)
 
 Distance calculation, centroid lookup, coordinate validation, and public API.
 
@@ -145,7 +145,7 @@ Distance calculation, centroid lookup, coordinate validation, and public API.
 - `ATCF_Distance::get_centroid( string $postal_code, string $country )` — Look up a centroid by postal code and country.
 - `ATCF_Distance::great_circle_distance( float $lat1, float $lng1, float $lat2, float $lng2 )` — Spherical law of cosines — great-circle distance in km between two coordinates.
 
-### `includes/class-geocoder.php`
+### Geocoding (`includes/class-geocoder.php`)
 
 US Census Geocoder batch integration and cron scheduling.
 
@@ -157,7 +157,7 @@ US Census Geocoder batch integration and cron scheduling.
 - `ATCF_Geocoder::run_for_ids( array $ids )` — Geocode a specific set of location IDs immediately. Used by per-row, bulk, and per-term geocode actions. Only US locations are sent to the Census API; others are marked no_match.
 - `ATCF_Geocoder::retry_and_run()` — Re-queue API failures and run geocoding immediately.
 
-### `includes/class-ht-integration.php`
+### HyperTaxonomy integration (`includes/class-ht-integration.php`)
 
 HyperTaxonomy integration — term merge lifecycle.
 
@@ -174,7 +174,7 @@ HyperTaxonomy integration — term merge lifecycle.
 - `ATCF_HT_Integration::terms_menu_slug()` — Return the shared "Terms" top-level menu slug if one is already registered by a suite plugin (HyperTaxonomy's htax-terms or TermConnect's tc-terms), else null.
 - `ATCF_HT_Integration::position_term_column( array $columns, string $key, string $label )` — Insert a term-table column after the columns added by TermConnect or HyperTaxonomy.
 
-### `includes/class-locations-global.php`
+### Locations page (all terms) (`includes/class-locations-global.php`)
 
 Global Locations admin page — shown under Terms menu.
 
@@ -192,7 +192,7 @@ Global Locations admin page — shown under Terms menu.
 - `ATCF_Locations_Global::handle_bulk_delete()` — Apply a bulk action to the selected locations.
 - `ATCF_Locations_Global::get_parent_slug()` — Return the parent menu slug (htax-terms if HT is active, atcf-terms otherwise). Safe to call after admin_menu has fired.
 
-### `includes/class-locations-page.php`
+### Locations page (one term) (`includes/class-locations-page.php`)
 
 Per-term locations management page.
 
@@ -217,7 +217,7 @@ Per-term locations management page.
 - `ATCF_Locations_Page::render_inline_edit_fieldset( object $loc, string $save_term_id, string $save_taxonomy, bool $us_only, bool $multiple_countries, array $countries )` — Render the inline-edit fieldset for one location row. Used by both the per-term page and the global All Locations page.
 - `ATCF_Locations_Page::render_geocode_info()` — Render the "About coordinates" informational block. Used by both the per-term page and the global All Locations page.
 
-### `includes/class-locations.php`
+### Location storage (`includes/class-locations.php`)
 
 CRUD operations for term locations.
 
@@ -250,7 +250,7 @@ CRUD operations for term locations.
 - `ATCF_Locations::locations_match( object $a, object $b )` — Compare two location rows and determine whether they represent the same place.
 - `ATCF_Locations::delete_orphans()` — Delete location rows whose term_id no longer corresponds to a WordPress term.
 
-### `includes/class-rest-api.php`
+### REST API (`includes/class-rest-api.php`)
 
 REST API endpoints.
 
@@ -266,7 +266,7 @@ REST API endpoints.
 - `ATCF_REST_API::validate_lng( $value )` — Whether a value is a valid longitude, or null.
 - `ATCF_REST_API::format_term_locations( int $term_id )` — Return locations for a term formatted as Schema.org Place objects, ready for the htax_locations REST field on HyperTaxonomy term responses.
 
-### `includes/class-settings-page.php`
+### Settings page (`includes/class-settings-page.php`)
 
 Plugin settings page — three tabs: Locations, Postal Codes, Advanced.
 
@@ -286,7 +286,7 @@ Plugin settings page — three tabs: Locations, Postal Codes, Advanced.
 - `ATCF_Settings_Page::handle_toggle_country()` — Turn a country's postal code centroids on or off.
 - `ATCF_Settings_Page::handle_delete_country()` — Delete a country's postal code centroids.
 
-### `includes/class-shortcodes.php`
+### Shortcodes (`includes/class-shortcodes.php`)
 
 Frontend shortcodes.
 
@@ -300,7 +300,7 @@ Frontend shortcodes.
 - `ATCF_Shortcodes::shortcode_nearby( array $atts )` — Render terms with locations near a reference term's locations.
 - `ATCF_Shortcodes::apply_location_template( string $tpl, array $loc, string $unit, string $provider = '' )` — Substitute {placeholder} tokens in a location item template.
 
-### `includes/class-wp-query.php`
+### WP_Query integration (`includes/class-wp-query.php`)
 
 WP_Query integration — nested atcf_query parameter support.
 
