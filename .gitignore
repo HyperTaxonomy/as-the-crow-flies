@@ -1,0 +1,90 @@
+# WordPress
+*.log
+.htaccess
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# AI Coding Assistants
+.claude/
+.cursor/
+.windsurf/
+.aider/
+.codeium/
+*.aider.chat.history.md
+.copilot-workspace/
+CLAUDE.md
+# .github/ is committed (workflows, issue templates); only Copilot/AI config is ignored:
+.github/copilot-instructions.md
+.github/instructions/
+.github/prompts/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Composer
+vendor/
+composer.lock
+
+# Build artifacts
+*.zip
+release/
+dist/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.*.swp
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Developer tooling config (not for distribution)
+phpcs.xml
+
+# Development and testing
+docs/TEST-PLAN.md
+.phpunit.result.cache
+tests/_output/
+tests/_support/_generated/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database dumps (data/postal-centroids.csv ships with the plugin and is unaffected —
+# it's a .csv, and this pattern only matches .sql files at the repo root anyway)
+*.sql.gz
+*.sql.zip
+*.sql.tar.gz
+/*.sql
+
+# Developer tooling — commit only the packaging/translation scripts
+utils/*
+!utils/package.sh
+!utils/make-pot.sh
+!utils/make-json.py
+!utils/generate-centroids.py

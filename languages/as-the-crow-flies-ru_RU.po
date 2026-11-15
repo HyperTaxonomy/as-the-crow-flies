@@ -1,0 +1,1834 @@
+# Russian translations for as-the-crow-flies package
+# Английские переводы для пакета as-the-crow-flies.
+# Copyright (C) 2026 THE as-the-crow-flies'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the as-the-crow-flies package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: as-the-crow-flies 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 17:52-0500\n"
+"PO-Revision-Date: 2026-11-06 14:30-0500\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: as-the-crow-flies.php:60
+msgid "Settings"
+msgstr "Настройки"
+
+#: includes/class-activator.php:167 includes/class-activator.php:290
+msgid "Could not open uploaded file."
+msgstr "Не удалось открыть загруженный файл."
+
+#: includes/class-activator.php:224
+#, php-format
+msgid "Census server returned HTTP %d."
+msgstr "Сервер Бюро переписи населения США вернул HTTP статус %d."
+
+#: includes/class-activator.php:232
+msgid "Could not write temporary zip file."
+msgstr "Не удалось записать временный zip-файл."
+
+#: includes/class-activator.php:237
+msgid "PHP ZipArchive extension is required to extract the Census file."
+msgstr ""
+"Для извлечения файла Бюро переписи населения США требуется расширение PHP "
+"ZipArchive."
+
+#: includes/class-activator.php:243
+msgid "Could not open the downloaded zip file."
+msgstr "Не удалось открыть загруженный zip-файл."
+
+#: includes/class-activator.php:259
+msgid "Could not find the TSV file inside the Census zip."
+msgstr ""
+"Не удалось найти TSV-файл внутри zip-архива, полученного от Бюро переписи "
+"населения США."
+
+#: includes/class-activator.php:266
+msgid "Could not write temporary TSV file."
+msgstr "Не удалось записать временный TSV-файл."
+
+#: includes/class-activator.php:309
+msgid "Could not identify lat/lng columns in the uploaded file."
+msgstr "Не удалось определить столбцы широты/долготы в загруженном файле."
+
+#: includes/class-activator.php:398
+msgid "The import failed while saving, so the existing postal codes were kept."
+msgstr ""
+"Не удалось сохранить импорт, поэтому существующие почтовые индексы сохранены "
+"без изменений."
+
+#: includes/class-activator.php:402
+msgid "No valid rows found in the uploaded file."
+msgstr "В загруженном файле не найдено допустимых строк."
+
+#: includes/class-admin.php:87 includes/class-admin.php:327
+#: includes/class-locations-page.php:192
+msgid "All Locations"
+msgstr "Все местоположения"
+
+#: includes/class-admin.php:88 includes/class-admin.php:328
+msgid "Has Locations"
+msgstr "С местоположениями"
+
+#: includes/class-admin.php:89 includes/class-admin.php:329
+msgid "No Locations"
+msgstr "Без местоположений"
+
+#: includes/class-admin.php:91 includes/class-admin.php:331
+msgid "By Country"
+msgstr "По странам"
+
+#: includes/class-admin.php:98 includes/class-admin.php:100
+msgid "Delete all locations for this term? This cannot be undone."
+msgstr ""
+"Удалить все местоположения для этого термина? Это действие невозможно "
+"отменить."
+
+#: includes/class-admin.php:99
+msgid ""
+"Clear all coordinates for this term? Locations will be re-queued for "
+"geocoding."
+msgstr ""
+"Очистить все координаты для этого термина? Местоположения будут повторно "
+"поставлены в очередь на геокодирование."
+
+#: includes/class-admin.php:101
+msgid "Clear all coordinates? Locations will be re-queued for geocoding."
+msgstr ""
+"Очистить все координаты? Местоположения будут повторно поставлены в очередь "
+"на геокодирование."
+
+#: includes/class-admin.php:102
+msgid "Delete all locations? This cannot be undone."
+msgstr "Удалить все местоположения? Это действие невозможно отменить."
+
+#: includes/class-admin.php:104
+msgid "Saving…"
+msgstr "Идёт сохранение…"
+
+#: includes/class-admin.php:105
+msgid "Deleting…"
+msgstr "Идёт удаление…"
+
+#: includes/class-admin.php:106
+msgid "Clearing…"
+msgstr "Идёт очистка…"
+
+#: includes/class-admin.php:107 includes/class-locations-global.php:288
+#: includes/class-locations-page.php:358 includes/class-locations-page.php:674
+msgid "Geocode"
+msgstr "Геокодировать"
+
+#: includes/class-admin.php:108 includes/class-locations-page.php:679
+msgid "Clear"
+msgstr "Очистить"
+
+#: includes/class-admin.php:109 includes/class-shortcodes.php:131
+msgid "An error occurred. Please try again."
+msgstr "Произошла ошибка. Попробуйте ещё раз."
+
+#: includes/class-admin.php:112
+msgid "Geocoding…"
+msgstr "Идёт геокодирование…"
+
+#: includes/class-admin.php:113 includes/class-locations-page.php:820
+#: includes/class-locations-page.php:876
+msgid "User-provided"
+msgstr "Указано пользователем"
+
+#: includes/class-admin.php:114 includes/class-locations-page.php:816
+#: includes/class-locations-page.php:880
+msgid "Pending"
+msgstr "В ожидании"
+
+#: includes/class-admin.php:115 includes/class-locations-page.php:817
+#: includes/class-locations-page.php:882
+msgid "Census"
+msgstr "Перепись"
+
+#: includes/class-admin.php:116 includes/class-locations-page.php:884
+msgid "Census (tie)"
+msgstr "Перепись (?)"
+
+#: includes/class-admin.php:117 includes/class-locations-page.php:818
+#: includes/class-locations-page.php:886 includes/class-settings-page.php:547
+#: blocks/shared/controls.js:194
+msgid "OpenStreetMap"
+msgstr "OpenStreetMap"
+
+#: includes/class-admin.php:118 includes/class-locations-page.php:819
+#: includes/class-locations-page.php:888
+msgid "No match"
+msgstr "Нет совпадений"
+
+#: includes/class-admin.php:119 includes/class-locations-page.php:890
+msgid "Failed"
+msgstr "Ошибка"
+
+#: includes/class-admin.php:125 includes/class-settings-page.php:169
+#: includes/class-settings-page.php:310
+msgid "meters"
+msgstr "метры"
+
+#: includes/class-admin.php:126 includes/class-settings-page.php:170
+#: includes/class-settings-page.php:309
+msgid "feet"
+msgstr "футы"
+
+#: includes/class-admin.php:158 includes/class-admin.php:215
+#: includes/class-locations-page.php:43 includes/class-locations-page.php:44
+#: includes/class-locations-page.php:71 includes/class-locations-page.php:810
+msgid "Locations"
+msgstr "Местоположения"
+
+#: includes/class-admin.php:164
+#, php-format
+msgid "Manage %d location →"
+msgid_plural "Manage %d locations →"
+msgstr[0] "Управление %d местоположением →"
+msgstr[1] "Управление %d местоположениями →"
+msgstr[2] "Управление %d местоположениями →"
+
+#: includes/class-admin.php:166
+msgid "Add locations →"
+msgstr "Добавить местоположения →"
+
+#: includes/class-admin.php:462 includes/class-admin.php:500
+#: includes/class-locations-global.php:90
+#: includes/class-locations-global.php:445
+#: includes/class-locations-global.php:538
+#: includes/class-locations-global.php:557
+#: includes/class-locations-global.php:577
+#: includes/class-locations-global.php:595 includes/class-locations-page.php:89
+#: includes/class-locations-page.php:499 includes/class-locations-page.php:537
+#: includes/class-locations-page.php:560 includes/class-locations-page.php:591
+#: includes/class-locations-page.php:596 includes/class-locations-page.php:615
+#: includes/class-locations-page.php:700 includes/class-settings-page.php:111
+#: includes/class-settings-page.php:657 includes/class-settings-page.php:675
+#: includes/class-settings-page.php:690 includes/class-settings-page.php:717
+#: includes/class-settings-page.php:744 includes/class-settings-page.php:759
+#: includes/class-settings-page.php:778
+msgid "Permission denied."
+msgstr "Доступ запрещён."
+
+#: includes/class-admin.php:476 includes/class-admin.php:514
+#: includes/class-admin.php:756
+msgid "Invalid parameters."
+msgstr "Недопустимые параметры."
+
+#: includes/class-admin.php:517 includes/class-locations-global.php:501
+#: includes/class-settings-page.php:697 includes/class-settings-page.php:725
+msgid "Invalid file upload."
+msgstr "Недопустимый файл для загрузки."
+
+#: includes/class-admin.php:522 includes/class-csv.php:58
+#: includes/class-locations-page.php:99
+msgid "Term not found."
+msgstr "Термин не найден."
+
+#: includes/class-admin.php:581 includes/class-admin.php:608
+msgid "Invalid ID."
+msgstr "Недопустимый идентификатор."
+
+#: includes/class-admin.php:586
+msgid "Not found."
+msgstr "Не найдено."
+
+#: includes/class-admin.php:760
+msgid "Location not found or does not belong to this term."
+msgstr "Местоположение не найдено или не связано с этим термином."
+
+#: includes/class-blocks.php:123 includes/class-settings-page.php:41
+#: includes/class-settings-page.php:42 includes/class-settings-page.php:124
+msgid "As the Crow Flies"
+msgstr "As the Crow Flies"
+
+#: includes/class-blocks.php:235 includes/class-locations-global.php:250
+#: includes/class-shortcodes.php:833 blocks/term-locations/index.js:140
+msgid "Postal code"
+msgstr "Почтовый индекс"
+
+#: includes/class-blocks.php:236 includes/class-shortcodes.php:832
+msgid "Enter postal code"
+msgstr "Введите почтовый индекс"
+
+#: includes/class-blocks.php:240 includes/class-blocks.php:241
+#: includes/class-shortcodes.php:839 includes/class-shortcodes.php:840
+msgid "Share current location"
+msgstr "Поделиться текущим местоположением"
+
+#: includes/class-blocks.php:249
+msgid "Search radius"
+msgstr "Радиус поиска"
+
+#: includes/class-blocks.php:254
+#, php-format
+msgid "%1$d %2$s"
+msgstr "%1$d %2$s"
+
+#: includes/class-blocks.php:261 includes/class-shortcodes.php:848
+msgid "Search"
+msgstr "Поиск"
+
+#: includes/class-blocks.php:295
+msgid "Select a term in the block settings."
+msgstr "Выберите термин в настройках блока."
+
+#: includes/class-blocks.php:370 includes/class-locations-global.php:319
+#: includes/class-locations-page.php:378 includes/class-locations-page.php:785
+#: includes/class-locations-page.php:919 includes/class-locations-page.php:1013
+#: includes/class-shortcodes.php:134 includes/class-shortcodes.php:577
+#: blocks/location-finder/index.js:97
+msgid "Label"
+msgstr "Название"
+
+#: includes/class-blocks.php:371 includes/class-locations-global.php:320
+#: includes/class-locations-page.php:379 includes/class-locations-page.php:786
+#: includes/class-shortcodes.php:135 includes/class-shortcodes.php:578
+msgid "Address"
+msgstr "Адрес"
+
+#: includes/class-blocks.php:373 includes/class-shortcodes.php:136
+#: includes/class-shortcodes.php:579 blocks/location-finder/index.js:96
+msgid "Distance"
+msgstr "Расстояние"
+
+#: includes/class-blocks.php:424 includes/class-blocks.php:468
+#: includes/class-settings-page.php:538 includes/class-shortcodes.php:562
+#: includes/class-shortcodes.php:599 includes/class-shortcodes.php:704
+msgid "Directions"
+msgstr "Маршрут"
+
+#: includes/class-blocks.php:500
+msgid "Finding your nearest location…"
+msgstr "Идёт поиск ближайшего к вам местоположения…"
+
+#: includes/class-csv.php:95
+#, php-format
+msgid "Row %1$d: term_slug \"%2$s\" does not match current term \"%3$s\"."
+msgstr "Строка %1$d: term_slug «%2$s» не совпадает с текущим термином «%3$s»."
+
+#: includes/class-csv.php:165
+#, php-format
+msgid "Row %d: taxonomy and term_slug are required."
+msgstr "Строка %d: требуются taxonomy и term_slug."
+
+#: includes/class-csv.php:238
+#, php-format
+msgid "Conflicts found on rows: %s. Upload rejected."
+msgstr "Обнаружены конфликты в строках: %s. Загрузка отклонена."
+
+#: includes/class-csv.php:509
+msgid "Could not open file for reading."
+msgstr "Не удалось открыть файл для чтения."
+
+#: includes/class-distance.php:315 includes/class-shortcodes.php:141
+msgid "less than a kilometer away"
+msgstr "менее чем в километре"
+
+#: includes/class-distance.php:316 includes/class-shortcodes.php:137
+msgid "less than a mile away"
+msgstr "менее чем в миле"
+
+#: includes/class-distance.php:320 includes/class-shortcodes.php:142
+msgid "about a kilometer away"
+msgstr "примерно в километре"
+
+#: includes/class-distance.php:321 includes/class-shortcodes.php:138
+msgid "about a mile away"
+msgstr "примерно в миле"
+
+#: includes/class-distance.php:326 includes/class-shortcodes.php:144
+#, php-format
+msgid "About %s km away"
+msgstr "Примерно в %s км"
+
+#: includes/class-distance.php:328 includes/class-shortcodes.php:140
+#, php-format
+msgid "About %s miles away"
+msgstr "Примерно в %s милях"
+
+#: includes/class-geocoder.php:225
+#, php-format
+msgid "Census Geocoder returned HTTP %d"
+msgstr "Геокодер Бюро переписи населения США вернул HTTP статус %d"
+
+#: includes/class-locations-global.php:57
+#: includes/class-locations-global.php:58 blocks/term-locations/index.js:56
+msgid "Terms"
+msgstr "Термины"
+
+#: includes/class-locations-global.php:70
+#: includes/class-locations-global.php:71
+#: includes/class-locations-global.php:184 blocks/term-locations/index.js:160
+msgid "Term Locations"
+msgstr "Местоположения терминов"
+
+#: includes/class-locations-global.php:192
+#, php-format
+msgid "%d non-US address has no coordinates."
+msgid_plural "%d non-US addresses have no coordinates."
+msgstr[0] "%d адрес за пределами США не имеет координат."
+msgstr[1] "%d адреса за пределами США не имеют координат."
+msgstr[2] "%d адресов за пределами США не имеют координат."
+
+#: includes/class-locations-global.php:193
+msgid ""
+"Export them, add coordinates via Geocodio or OpenCage, and re-import with "
+"lat/lng filled in."
+msgstr ""
+"Экспортируйте их, добавьте координаты через Geocodio или OpenCage и повторно "
+"импортируйте с заполненными широтой/долготой."
+
+#: includes/class-locations-global.php:204
+#: includes/class-locations-page.php:277
+msgid "Bulk Import CSV"
+msgstr "CSV для массового импорта"
+
+#: includes/class-locations-global.php:205
+msgid ""
+"The global CSV format includes taxonomy and term slug columns so a single "
+"file can contain locations for multiple taxonomies and terms."
+msgstr ""
+"Общий формат CSV содержит столбцы taxonomy и term slug, благодаря чему один "
+"файл может содержать местоположения для разных терминов, включая термины из "
+"разных таксономий."
+
+#: includes/class-locations-global.php:212
+#: includes/class-locations-page.php:282
+msgid "Import"
+msgstr "Импортировать"
+
+#: includes/class-locations-global.php:230
+msgid "All taxonomies"
+msgstr "Все таксономии"
+
+#: includes/class-locations-global.php:241
+#: includes/class-locations-page.php:301
+msgid "All countries"
+msgstr "Все страны"
+
+#: includes/class-locations-global.php:248
+#: includes/class-locations-global.php:321
+#: includes/class-locations-page.php:231 includes/class-locations-page.php:307
+#: includes/class-locations-page.php:380 includes/class-locations-page.php:932
+#: blocks/term-locations/index.js:130
+msgid "City"
+msgstr "Город"
+
+#: includes/class-locations-global.php:248
+#: includes/class-locations-global.php:321
+#: includes/class-locations-page.php:307 includes/class-locations-page.php:380
+msgid "Locality"
+msgstr "Населённый пункт"
+
+#: includes/class-locations-global.php:249
+#: includes/class-locations-global.php:322
+#: includes/class-locations-page.php:232 includes/class-locations-page.php:308
+#: includes/class-locations-page.php:381 includes/class-locations-page.php:936
+msgid "State"
+msgstr "Штат"
+
+#: includes/class-locations-global.php:249
+#: includes/class-locations-global.php:322
+#: includes/class-locations-page.php:232 includes/class-locations-page.php:308
+#: includes/class-locations-page.php:381 includes/class-locations-page.php:936
+msgid "Region"
+msgstr "Регион"
+
+#: includes/class-locations-global.php:250
+#: includes/class-locations-global.php:323
+#: includes/class-locations-page.php:240 includes/class-locations-page.php:309
+#: includes/class-locations-page.php:382 includes/class-locations-page.php:940
+msgid "Zip"
+msgstr "Индекс"
+
+#: includes/class-locations-global.php:252
+#: includes/class-locations-page.php:311 includes/class-locations-page.php:1014
+#: includes/class-settings-page.php:247
+msgid "Coordinates"
+msgstr "Координаты"
+
+#: includes/class-locations-global.php:253
+#: includes/class-locations-page.php:312
+msgid "Has coords"
+msgstr "С координатами"
+
+#: includes/class-locations-global.php:254
+#: includes/class-locations-page.php:313
+msgid "No coords"
+msgstr "Без координат"
+
+#: includes/class-locations-global.php:258
+#: includes/class-locations-global.php:328
+#: includes/class-locations-page.php:317 includes/class-locations-page.php:387
+#: includes/class-locations-page.php:792 includes/class-settings-page.php:387
+msgid "Status"
+msgstr "Статус"
+
+#: includes/class-locations-global.php:267
+#: includes/class-locations-page.php:326
+msgid "Filter"
+msgstr "Фильтровать"
+
+#: includes/class-locations-global.php:268
+#: includes/class-locations-page.php:327
+msgid "Reset"
+msgstr "Сбросить"
+
+#: includes/class-locations-global.php:273
+#: includes/class-locations-page.php:335
+#, php-format
+msgid "%d location"
+msgid_plural "%d locations"
+msgstr[0] "%d местоположение"
+msgstr[1] "%d местоположения"
+msgstr[2] "%d местоположений"
+
+#: includes/class-locations-global.php:287
+#: includes/class-locations-page.php:357
+msgid "Bulk actions"
+msgstr "Массовые действия"
+
+#: includes/class-locations-global.php:289
+#: includes/class-locations-page.php:359
+msgid "Clear coords"
+msgstr "Очистить координаты"
+
+#: includes/class-locations-global.php:290
+#: includes/class-locations-page.php:360 includes/class-locations-page.php:683
+#: includes/class-settings-page.php:478
+msgid "Delete"
+msgstr "Удалить"
+
+#: includes/class-locations-global.php:292
+#: includes/class-locations-page.php:362
+msgid "Apply"
+msgstr "Выполнить"
+
+#: includes/class-locations-global.php:318
+msgid "Term"
+msgstr "Термин"
+
+#: includes/class-locations-global.php:323
+#: includes/class-locations-page.php:240 includes/class-locations-page.php:309
+#: includes/class-locations-page.php:382 includes/class-locations-page.php:940
+msgid "Postal"
+msgstr "Индекс"
+
+#: includes/class-locations-global.php:325
+#: includes/class-locations-page.php:384 includes/class-locations-page.php:790
+#: includes/class-locations-page.php:947 includes/class-settings-page.php:449
+#: blocks/location-finder/index.js:133 blocks/nearest-location/index.js:95
+#: blocks/term-locations/index.js:145
+msgid "Country"
+msgstr "Страна"
+
+#: includes/class-locations-global.php:327
+#: includes/class-locations-page.php:386 includes/class-locations-page.php:791
+msgid "Coords"
+msgstr "Координаты"
+
+#: includes/class-locations-global.php:329
+#: includes/class-locations-page.php:388 includes/class-locations-page.php:793
+#: includes/class-settings-page.php:453
+msgid "Actions"
+msgstr "Действия"
+
+#: includes/class-locations-global.php:337 includes/class-shortcodes.php:250
+msgid "No locations found."
+msgstr "Ни одного местоположения не найдено."
+
+#: includes/class-locations-global.php:403
+#: includes/class-locations-page.php:455
+msgid "Geocode all"
+msgstr "Геокодировать все"
+
+#: includes/class-locations-global.php:409
+#: includes/class-locations-page.php:461
+msgid "Clear all coords"
+msgstr "Очистить все координаты"
+
+#: includes/class-locations-global.php:415
+#: includes/class-locations-page.php:467
+msgid "Delete all locations"
+msgstr "Удалить все местоположения"
+
+#: includes/class-locations-global.php:418
+#: includes/class-locations-page.php:470
+msgid "↓ Export CSV"
+msgstr "↓ Экспортировать CSV"
+
+#: includes/class-locations-global.php:498
+msgid "Permission denied or no file."
+msgstr "Доступ запрещён или файл отсутствует."
+
+#: includes/class-locations-global.php:646
+#, php-format
+msgid "Import complete: %1$d inserted, %2$d updated, %3$d skipped."
+msgstr "Импорт завершён: добавлено — %1$d, обновлено — %2$d, пропущено — %3$d."
+
+#: includes/class-locations-global.php:655
+#, php-format
+msgid "%d row failed due to a validation error."
+msgid_plural "%d rows failed due to validation errors."
+msgstr[0] "Не импортирована %d строка (ошибка проверки)."
+msgstr[1] "Не импортированы %d строки (ошибки проверки)."
+msgstr[2] "Не импортировано %d строк (ошибки проверки)."
+
+#: includes/class-locations-global.php:663
+#, php-format
+msgid "%d row skipped (unknown term)."
+msgid_plural "%d rows skipped (unknown term)."
+msgstr[0] "Пропущена %d строка (неизвестный термин)."
+msgstr[1] "Пропущены %d строки (неизвестный термин)."
+msgstr[2] "Пропущено %d строк (неизвестный термин)."
+
+#: includes/class-locations-global.php:670
+#, php-format
+msgid "Geocoding complete: %s location processed."
+msgid_plural "Geocoding complete: %s locations processed."
+msgstr[0] "Геокодирование завершено: обработано %s местоположение."
+msgstr[1] "Геокодирование завершено: обработано %s местоположения."
+msgstr[2] "Геокодирование завершено: обработано %s местоположений."
+
+#: includes/class-locations-global.php:671
+#: includes/class-locations-page.php:199
+msgid "Location deleted."
+msgstr "Местоположение удалено."
+
+#: includes/class-locations-page.php:94
+msgid "No term specified."
+msgstr "Термин не указан."
+
+#: includes/class-locations-page.php:185
+#, php-format
+msgid "Locations: %1$s (%2$s)"
+msgstr "Местоположения: %1$s (%2$s)"
+
+#: includes/class-locations-page.php:189
+msgid "Back to term"
+msgstr "Назад к термину"
+
+#: includes/class-locations-page.php:197
+msgid "Location saved."
+msgstr "Местоположение сохранено."
+
+#: includes/class-locations-page.php:210
+msgid "Edit Location"
+msgstr "Изменить местоположение"
+
+#: includes/class-locations-page.php:210 includes/class-locations-page.php:261
+msgid "Add Location"
+msgstr "Добавить местоположение"
+
+#: includes/class-locations-page.php:221
+msgid "Label (optional)"
+msgstr "Название (необязательно)"
+
+#: includes/class-locations-page.php:224
+msgid "Address line 1"
+msgstr "Адрес, строка 1"
+
+#: includes/class-locations-page.php:227
+msgid "Address line 2 (optional) — suite, apt, floor, etc."
+msgstr "Адрес, строка 2 (необязательно) — офис, квартира, этаж и т. д."
+
+#: includes/class-locations-page.php:231 includes/class-locations-page.php:787
+msgid "City / Locality"
+msgstr "Город / Населённый пункт"
+
+#: includes/class-locations-page.php:248 includes/class-locations-page.php:956
+msgid "CC"
+msgstr "Код страны"
+
+#: includes/class-locations-page.php:248
+msgid "ISO country code (US, CA, GB, etc.)"
+msgstr "Код страны ISO (US, CA, GB и т. д.)"
+
+#: includes/class-locations-page.php:254
+msgid "Latitude"
+msgstr "Широта"
+
+#: includes/class-locations-page.php:255
+msgid "Longitude"
+msgstr "Долгота"
+
+#: includes/class-locations-page.php:257
+msgid ""
+"Optional. When blank, the address is automatically converted to coordinates. "
+"If that fails, the postal code centroid is used."
+msgstr ""
+"Необязательно. Если поле пустое, адрес автоматически преобразуется в "
+"координаты. Если это не удаётся, используется центроид почтового индекса."
+
+#: includes/class-locations-page.php:261
+msgid "Update Location"
+msgstr "Обновить местоположение"
+
+#: includes/class-locations-page.php:263 includes/class-locations-page.php:978
+msgid "Cancel"
+msgstr "Отменить"
+
+#: includes/class-locations-page.php:669
+msgid "Edit"
+msgstr "Изменить"
+
+#: includes/class-locations-page.php:682
+msgid "Delete this location?"
+msgstr "Удалить это местоположение?"
+
+#: includes/class-locations-page.php:788 blocks/term-locations/index.js:135
+msgid "State / Region"
+msgstr "Штат / Регион"
+
+#: includes/class-locations-page.php:789
+msgid "Zip / Postal"
+msgstr "Почтовый индекс"
+
+#: includes/class-locations-page.php:812
+msgid ""
+"Each location row stores a physical address that can be used for distance-"
+"based filtering and proximity search."
+msgstr ""
+"Каждая строка местоположения хранит физический адрес, который можно "
+"использовать для фильтрации по расстоянию и поиска по близости."
+
+#: includes/class-locations-page.php:813
+msgid ""
+"Click Edit to open an inline form and update the fields without leaving the "
+"page. Press Escape to cancel."
+msgstr ""
+"Нажмите «Изменить», чтобы открыть встроенную форму и обновить поля, не "
+"покидая страницу. Нажмите Escape для отмены."
+
+#: includes/class-locations-page.php:814
+msgid "Status values"
+msgstr "Значения статуса"
+
+#: includes/class-locations-page.php:816
+msgid "Queued for automatic geocoding on the next hourly run."
+msgstr ""
+"Поставлено в очередь на автоматическое геокодирование при следующем "
+"ежечасном запуске."
+
+#: includes/class-locations-page.php:817
+msgid "Coordinates resolved via the US Census Geocoder."
+msgstr "Координаты определены через геокодер Бюро переписи населения США."
+
+#: includes/class-locations-page.php:818
+msgid ""
+"Coordinates resolved via Nominatim (Census could not match the address)."
+msgstr ""
+"Координаты определены через Nominatim (Бюро переписи населения США не смогло "
+"сопоставить адрес)."
+
+#: includes/class-locations-page.php:819
+msgid ""
+"Neither geocoder could resolve the address. Edit the address or enter "
+"coordinates manually."
+msgstr ""
+"Ни один геокодер не смог определить адрес. Измените адрес или введите "
+"координаты вручную."
+
+#: includes/class-locations-page.php:820
+msgid ""
+"Coordinates were entered manually and will not be overwritten by geocoding."
+msgstr "Координаты введены вручную и не будут перезаписаны геокодированием."
+
+#: includes/class-locations-page.php:923
+msgid "Street"
+msgstr "Улица"
+
+#: includes/class-locations-page.php:927
+msgid "Unit / Suite"
+msgstr "Номер квартиры или офиса"
+
+#: includes/class-locations-page.php:962
+msgid "Lat"
+msgstr "Широта"
+
+#: includes/class-locations-page.php:966
+msgid "Lng"
+msgstr "Долгота"
+
+#: includes/class-locations-page.php:975
+msgid "Save"
+msgstr "Сохранить"
+
+#: includes/class-locations-page.php:992
+msgid "About coordinates"
+msgstr "О координатах"
+
+#: includes/class-locations-page.php:993
+msgid ""
+"Distance calculations between locations with known coordinates are supported "
+"worldwide. When coordinates are not available, the centroid of the postal "
+"code area is used instead. Entered US addresses are automatically geocoded "
+"via the Census Geocoder or OpenStreetMap — this runs in the background "
+"hourly after import."
+msgstr ""
+"Расчёт расстояний между местоположениями с известными координатами "
+"поддерживается по всему миру. Когда координаты недоступны, вместо них "
+"используется центроид области почтового индекса. Введённые адреса в США "
+"автоматически геокодируются через геокодер Бюро переписи населения США или "
+"OpenStreetMap — это выполняется в фоновом режиме ежечасно после импорта."
+
+#: includes/class-locations-page.php:1008
+msgid "↓ Download CSV template"
+msgstr "↓ Скачать шаблон CSV"
+
+#: includes/class-locations-page.php:1011
+msgid "Match existing rows by:"
+msgstr "Метод сопоставления местоположений"
+
+#: includes/class-locations-page.php:1012
+msgid "Address + postal code"
+msgstr "Адрес + почтовый индекс"
+
+#: includes/class-locations-page.php:1016
+msgid "Exact match"
+msgstr "Точное совпадение"
+
+#: includes/class-locations-page.php:1019
+msgid "Within"
+msgstr "В пределах"
+
+#: includes/class-locations-page.php:1022
+msgid "of each other"
+msgstr "друг от друга"
+
+#: includes/class-locations-page.php:1027
+msgid "On conflict:"
+msgstr "При конфликте:"
+
+#: includes/class-locations-page.php:1028
+msgid "Update"
+msgstr "Обновить"
+
+#: includes/class-locations-page.php:1029
+msgid "Skip"
+msgstr "Пропустить"
+
+#: includes/class-locations-page.php:1030
+msgid "Reject all"
+msgstr "Отклонить все"
+
+#: includes/class-locations-page.php:1050
+#, php-format
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d элемент"
+msgstr[1] "%d элемента"
+msgstr[2] "%d элементов"
+
+#: includes/class-locations-page.php:1056
+msgid "First page"
+msgstr "Первая страница"
+
+#: includes/class-locations-page.php:1060
+msgid "Previous page"
+msgstr "Предыдущая страница"
+
+#: includes/class-locations-page.php:1068
+msgid "Current page"
+msgstr "Текущая страница"
+
+#: includes/class-locations-page.php:1072
+msgid "of"
+msgstr "из"
+
+#: includes/class-locations-page.php:1078
+msgid "Next page"
+msgstr "Следующая страница"
+
+#: includes/class-locations-page.php:1082
+msgid "Last page"
+msgstr "Последняя страница"
+
+#: includes/class-locations.php:388
+msgid "Could not save location."
+msgstr "Не удалось сохранить местоположение."
+
+#: includes/class-locations.php:435
+msgid "Could not update location."
+msgstr "Не удалось обновить местоположение."
+
+#: includes/class-locations.php:556
+#, php-format
+msgid "Missing required field: %s"
+msgstr "Отсутствует обязательное поле: %s"
+
+#: includes/class-locations.php:606
+msgid "Both latitude and longitude are required."
+msgstr "Требуются и широта, и долгота."
+
+#: includes/class-locations.php:611
+msgid "Invalid coordinates."
+msgstr "Недопустимые координаты."
+
+#: includes/class-rest-api.php:152
+msgid "Provide postal_code or lat+lng."
+msgstr "Укажите postal_code или lat+lng."
+
+#: includes/class-rest-api.php:242
+msgid "No postal code found near this location."
+msgstr "Рядом с этим местоположением не найден почтовый индекс."
+
+#: includes/class-settings-page.php:64
+msgid ""
+"Fallback location must be \"latitude, longitude\" (e.g. 40.7128, -74.0060)."
+msgstr ""
+"Местоположение, используемое по умолчанию в случаях, когда его невозможно "
+"определить, указывается как «широта, долгота» (например, 40.7128, -74.0060)."
+
+#: includes/class-settings-page.php:117
+msgid "General"
+msgstr "Обзор"
+
+#: includes/class-settings-page.php:118
+msgid "Postal Codes"
+msgstr "Почтовые индексы"
+
+#: includes/class-settings-page.php:119
+msgid "Advanced"
+msgstr "Расширенные настройки"
+
+#: includes/class-settings-page.php:173
+msgid "km"
+msgstr "км"
+
+#: includes/class-settings-page.php:174
+msgid "miles"
+msgstr "мили"
+
+#: includes/class-settings-page.php:188
+msgid "Enabled Taxonomies"
+msgstr "Включённые таксономии"
+
+#: includes/class-settings-page.php:191
+msgid "Taxonomies"
+msgstr "Таксономии"
+
+#: includes/class-settings-page.php:205
+msgid ""
+"Enabling a taxonomy shows the Locations panel on term edit screens, the "
+"Locations column in term lists, and the taxonomy in Gutenberg block "
+"dropdowns."
+msgstr ""
+"Включение таксономии приводит к показу панели «Местоположения» на страницах "
+"редактирования входящих в неё терминов, добавляет столбец «Местоположения» в "
+"списке терминов, и добавляет её в выпадающие списки таксономий в блоках "
+"Gutenberg."
+
+#: includes/class-settings-page.php:212
+msgid "Units"
+msgstr "Единицы измерения"
+
+#: includes/class-settings-page.php:215
+msgid "Default units"
+msgstr "Единицы измерения по умолчанию"
+
+#: includes/class-settings-page.php:220 blocks/shared/controls.js:178
+msgid "Miles"
+msgstr "Мили"
+
+#: includes/class-settings-page.php:224 blocks/shared/controls.js:179
+msgid "Kilometers"
+msgstr "Километры"
+
+#: includes/class-settings-page.php:233
+msgid "Location Matching"
+msgstr "Сопоставление местоположений"
+
+#: includes/class-settings-page.php:236
+msgid "Match locations by"
+msgstr "Метод сопоставления местоположений"
+
+#: includes/class-settings-page.php:242
+msgid "Address (incl. postal code)"
+msgstr "Адрес (включая почтовый индекс)"
+
+#: includes/class-settings-page.php:252
+msgid "Address OR Coordinates"
+msgstr "Адрес ИЛИ координаты"
+
+#: includes/class-settings-page.php:257
+msgid "Address AND Coordinates"
+msgstr "Адрес И координаты"
+
+#: includes/class-settings-page.php:260
+msgid ""
+"How locations are compared when identifying equivalent terms across peer "
+"sites."
+msgstr ""
+"Как сравнивать местоположения при выявлении эквивалентных терминов на разных "
+"сторонних сайтах."
+
+#: includes/class-settings-page.php:267
+msgid "Require labels to match when comparing addresses"
+msgstr "Требовать совпадения названий при сравнении адресов"
+
+#: includes/class-settings-page.php:276
+msgid "Require labels to match when comparing coordinates"
+msgstr "Требовать совпадения названий при сравнении координат"
+
+#: includes/class-settings-page.php:282
+msgid "Location match radius"
+msgstr "Радиус сопоставления местоположений"
+
+#: includes/class-settings-page.php:288
+msgid ""
+"Two locations whose coordinates fall within this distance of each other will "
+"be treated as the same location."
+msgstr ""
+"Два местоположения, координаты которых находятся в пределах этого расстояния "
+"друг от друга, будут считаться эквивалентными."
+
+#: includes/class-settings-page.php:292
+msgid "Find-terms search radius"
+msgstr "Радиус поиска терминов"
+
+#: includes/class-settings-page.php:298
+msgid ""
+"Maximum distance used by atcf_find_terms_by_location() when searching for "
+"matching terms."
+msgstr ""
+"Максимальное расстояние, используемое функцией atcf_find_terms_by_location() "
+"при поиске подходящих терминов."
+
+#: includes/class-settings-page.php:373
+msgid "US Zip Code Data"
+msgstr "Данные почтовых индексов США"
+
+#: includes/class-settings-page.php:377 includes/class-settings-page.php:450
+msgid "Rows"
+msgstr "Количество строк"
+
+#: includes/class-settings-page.php:382
+msgid "Last imported"
+msgstr "Последний импорт"
+
+#: includes/class-settings-page.php:390 includes/class-settings-page.php:452
+msgid "Enabled"
+msgstr "Включено"
+
+#: includes/class-settings-page.php:391
+msgid "Disable"
+msgstr "Отключить"
+
+#: includes/class-settings-page.php:393
+msgid "Disabled"
+msgstr "Отключено"
+
+#: includes/class-settings-page.php:394
+msgid "Enable"
+msgstr "Включить"
+
+#: includes/class-settings-page.php:400
+msgid ""
+"US distances are calculated from Zip code centroid coordinates. Use any one "
+"option to populate or refresh this data."
+msgstr ""
+"Расстояния в США вычисляются по координатам центроидов почтовых индексов. "
+"Используйте любой из вариантов, чтобы заполнить или обновить эти данные."
+
+#: includes/class-settings-page.php:404
+msgid "Download directly from Census Bureau"
+msgstr "Скачать напрямую из Бюро переписи населения США"
+
+#: includes/class-settings-page.php:405
+msgid ""
+"Fetches the Census ZCTA dataset (~33,000 Zip codes) and imports it "
+"immediately, or save the original zip file to your computer."
+msgstr ""
+"Загружает набор данных ZCTA Бюро переписи населения США (~33 000 почтовых "
+"индексов) и сразу импортирует его, либо сохраняет исходный zip-файл на ваш "
+"компьютер."
+
+#: includes/class-settings-page.php:408
+msgid "Download from census.gov and replace existing US centroid data?"
+msgstr "Скачать с census.gov и заменить существующие данные центроидов США?"
+
+#: includes/class-settings-page.php:409
+msgid "Download and Install"
+msgstr "Скачать и установить"
+
+#: includes/class-settings-page.php:413
+msgid "Download Only (.zip)"
+msgstr "Только скачать (.zip)"
+
+#: includes/class-settings-page.php:419
+msgid "Upload a file"
+msgstr "Загрузить файл"
+
+#: includes/class-settings-page.php:420
+msgid "Upload a Census ZCTA CSV/TSV you downloaded separately."
+msgstr ""
+"Загрузить CSV/TSV ZCTA Бюро переписи населения США, скачанный отдельно."
+
+#: includes/class-settings-page.php:426
+msgid "Replace US centroid data with the uploaded file?"
+msgstr "Заменить данные центроидов США загруженным файлом?"
+
+#: includes/class-settings-page.php:426 includes/class-settings-page.php:513
+msgid "Upload"
+msgstr "Загрузить"
+
+#: includes/class-settings-page.php:431
+msgid "Restore bundled data"
+msgstr "Восстановить встроенные данные"
+
+#: includes/class-settings-page.php:432
+msgid ""
+"Restores the ~33,000-row Census ZCTA dataset bundled with this plugin "
+"version."
+msgstr ""
+"Восстанавливает набор данных ZCTA Бюро переписи населения США (~33 000 "
+"строк), встроенный в эту версию плагина."
+
+#: includes/class-settings-page.php:434
+msgid "Replace US centroid data with the bundled dataset?"
+msgstr "Заменить данные центроидов США встроенным набором данных?"
+
+#: includes/class-settings-page.php:435
+msgid "Restore"
+msgstr "Восстановить"
+
+#: includes/class-settings-page.php:443
+msgid "Other Countries"
+msgstr "Другие страны"
+
+#: includes/class-settings-page.php:451
+msgid "Imported"
+msgstr "Импортировано"
+
+#: includes/class-settings-page.php:469
+msgid "Enabled — click to disable"
+msgstr "Включено — нажмите, чтобы отключить"
+
+#: includes/class-settings-page.php:471
+msgid "Disabled — click to enable"
+msgstr "Отключено — нажмите, чтобы включить"
+
+#: includes/class-settings-page.php:477
+msgid "Delete centroid data for this country?"
+msgstr "Удалить данные центроидов для этой страны?"
+
+#: includes/class-settings-page.php:487
+msgid "Add country (GeoNames TSV)"
+msgstr "Добавить страну (TSV GeoNames)"
+
+#: includes/class-settings-page.php:492
+#, php-format
+msgid ""
+"Download a per-country postal code file from %s (free). Enter the "
+"corresponding country code and upload the TSV file."
+msgstr ""
+"Скачайте файл почтовых индексов для страны с %s (бесплатно). Введите "
+"соответствующий код страны и загрузите TSV-файл."
+
+#: includes/class-settings-page.php:502
+msgid "Country code"
+msgstr "Код страны"
+
+#: includes/class-settings-page.php:505
+msgid "ISO 3166-1 alpha-2 code (e.g. GB, DE, AU)"
+msgstr "Код в формате ISO 3166-1 alpha-2 (например: GB, DE, AU)"
+
+#: includes/class-settings-page.php:509
+msgid "TSV file"
+msgstr "TSV-файл"
+
+#: includes/class-settings-page.php:541 blocks/location-finder/index.js:125
+#: blocks/nearest-location/index.js:87 blocks/term-locations/index.js:99
+msgid "Directions provider"
+msgstr "Сервис маршрутов"
+
+#: includes/class-settings-page.php:544 blocks/shared/controls.js:191
+msgid "Google Maps"
+msgstr "Google Maps"
+
+#: includes/class-settings-page.php:545 blocks/shared/controls.js:192
+msgid "Apple Maps"
+msgstr "Apple Maps"
+
+#: includes/class-settings-page.php:546 blocks/shared/controls.js:193
+msgid "Waze"
+msgstr "Waze"
+
+#: includes/class-settings-page.php:549
+msgid ""
+"Provider used for the {directions}, {directions_url}, and "
+"{directions_link_start} template placeholders, for the default "
+"\"Directions\" link in shortcode and block output, and as the default for "
+"the Location Finder and Nearest Location blocks. Per-provider placeholders "
+"({directions_url_google}, {directions_url_apple}, etc.) are always available "
+"regardless of this setting."
+msgstr ""
+"Сервис, используемый для переменных шаблона {directions}, {directions_url} и "
+"{directions_link_start}, для стандартной ссылки «Маршрут» в выводе шорткодов "
+"и блоков, а также как значение по умолчанию для блоков Location Finder и "
+"Nearest Location. Переменные для конкретных сервисов "
+"({directions_url_google}, {directions_url_apple} и т. д.) всегда доступны "
+"независимо от этой настройки."
+
+#: includes/class-settings-page.php:556
+msgid "IP Geolocation"
+msgstr "IP-геолокация"
+
+#: includes/class-settings-page.php:558
+msgid ""
+"When browser geolocation is unavailable or declined, the visitor's "
+"approximate location is estimated from their IP address. No API key is "
+"required for any provider. The visitor's IP address is sent to the selected "
+"provider's servers."
+msgstr ""
+"Когда геолокация браузера недоступна или отклонена, приблизительное "
+"местоположение посетителя определяется по его IP-адресу. Ни для одного из "
+"этих сервисов не требуется ключ API. IP-адрес посетителя отправляется на "
+"серверы выбранного сервиса."
+
+#: includes/class-settings-page.php:562
+msgid "Enable IP geolocation"
+msgstr "Включить IP-геолокацию"
+
+#: includes/class-settings-page.php:567
+msgid "Use IP geolocation as fallback when browser geolocation is unavailable"
+msgstr ""
+"Использовать IP-геолокацию как запасной вариант, когда геолокация браузера "
+"недоступна"
+
+#: includes/class-settings-page.php:572
+msgid "Provider"
+msgstr "Сервис"
+
+#: includes/class-settings-page.php:575
+msgid "FreeIPAPI"
+msgstr "FreeIPAPI"
+
+#: includes/class-settings-page.php:576
+msgid "ipapi.co"
+msgstr "ipapi.co"
+
+#: includes/class-settings-page.php:577
+msgid "ipwho.is"
+msgstr "ipwho.is"
+
+#: includes/class-settings-page.php:580
+msgid ""
+"FreeIPAPI: no stated rate limit. ipapi.co: 1,000 requests/day free. "
+"ipwho.is: 60 requests/minute free. All lookups are cached server-side per "
+"the TTL below, so most sites stay well within free limits."
+msgstr ""
+"FreeIPAPI: ограничение частоты не указано. ipapi.co: 1000 запросов в день "
+"бесплатно. ipwho.is: 60 запросов в минуту бесплатно. Все запросы кэшируются "
+"на сервере согласно указанному ниже TTL, поэтому большинство сайтов остаются "
+"в пределах бесплатных лимитов."
+
+#: includes/class-settings-page.php:585
+msgid "Cache TTL"
+msgstr "TTL кэширования"
+
+#: includes/class-settings-page.php:588
+msgid "seconds"
+msgstr "секунд"
+
+#: includes/class-settings-page.php:589
+msgid "IP-to-location mappings change infrequently. Default: 86400 (24 hours)."
+msgstr ""
+"Соответствия IP-адресов и местоположений меняются редко. По умолчанию: 86400 "
+"(24 часа)."
+
+#: includes/class-settings-page.php:593
+msgid "Fallback location"
+msgstr "Неустановленное местоположение"
+
+#: includes/class-settings-page.php:596
+msgid ""
+"Latitude and longitude used by \"near me\" features — this plugin's "
+"shortcodes and blocks, and HyperTaxonomy PowerSearch \"near:me\" searches — "
+"when the visitor's location can't be determined from the browser, the CDN or "
+"their IP address; for example, your business location. Visitors are told "
+"when results are based on it. Leave empty to use no location in that case."
+msgstr ""
+"Широта и долгота для функций «рядом со мной» — шорткодов и блоков этого "
+"плагина, а также поиска «near:me» в HyperTaxonomy PowerSearch, — когда "
+"местоположение посетителя не удаётся определить ни по браузеру, ни по CDN, "
+"ни по IP-адресу; например, адрес вашей компании. Посетители видят сообщение, "
+"когда результаты основаны на нём. Оставьте поле пустым, чтобы в таком случае "
+"местоположение не использовалось."
+
+#: includes/class-settings-page.php:597
+msgid ""
+"Behind Cloudflare, turn on the \"Add visitor location headers\" managed "
+"transform: the visitor's location then comes from Cloudflare, with no lookup "
+"service involved."
+msgstr ""
+"Если сайт работает через Cloudflare, включите управляемое преобразование "
+"«Add visitor location headers»: тогда местоположение посетителя будет "
+"поступать от Cloudflare, без сторонней службы определения."
+
+#: includes/class-settings-page.php:604
+msgid "REST API"
+msgstr "REST API"
+
+#: includes/class-settings-page.php:606
+msgid ""
+"Controls whether GET /wp-json/atcf/v1/locations returns actual location data "
+"(addresses, coordinates, directions links). The endpoint always responds — "
+"this setting only determines whether the locations array is populated. "
+"Server-side distance filtering and the search widget are not affected either "
+"way."
+msgstr ""
+"Определяет, возвращает ли GET /wp-json/atcf/v1/locations фактические данные "
+"местоположений (адреса, координаты, ссылки на маршруты). Конечная точка "
+"отвечает всегда — эта настройка лишь определяет, заполняется ли массив "
+"locations. На фильтрацию по расстоянию на стороне сервера и виджет поиска "
+"это не влияет в любом случае."
+
+#: includes/class-settings-page.php:610
+msgid "Return location data via REST API"
+msgstr "Возвращать данные местоположений через REST API"
+
+#: includes/class-settings-page.php:615
+msgid "Populate the locations list in REST responses"
+msgstr "Заполнять список местоположений в ответах REST"
+
+#: includes/class-settings-page.php:617
+msgid ""
+"When unchecked, /atcf/v1/locations always returns an empty locations array — "
+"callers cannot retrieve your location database, but the endpoint itself "
+"remains accessible. The Location Finder and Nearest Location blocks will "
+"show \"no locations found.\" The Term Locations block is unaffected — it "
+"renders server-side and never calls the REST endpoint. Shortcodes and server-"
+"side distance filtering continue to work normally."
+msgstr ""
+"Когда флажок снят, /atcf/v1/locations всегда возвращает пустой массив "
+"locations — вызывающие стороны не могут получить вашу базу местоположений, "
+"но сама конечная точка остаётся доступной. Блоки Location Finder и Nearest "
+"Location будут показывать «Ни одного местоположения не найдено». Блок Term "
+"Locations это не затрагивает — он отображается на стороне сервера и никогда "
+"не вызывает конечную точку REST. Шорткоды и фильтрация по расстоянию на "
+"стороне сервера продолжают работать нормально."
+
+#: includes/class-settings-page.php:624
+msgid "Uninstall"
+msgstr "Удаление"
+
+#: includes/class-settings-page.php:627
+msgid "Delete data on uninstall"
+msgstr "Очистить данные при удалении"
+
+#: includes/class-settings-page.php:632
+msgid ""
+"Delete all location data, centroid tables, enabled taxonomies and the "
+"country list when the plugin is deleted"
+msgstr ""
+"Очистить все данные местоположений, таблицы центроидов, включённые "
+"таксономии и список стран при удалении плагина"
+
+#: includes/class-settings-page.php:634
+msgid ""
+"When unchecked (default), all of these are preserved if you reinstall. Other "
+"plugin settings are always removed on uninstall regardless of this option."
+msgstr ""
+"Когда флажок снят (по умолчанию), всё это сохраняется при переустановке. "
+"Остальные настройки плагина всегда удаляются при удалении, независимо от "
+"этого параметра."
+
+#: includes/class-settings-page.php:693
+msgid "No file uploaded."
+msgstr "Файл не загружен."
+
+#: includes/class-settings-page.php:721
+msgid "Country code and file are required."
+msgstr "Требуются код страны и файл."
+
+#: includes/class-settings-page.php:809
+#, php-format
+msgid "Census data imported: %s Zip code."
+msgid_plural "Census data imported: %s Zip codes."
+msgstr[0] ""
+"Данные Бюро переписи населения США импортированы: %s почтовый индекс."
+msgstr[1] ""
+"Данные Бюро переписи населения США импортированы: %s почтовых индекса."
+msgstr[2] ""
+"Данные Бюро переписи населения США импортированы: %s почтовых индексов."
+
+#: includes/class-settings-page.php:810
+msgid "US centroids reimported."
+msgstr "Центроиды США повторно импортированы."
+
+#: includes/class-settings-page.php:813
+#, php-format
+msgid "ZCTA data imported: %1$s row (replaced %2$s)."
+msgid_plural "ZCTA data imported: %1$s rows (replaced %2$s)."
+msgstr[0] "Данные ZCTA импортированы: %1$s строка (заменено %2$s)."
+msgstr[1] "Данные ZCTA импортированы: %1$s строки (заменено %2$s)."
+msgstr[2] "Данные ZCTA импортированы: %1$s строк (заменено %2$s)."
+
+#: includes/class-settings-page.php:817
+#, php-format
+msgid "GeoNames data imported (%s row)."
+msgid_plural "GeoNames data imported (%s rows)."
+msgstr[0] "Данные GeoNames импортированы (%s строка)."
+msgstr[1] "Данные GeoNames импортированы (%s строки)."
+msgstr[2] "Данные GeoNames импортированы (%s строк)."
+
+#: includes/class-settings-page.php:818
+msgid "Country data deleted."
+msgstr "Данные страны удалены."
+
+#: includes/class-settings-page.php:821
+#, php-format
+msgid ""
+"Geocoding complete: %1$s locations processed, %2$s API failure(s) requeued."
+msgstr ""
+"Геокодирование завершено. Обработано местоположений: %1$s. Сбоев API "
+"возвращено в очередь: %2$s."
+
+#: includes/class-settings-page.php:825
+msgid "Import complete."
+msgstr "Импорт завершён."
+
+#: includes/class-settings-page.php:826
+#, php-format
+msgid "%s row re-queued for geocoding."
+msgid_plural "%s rows re-queued for geocoding."
+msgstr[0] "%s строка повторно поставлена в очередь на геокодирование."
+msgstr[1] "%s строки повторно поставлены в очередь на геокодирование."
+msgstr[2] "%s строк повторно поставлено в очередь на геокодирование."
+
+#: includes/class-settings-page.php:827
+msgid "Settings saved."
+msgstr "Настройки сохранены."
+
+#: includes/class-shortcodes.php:75
+msgid ""
+"Showing results near the default location — we couldn't determine yours."
+msgstr ""
+"Показаны результаты рядом с местоположением, используемым по умолчанию, "
+"поскольку ваше определить не удалось."
+
+#: includes/class-shortcodes.php:126
+msgid "Finding your location…"
+msgstr "Идёт определение вашего местоположения…"
+
+#: includes/class-shortcodes.php:127
+msgid "Location access denied."
+msgstr "Доступ к местоположению запрещён."
+
+#: includes/class-shortcodes.php:129
+msgid "Loading…"
+msgstr "Идёт загрузка…"
+
+#: includes/class-shortcodes.php:130
+msgid "No locations found in this area."
+msgstr "В этой области местоположения не найдены."
+
+#: includes/class-shortcodes.php:132
+msgid "Please enter a valid postal code."
+msgstr "Введите корректный почтовый индекс."
+
+#: includes/class-shortcodes.php:133
+msgid "Current Location"
+msgstr "Текущее местоположение"
+
+#: includes/class-shortcodes.php:331
+msgid "No results found."
+msgstr "Результатов не найдено."
+
+#: includes/class-shortcodes.php:488
+msgid "No nearby results found."
+msgstr "Поблизости результатов не найдено."
+
+#: includes/class-shortcodes.php:771
+msgid "No posts found."
+msgstr "Записи не найдены."
+
+#: includes/class-shortcodes.php:851 includes/class-shortcodes.php:859
+msgid "Find nearby"
+msgstr "Найти поблизости"
+
+#: blocks/location-finder/index.js:47 blocks/nearest-location/index.js:44
+msgid "— All taxonomies —"
+msgstr "— Все таксономии —"
+
+#: blocks/location-finder/index.js:52
+msgid "Location Finder Settings"
+msgstr "Настройки блока Location Finder"
+
+#: blocks/location-finder/index.js:54 blocks/nearest-location/index.js:51
+#: blocks/term-locations/index.js:47
+msgid "Taxonomy"
+msgstr "Таксономия"
+
+#: blocks/location-finder/index.js:63 blocks/nearest-location/index.js:60
+msgid "Limit to specific terms"
+msgstr "Ограничить конкретными терминами"
+
+#: blocks/location-finder/index.js:73
+msgid "Radius options (comma-separated)"
+msgstr "Варианты радиуса (через запятую)"
+
+#: blocks/location-finder/index.js:76
+msgid "Values shown in the radius dropdown, e.g. 5,10,25,50"
+msgstr ""
+"Значения, отображаемые в выпадающем списке радиуса, например: 5,10,25,50"
+
+#: blocks/location-finder/index.js:79 blocks/nearest-location/index.js:70
+#: blocks/term-locations/index.js:67
+msgid "Unit"
+msgstr "Единица измерения"
+
+#: blocks/location-finder/index.js:85 blocks/term-locations/index.js:74
+msgid "Max results"
+msgstr "Максимальное количество результатов"
+
+#: blocks/location-finder/index.js:93
+msgid "Sort by"
+msgstr "Критерии сортировки"
+
+#: blocks/location-finder/index.js:98
+msgid "Term name"
+msgstr "Название термина"
+
+#: blocks/location-finder/index.js:103 blocks/term-locations/index.js:82
+msgid "Output style"
+msgstr "Стиль вывода"
+
+#: blocks/location-finder/index.js:106 blocks/term-locations/index.js:85
+msgid "Unordered list"
+msgstr "Маркированный список"
+
+#: blocks/location-finder/index.js:107 blocks/term-locations/index.js:86
+msgid "Ordered list"
+msgstr "Нумерованный список"
+
+#: blocks/location-finder/index.js:108 blocks/term-locations/index.js:87
+msgid "Div"
+msgstr "Div"
+
+#: blocks/location-finder/index.js:109 blocks/term-locations/index.js:88
+msgid "Table"
+msgstr "Таблица"
+
+#: blocks/location-finder/index.js:114 blocks/nearest-location/index.js:81
+#: blocks/term-locations/index.js:93
+msgid "Item template"
+msgstr "Шаблон элемента"
+
+#: blocks/location-finder/index.js:117 blocks/term-locations/index.js:96
+msgid ""
+"Optional. Use {label}, {address_line}, {city}, {region}, {postal_code}, "
+"{distance}, {directions}, etc."
+msgstr ""
+"Необязательно. Используйте {label}, {address_line}, {city}, {region}, "
+"{postal_code}, {distance}, {directions} и т. д."
+
+#: blocks/location-finder/index.js:120
+msgid "Show \"Use my location\" button"
+msgstr "Показывать кнопку «Использовать моё местоположение»"
+
+#: blocks/location-finder/index.js:129
+msgid ""
+"Provider for {directions} and {directions_link_start} in item templates. "
+"\"Site default\" uses the value from ATCF Settings."
+msgstr ""
+"Сервис для {directions} и {directions_link_start} в шаблонах элементов. «По "
+"умолчанию для сайта» использует значение из настроек As the Crow Flies."
+
+#: blocks/location-finder/index.js:137
+msgid "Determines postal code format and filters results to this country."
+msgstr ""
+"Определяет формат почтового индекса и фильтрует результаты по этой стране."
+
+#: blocks/location-finder/index.js:141 blocks/nearest-location/index.js:102
+msgid "Country (ISO code)"
+msgstr "Страна (код ISO)"
+
+#: blocks/location-finder/index.js:144
+msgid "e.g. US, CA, GB"
+msgstr "например: US, CA, GB"
+
+#: blocks/location-finder/index.js:159
+msgid "Location Finder"
+msgstr "Location Finder"
+
+#: blocks/location-finder/index.js:162
+#, javascript-format
+msgid "Searches taxonomy: %s"
+msgstr "Искать в таксономии: %s"
+
+#: blocks/location-finder/index.js:163
+msgid "Searches all enabled taxonomies"
+msgstr "Искать во всех включённых таксономиях"
+
+#: blocks/location-finder/index.js:167
+#, javascript-format
+msgid "Filtered to %d specific term"
+msgid_plural "Filtered to %d specific terms"
+msgstr[0] "Отфильтровано до %d конкретного термина"
+msgstr[1] "Отфильтровано до %d конкретных терминов"
+msgstr[2] "Отфильтровано до %d конкретных терминов"
+
+#: blocks/location-finder/index.js:172
+#, javascript-format
+msgid "Expanded from %d HyperTaxonomy term group"
+msgid_plural "Expanded from %d HyperTaxonomy term groups"
+msgstr[0] "Раскрыто из %d группы терминов HyperTaxonomy"
+msgstr[1] "Раскрыто из %d групп терминов HyperTaxonomy"
+msgstr[2] "Раскрыто из %d групп терминов HyperTaxonomy"
+
+#: blocks/location-finder/index.js:176
+msgid "Interactive on the frontend — configure in the sidebar."
+msgstr "Интерактивно на внешней части сайта — настройте на боковой панели."
+
+#: blocks/nearest-location/index.js:40 blocks/term-locations/index.js:36
+msgid "— All countries —"
+msgstr "— Все страны —"
+
+#: blocks/nearest-location/index.js:49
+msgid "Nearest Location Settings"
+msgstr "Настройки блока Nearest Location"
+
+#: blocks/nearest-location/index.js:76
+msgid "Show distance"
+msgstr "Показывать расстояние"
+
+#: blocks/nearest-location/index.js:84
+msgid ""
+"Optional. Use {label}, {address_line}, {city}, {distance}, {directions}, etc."
+msgstr ""
+"Необязательно. Используйте {label}, {address_line}, {city}, {distance}, "
+"{directions} и т. д."
+
+#: blocks/nearest-location/index.js:91 blocks/term-locations/index.js:103
+msgid "\"Site default\" uses the value from ATCF Settings."
+msgstr ""
+"Установка «по умолчанию для сайта» использует значение из настроек As the "
+"Crow Flies."
+
+#: blocks/nearest-location/index.js:109
+msgid "Loading prompt text"
+msgstr "Текст сообщения при загрузке"
+
+#: blocks/nearest-location/index.js:112
+msgid "Shown while location is being resolved."
+msgstr "Показывается, пока определяется местоположение."
+
+#: blocks/nearest-location/index.js:120
+msgid "Nearest Location"
+msgstr "Nearest Location"
+
+#: blocks/nearest-location/index.js:121
+msgid "Shows the single nearest location to the visitor."
+msgstr "Показывает единственное ближайшее к посетителю местоположение."
+
+#: blocks/nearest-location/index.js:123
+msgid "Resolved client-side — configure in the sidebar."
+msgstr "Определяется на стороне клиента — настройте на боковой панели."
+
+#: blocks/shared/controls.js:66
+#, javascript-format
+msgid "%1$s (ID: %2$d)"
+msgstr "%1$s (ID: %2$d)"
+
+#: blocks/shared/controls.js:89
+msgid "Type at least 2 characters to search. Leave empty to include all terms."
+msgstr ""
+"Введите не менее 2 символов для поиска. Оставьте пустым, чтобы включить все "
+"термины."
+
+#: blocks/shared/controls.js:153
+msgid "Term Groups"
+msgstr "Группы терминов"
+
+#: blocks/shared/controls.js:155
+msgid "Group members are merged with any specific terms above."
+msgstr ""
+"Члены группы объединяются с любыми конкретными терминами, указанными выше."
+
+#: blocks/shared/controls.js:160
+msgid "Filter groups…"
+msgstr "Фильтровать группы…"
+
+#: blocks/shared/controls.js:177 blocks/shared/controls.js:190
+msgid "Site default"
+msgstr "По умолчанию для сайта"
+
+#: blocks/term-locations/index.js:40
+msgid "— Select taxonomy —"
+msgstr "— Выберите таксономию —"
+
+#: blocks/term-locations/index.js:45
+msgid "Term Locations Settings"
+msgstr "Настройки блока Term Locations"
+
+#: blocks/term-locations/index.js:61
+msgid "Sort by distance from postal code"
+msgstr "Сортировать по расстоянию от почтового индекса"
+
+#: blocks/term-locations/index.js:64
+msgid "Leave blank to sort by label"
+msgstr "Оставьте пустым для сортировки по названию"
+
+#: blocks/term-locations/index.js:71
+msgid "Used for the distance label when sorting by postal code."
+msgstr ""
+"Используется для подписи расстояния при сортировке по почтовому индексу."
+
+#: blocks/term-locations/index.js:79
+msgid "Leave blank or 0 to show all locations."
+msgstr "Оставьте пустым или 0, чтобы показать все местоположения."
+
+#: blocks/term-locations/index.js:107
+msgid "Filter by country"
+msgstr "Фильтровать по стране"
+
+#: blocks/term-locations/index.js:111
+msgid "Leave at \"All countries\" to show every location for the term."
+msgstr "Оставьте «Все страны», чтобы показать все местоположения для термина."
+
+#: blocks/term-locations/index.js:115
+msgid "Filter by country (ISO code)"
+msgstr "Фильтровать по стране (код ISO)"
+
+#: blocks/term-locations/index.js:118
+msgid "e.g. US, CA, GB. Leave blank to show all."
+msgstr "например: US, CA, GB. Оставьте пустым, чтобы показать все."
+
+#: blocks/term-locations/index.js:123
+msgid "Columns shown"
+msgstr "Отображаемые столбцы"
+
+#: blocks/term-locations/index.js:125
+msgid "Address line"
+msgstr "Строка адреса"
+
+#: blocks/term-locations/index.js:162
+msgid "Select a taxonomy in the sidebar."
+msgstr "Выберите таксономию на боковой панели."
+
+#: blocks/term-locations/index.js:164
+#, javascript-format
+msgid "Showing locations for %d selected term."
+msgid_plural "Showing locations for %d selected terms."
+msgstr[0] "Показаны местоположения для %d выбранного термина."
+msgstr[1] "Показаны местоположения для %d выбранных терминов."
+msgstr[2] "Показаны местоположения для %d выбранных терминов."
+
+#: blocks/term-locations/index.js:166
+msgid ""
+"Showing locations for all terms in this taxonomy. Select one or more terms "
+"in the sidebar to narrow the list."
+msgstr ""
+"Показаны местоположения всех терминов этой таксономии. Выберите один или "
+"несколько терминов на боковой панели, чтобы сузить список."
+
+#: blocks/location-finder/block.json
+msgctxt "block title"
+msgid "Location Finder"
+msgstr "Location Finder"
+
+#: blocks/location-finder/block.json
+msgctxt "block description"
+msgid ""
+"Interactive finder: visitor enters a postal code or uses browser location to "
+"find nearby taxonomy terms."
+msgstr ""
+"Интерактивный поиск: посетитель вводит почтовый индекс или использует "
+"местоположение из браузера, чтобы найти ближайшие термины таксономии."
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "location"
+msgstr "location"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "distance"
+msgstr "distance"
+
+#: blocks/location-finder/block.json blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "proximity"
+msgstr "proximity"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "map"
+msgstr "map"
+
+#: blocks/location-finder/block.json
+msgctxt "block keyword"
+msgid "nearby"
+msgstr "nearby"
+
+#: blocks/nearest-location/block.json
+msgctxt "block title"
+msgid "Nearest Location"
+msgstr "Nearest Location"
+
+#: blocks/nearest-location/block.json
+msgctxt "block description"
+msgid ""
+"Compact callout showing the single nearest location to the visitor, resolved "
+"via browser geolocation or a postal code prompt."
+msgstr ""
+"Компактный блок с одним (ближайшим к посетителю) местоположением, "
+"определённым через геолокацию браузера или по запрошенному почтовому индексу."
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "nearest"
+msgstr "nearest"
+
+#: blocks/nearest-location/block.json
+msgctxt "block keyword"
+msgid "closest"
+msgstr "closest"
+
+#: blocks/term-locations/block.json
+msgctxt "block title"
+msgid "Term Locations"
+msgstr "Term Locations"
+
+#: blocks/term-locations/block.json
+msgctxt "block description"
+msgid ""
+"Static list of all locations belonging to a specific taxonomy term. Updates "
+"automatically when location data changes."
+msgstr ""
+"Статический список всех местоположений, относящихся к определённому термину "
+"таксономии. Обновляется автоматически при изменении данных местоположений."
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "locations"
+msgstr "locations"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "addresses"
+msgstr "addresses"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "term"
+msgstr "term"
+
+#: blocks/term-locations/block.json
+msgctxt "block keyword"
+msgid "taxonomy"
+msgstr "taxonomy"

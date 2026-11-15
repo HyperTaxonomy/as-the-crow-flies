@@ -1,0 +1,263 @@
+/* As the Crow Flies — Frontend styles */
+
+/* -------------------------------------------------------------------------
+   Shared finder form
+------------------------------------------------------------------------- */
+
+.atcf-finder-form,
+.atcf-location-finder {
+	max-width: 640px;
+}
+
+.atcf-input-row,
+.atcf-finder-controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.atcf-postal-wrap {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 150px;
+}
+
+.atcf-postal-input {
+	width: 100%;
+	height: 36px;
+	padding: 0 30px 0 10px !important;
+	line-height: 36px;
+	border: 1px solid #ddd !important;
+	border-radius: 4px;
+	font-size: 1em;
+	box-sizing: border-box;
+	box-shadow: none !important;
+}
+
+.atcf-postal-input:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.atcf-geo-btn {
+	position: absolute;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+	color: #50575e;
+	line-height: 0;
+	transition: color 0.15s;
+}
+
+.atcf-geo-btn:hover:not(:disabled) {
+	color: #0073aa;
+}
+
+.atcf-geo-btn.atcf-geo-loading svg {
+	display: none;
+}
+
+.atcf-geo-btn.atcf-geo-loading::after {
+	content: '';
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	border: 2px solid #c3c4c7;
+	border-top-color: #0073aa;
+	border-radius: 50%;
+	animation: atcf-geo-spin 0.7s linear infinite;
+}
+
+@keyframes atcf-geo-spin {
+	to { transform: rotate(360deg); }
+}
+
+.atcf-geo-btn.atcf-geo-used {
+	color: #0073aa;
+}
+
+.atcf-radius-select {
+	height: 36px;
+	padding: 0 28px 0 8px;
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2350575e'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1em;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.atcf-finder-controls .atcf-search,
+.atcf-input-row .atcf-search {
+	height: 36px;
+	padding-left: 16px;
+	padding-right: 16px;
+	line-height: 1;
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+}
+
+.atcf-use-location {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.atcf-results[aria-live] {
+	min-height: 1px;
+}
+
+/* -------------------------------------------------------------------------
+   Location list
+------------------------------------------------------------------------- */
+
+.atcf-locations-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.atcf-locations-list .atcf-location {
+	padding: 12px 0;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.atcf-locations-list .atcf-location:last-child {
+	border-bottom: none;
+}
+
+.atcf-location-label {
+	display: block;
+	font-size: 1.05em;
+	margin-bottom: 4px;
+}
+
+.atcf-term-name {
+	display: block;
+	color: #50575e;
+	margin-bottom: 4px;
+}
+
+.atcf-location address {
+	font-style: normal;
+	color: #50575e;
+	margin-bottom: 4px;
+}
+
+.atcf-distance {
+	font-size: 0.875em;
+	color: #2271b1;
+}
+
+.atcf-directions {
+	font-size: 0.875em;
+	margin-left: 8px;
+}
+
+/* -------------------------------------------------------------------------
+   Location table
+------------------------------------------------------------------------- */
+
+.atcf-locations-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.atcf-locations-table th,
+.atcf-locations-table td {
+	padding: 8px 12px;
+	text-align: left;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.atcf-locations-table th {
+	background: #f6f7f7;
+	font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------
+   Terms list
+------------------------------------------------------------------------- */
+
+.atcf-terms-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.atcf-terms-list .atcf-term {
+	padding: 6px 0;
+}
+
+.atcf-terms-list .atcf-distance {
+	color: #50575e;
+}
+
+/* -------------------------------------------------------------------------
+   Nearest location block
+------------------------------------------------------------------------- */
+
+.atcf-nearest-location .atcf-nearest-prompt {
+	color: #50575e;
+	font-style: italic;
+}
+
+.atcf-nearest-result .atcf-location {
+	padding: 8px 0;
+}
+
+/* -------------------------------------------------------------------------
+   No results
+------------------------------------------------------------------------- */
+
+.atcf-no-results {
+	color: #50575e;
+	font-style: italic;
+}
+
+/* -------------------------------------------------------------------------
+   Editor placeholder (block editor only)
+------------------------------------------------------------------------- */
+
+.atcf-editor-placeholder {
+	padding: 20px;
+	background: #f6f7f7;
+	border: 2px dashed #dcdcde;
+	border-radius: 4px;
+	text-align: center;
+	color: #50575e;
+}
+
+.atcf-editor-placeholder .dashicons {
+	vertical-align: middle;
+}
+
+.atcf-editor-note {
+	font-size: 0.875em;
+	color: #8c8f94;
+}
+
+/* Results are near the site's fallback location (the visitor's couldn't be determined) */
+.atcf-location-note {
+	margin: 0 0 0.75em;
+	padding: 6px 10px;
+	border-left: 4px solid #dba617;
+	background: #fcf9e8;
+	color: #3c434a;
+	font-size: 0.9em;
+}

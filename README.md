@@ -1,0 +1,134 @@
+# As the Crow Flies
+
+A WordPress plugin that attaches physical locations (addresses or coordinates) to taxonomy terms and lets visitors filter content by proximity or distance between locations — no external map API required.
+
+## Features
+
+- Attach one or more locations to any taxonomy term
+- Three Gutenberg blocks: Location Finder, Term Locations, Nearest Location
+- Three shortcodes: `[atcf_locations]`, `[atcf_terms]`, `[atcf_nearby]`
+- Filter posts by distance using a postal code or browser geolocation
+- Automatic geocoding of US addresses via the Census Geocoder with OpenStreetMap/Nominatim fallback
+- US Zip Code centroids bundled — no external geocoding API needed for basic use
+- International support — upload GeoNames postal code files for any country
+- Browser geolocation support — no postal code entry needed
+- IP-based approximate location as a fallback (FreeIPAPI, ipapi.co, or ipwho.is — no key required)
+- CSV import/export for bulk location management
+- `WP_Query` integration via nested `atcf_query` parameter
+- REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/visitor-location`, `/atcf/v1/nearest-postal-code`
+- Privacy control to suppress location data in API responses while keeping server-side distance filtering fully functional
+- Optional integration with [HyperTaxonomy](https://hypertaxonomy.org) for term group support within shortcodes and blocks
+- Provides distance filtering within HyperTaxonomy's PowerSearch and Search Widget
+- Preserves locations when HyperTaxonomy merges terms — distinct locations from merged-away terms move to the surviving term
+
+## Requirements
+
+- WordPress 6.6+
+- PHP 7.4+
+
+## Installation
+
+1. Install from the [WordPress.org plugin directory](https://wordpress.org/plugins/as-the-crow-flies/), or download the zip from [GitHub Releases](https://github.com/HyperTaxonomy/as-the-crow-flies/releases)
+2. Upload via **Plugins → Add New → Upload Plugin**
+3. Activate, then go to **Settings → As the Crow Flies → General** to enable taxonomies, set default distance units, and configure location matching
+
+## Building block assets
+
+Block editor JS requires a build step:
+
+```bash
+npm install
+npm run build        # production build
+npm run start        # watch mode for development
+```
+
+Compiled assets (`blocks/*/build/`) are committed to the repository and included in release zips, so end users don't need to run a build.
+
+## Packaging a release zip
+
+```bash
+bash utils/package.sh          # zip using existing build output
+bash utils/package.sh --build  # rebuild blocks first, then zip
+```
+
+Output: `dist/as-the-crow-flies.zip`
+
+## Documentation
+
+Full documentation is published at [hypertaxonomy.org/as-the-crow-flies](https://hypertaxonomy.org/as-the-crow-flies) (source in [`docs/`](docs/)):
+
+- **[User Guide](docs/user-guide/index.md)** — adding locations, geocoding, CSV import and export, every setting, the three shortcodes and three blocks, and what HyperTaxonomy adds.
+- **[Developer Reference](docs/developer-reference/index.md)** — `WP_Query` `atcf_query` integration, the PHP API, actions and filters, the REST API, the `window.atcfGeo` JavaScript API, and the external services used.
+- **[Architecture](docs/architecture/index.md)** — file structure and loading, function and hook references, and data storage. Coding standards for the whole suite are in HyperTaxonomy's [Contributing guide](https://hypertaxonomy.org/hypertaxonomy/architecture/contributing.html).
+
+The shortcode and block reference is also published in [readme.txt](readme.txt) and on the WordPress.org plugin page.
+
+## Display approaches
+
+**Shortcode / block** — insert `[atcf_locations]` or the Term Locations block anywhere in a post to pull location data from any term, regardless of that post's own taxonomy assignments. Useful when the displayed locations and the filtering/search terms don't need to match, or when authors control placement through the editor.
+
+**Custom taxonomy + theme template** — create a taxonomy specifically for your location entities (e.g. "Branches", "Offices"), enable it in settings, and attach addresses to its terms. Theme templates then retrieve locations automatically from the post's assigned terms via `get_the_terms()` + `ATCF_Locations::get_for_term( $term->term_id, $taxonomy )`, with no shortcode required. Suits sites where location data is a structural property of the content rather than an editorial choice.
+
+Both approaches use the same underlying data model and distance-query engine — the difference is only in how and where addresses are rendered.
+
+## PHP API
+
+Static methods on `ATCF_Locations` and `ATCF_Distance` for retrieving a term's locations, querying by radius, resolving centroids and directions URLs, IP geolocation, and expanding HyperTaxonomy groups.
+
+```php
+$locations = ATCF_Locations::get_for_term( $term_id, $taxonomy );
+$nearby    = ATCF_Distance::get_locations_within_radius( $postal_code, $radius, $unit, $args );
+```
+
+For all methods, return shapes, and parameters, see [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/php-api.html).
+
+## REST API
+
+`GET /wp-json/atcf/v1/locations` — locations within a radius, with taxonomy/term filtering, sorting, and a privacy option to suppress coordinates/addresses. `GET /wp-json/atcf/v1/nearest-postal-code` — resolve the nearest centroid to a coordinate.
+
+For all parameters, see [Developer Reference → REST API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/rest-api.html).
+
+## JavaScript API
+
+`window.atcfGeo` provides `reverseGeocode()` and `initGeoBtn()` for plugins that render their own postal code input with a geolocation button — HyperTaxonomy's `[ht_distance_field]` uses this API.
+
+For the full API and lifecycle handling, see [Developer Reference → JavaScript API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/javascript-api.html).
+
+## Actions
+
+| Action | Arguments | Fired when |
+|---|---|---|
+| `atcf_location_changed` | `string $taxonomy` | Any location is saved, updated, deleted, or imported for a term in this taxonomy. Passes taxonomy slug; does not pass term ID. |
+| `atcf_term_location_changed` | `int $term_id` | Same as above, fired alongside `atcf_location_changed` from within `ATCF_Locations::flush_term_cache()`. Passes the specific term ID. |
+
+Use `atcf_term_location_changed` when you need to invalidate a per-term cache. Use `atcf_location_changed` when you need to react to any location change within a taxonomy (e.g. invalidating a taxonomy-wide result set).
+
+`atcf_location_changed`'s `$taxonomy` argument can be an empty string — not just a real slug. Several bulk operations (clearing coordinates, deleting orphaned locations, geocoding a batch, and the global admin page's "all taxonomies" clear/delete actions) span more than one taxonomy at once and fire the hook unscoped, passing `''` to mean "affects all taxonomies." A listener that assumes `$taxonomy` is always a real slug will silently skip invalidating in that case — treat an empty value as "every taxonomy", as As the Crow Flies' own built-in listener (`ATCF_Admin::flush_location_caches()`) does.
+
+HyperTaxonomy hooks `atcf_term_location_changed` directly (to rebuild TermConnect's normalized-address URI index for the term). Integrating plugins should hook `atcf_term_location_changed` as well — it is fired for single saves/deletes and for the global bulk clear/delete operations.
+
+## External services
+
+As the Crow Flies contacts these services only for the features described. Nothing is sent on ordinary page views.
+
+- **US Census Geocoder** (geocoding.geo.census.gov) — converts US addresses to coordinates. The plugin sends location addresses (street, city, state, ZIP code) from the site's server, in the hourly geocoding run or when an administrator clicks Geocode. No visitor data is sent. [Terms of Service](https://www.census.gov/data/developers/terms-of-service.html), [Privacy Policy](https://www.census.gov/about/policies/privacy/privacy-policy.html)
+- **US Census Bureau downloads** (www2.census.gov) — when an administrator clicks the button to download current ZIP code data on the Postal Codes settings tab, the plugin downloads the public ZCTA Gazetteer file. Nothing else is sent. Same terms and privacy policy as above.
+- **OpenStreetMap Nominatim** (nominatim.openstreetmap.org) — used in two ways. From the site's server, it geocodes addresses the Census Geocoder can't match, sending the location's address. From the visitor's browser, when the visitor clicks the "use my location" button on a location form or distance field, it looks up the city or postal code for the visitor's coordinates to show in the form; the browser sends those coordinates. [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/), [Privacy Policy](https://osmfoundation.org/wiki/Privacy_Policy)
+- **IP geolocation provider** — approximates the visitor's location when a "near me" shortcode, block or search needs it and the browser doesn't provide one. The site's server sends the visitor's IP address to the provider selected in Settings → As the Crow Flies → Advanced. It is not contacted on other page views, when IP geolocation is turned off, or when the site's CDN supplies the visitor's location in request headers (Cloudflare's "Add visitor location headers" managed transform). Results are cached per IP address for the Cache TTL setting (one day by default).
+  - **FreeIPAPI** (freeipapi.com, default): [Terms](https://freeipapi.com/terms), [Privacy Policy](https://freeipapi.com/privacy)
+  - **ipapi.co**: [Terms of Service](https://ipapi.co/terms/), [Privacy Policy](https://ipapi.co/privacy/)
+  - **ipwho.is** (operated by ipwhois.io): [Terms of Service](https://ipwhois.io/terms), [Privacy Policy](https://ipwhois.io/privacy)
+
+An optional **Fallback location** (Settings → As the Crow Flies → Advanced) is used by "near me" features — this plugin's shortcodes and blocks, and HyperTaxonomy `near:me` searches — when no visitor location can be determined; visitors are told when results are based on it. It involves no external service.
+
+Directions links (Google Maps, Apple Maps, Waze, OpenStreetMap) are ordinary links: nothing is sent to those services unless a visitor follows one.
+
+## Translations
+
+As the Crow Flies is translation-ready and ships with a complete translation template: `languages/as-the-crow-flies.pot`.
+
+To contribute a translation: copy the template to `languages/as-the-crow-flies-<locale>.po`, translate it, and open a pull request — the build compiles it (and, for block-editor strings, generates the required JSON) automatically. See [`utils/make-pot.sh`](utils/make-pot.sh) and [`utils/make-json.py`](utils/make-json.py).
+
+## License
+
+GPLv2 or later — see [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)

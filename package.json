@@ -1,0 +1,16 @@
+{
+  "name": "as-the-crow-flies",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js",
+    "start": "webpack --config ./webpack.config.js --watch",
+    "format": "wp-scripts format",
+    "lint:js": "wp-scripts lint-js blocks/*/index.js"
+  },
+  "devDependencies": {
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.34.0",
+    "@wordpress/scripts": "^30.0.0",
+    "babel-loader": "9.2.1"
+  }
+}
