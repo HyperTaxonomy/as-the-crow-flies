@@ -29,53 +29,91 @@ class ATCF_Activator {
 	}
 
 	/**
-	 * Create plugin database tables.
+	 * Create the tables again when the recorded database version isn't the current one,
+	 * e.g. after an update or when creating them failed on activation.
+	 *
+	 * Hook: admin_init.
+	 *
+	 * @since 1.0.0
 	 */
-	public static function create_tables(): void {
+	public static function maybe_upgrade(): void {
+		if ( ATCF_VERSION === get_option( 'atcf_db_version' ) ) {
+			return;
+		}
+		if ( self::create_tables() ) {
+			self::import_us_centroids();
+		}
+	}
+
+	/**
+	 * Create or update the plugin database tables.
+	 *
+	 * The database version is recorded only when both tables exist afterwards, so
+	 * maybe_upgrade() retries a failed creation on the next admin page load.
+	 *
+	 * @return bool True when both tables exist.
+	 */
+	public static function create_tables(): bool {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$locations_sql = "CREATE TABLE {$wpdb->prefix}atcf_locations (
-			id                       BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-			term_id                  BIGINT UNSIGNED NOT NULL,
-			taxonomy                 VARCHAR(32)     NOT NULL,
-			country                  CHAR(2)         NOT NULL DEFAULT 'US',
-			label                    VARCHAR(200)    NOT NULL DEFAULT '',
-			address_line             VARCHAR(255)    NOT NULL DEFAULT '',
-			address_line2            VARCHAR(255)    NOT NULL DEFAULT '',
-			address_line_normalized  VARCHAR(255)    NOT NULL DEFAULT '',
-			address_line2_normalized VARCHAR(255)    NOT NULL DEFAULT '',
-			locality                 VARCHAR(100)    NOT NULL DEFAULT '',
-			region                   VARCHAR(50)     NOT NULL DEFAULT '',
-			postal_code              VARCHAR(10)     NOT NULL DEFAULT '',
-			lat                      DECIMAL(10,7)   DEFAULT NULL,
-			lng                      DECIMAL(10,7)   DEFAULT NULL,
-			geocode_status           VARCHAR(20)     DEFAULT NULL,
-			PRIMARY KEY (id),
+			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+			term_id BIGINT UNSIGNED NOT NULL,
+			taxonomy VARCHAR(32) NOT NULL,
+			country CHAR(2) NOT NULL DEFAULT 'US',
+			label VARCHAR(200) NOT NULL DEFAULT '',
+			address_line VARCHAR(255) NOT NULL DEFAULT '',
+			address_line2 VARCHAR(255) NOT NULL DEFAULT '',
+			address_line_normalized VARCHAR(255) NOT NULL DEFAULT '',
+			address_line2_normalized VARCHAR(255) NOT NULL DEFAULT '',
+			locality VARCHAR(100) NOT NULL DEFAULT '',
+			region VARCHAR(50) NOT NULL DEFAULT '',
+			postal_code VARCHAR(10) NOT NULL DEFAULT '',
+			lat DECIMAL(10,7) DEFAULT NULL,
+			lng DECIMAL(10,7) DEFAULT NULL,
+			geocode_status VARCHAR(20) DEFAULT NULL,
+			PRIMARY KEY  (id),
 			KEY term_taxonomy (term_id, taxonomy),
 			KEY country_postal (country, postal_code)
 		) $charset_collate;";
 
 		$centroids_sql = "CREATE TABLE {$wpdb->prefix}atcf_postal_centroids (
-			country      CHAR(2)       NOT NULL DEFAULT 'US',
-			postal_code  VARCHAR(10)   NOT NULL,
-			lat          DECIMAL(10,7) NOT NULL,
-			lng          DECIMAL(10,7) NOT NULL,
-			PRIMARY KEY (country, postal_code)
+			country CHAR(2) NOT NULL DEFAULT 'US',
+			postal_code VARCHAR(10) NOT NULL,
+			lat DECIMAL(10,7) NOT NULL,
+			lng DECIMAL(10,7) NOT NULL,
+			PRIMARY KEY  (country, postal_code)
 		) $charset_collate;";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $locations_sql );
 		dbDelta( $centroids_sql );
 
+		$missing = array();
+		foreach ( array( 'atcf_locations', 'atcf_postal_centroids' ) as $table ) {
+			$name = $wpdb->prefix . $table;
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $name ) ) ) !== $name ) {
+				$missing[] = $name;
+			}
+		}
+		if ( $missing ) {
+			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+				error_log( '[ATCF] Could not create database tables: ' . implode( ', ', $missing ) );
+			}
+			return false;
+		}
+
 		update_option( 'atcf_db_version', ATCF_VERSION );
 
 		add_option( 'atcf_distance_units',        'miles' );
 		add_option( 'atcf_location_match_mode',  'either' );
-		add_option( 'atcf_ip_geo_enabled',        1 );
+		add_option( 'atcf_ip_geo_enabled',        0 ); // Off until the admin opts in: it sends visitor IPs to a third party.
 		add_option( 'atcf_ip_geo_ttl',            86400 );
 		add_option( 'atcf_expose_locations_api',  1 );
+
+		return true;
 	}
 
 	/**
@@ -146,6 +184,54 @@ class ATCF_Activator {
 				$country
 			)
 		);
+	}
+
+	/**
+	 * Import an uploaded GeoNames postal code file: the TSV itself, or the zip
+	 * GeoNames distributes it in ({COUNTRY}.zip holding {COUNTRY}.txt and readme.txt).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $country ISO 3166-1 alpha-2 country code.
+	 * @param string $path    Path of the uploaded file.
+	 * @return int|WP_Error Number of postal codes imported, or an error.
+	 */
+	public static function import_geonames_upload( string $country, string $path ) {
+		if ( "PK\x03\x04" !== file_get_contents( $path, false, null, 0, 4 ) ) {
+			return self::import_geonames_file( $country, $path );
+		}
+
+		if ( ! class_exists( 'ZipArchive' ) ) {
+			return new WP_Error( 'atcf_no_zip', __( 'PHP ZipArchive extension is required to read a .zip file. Upload the extracted .txt file instead.', 'as-the-crow-flies' ) );
+		}
+		$zip = new ZipArchive();
+		if ( true !== $zip->open( $path ) ) {
+			return new WP_Error( 'atcf_zip_open', __( 'Could not open the zip file.', 'as-the-crow-flies' ) );
+		}
+		// Prefer the country's own file over readme.txt.
+		$index = $zip->locateName( $country . '.txt', ZipArchive::FL_NOCASE | ZipArchive::FL_NODIR );
+		if ( false === $index ) {
+			for ( $i = 0; $i < $zip->numFiles; $i++ ) {
+				$name = (string) $zip->getNameIndex( $i );
+				if ( '.txt' === strtolower( substr( $name, -4 ) ) && 'readme.txt' !== strtolower( basename( $name ) ) ) {
+					$index = $i;
+					break;
+				}
+			}
+		}
+		$content = false === $index ? false : $zip->getFromIndex( $index );
+		$zip->close();
+		if ( false === $content ) {
+			return new WP_Error( 'atcf_zip_content', __( 'Could not find the postal code file inside the zip.', 'as-the-crow-flies' ) );
+		}
+
+		$tsv_path = wp_tempnam( 'atcf-geonames' );
+		if ( ! $tsv_path || false === file_put_contents( $tsv_path, $content ) ) {
+			return new WP_Error( 'atcf_write_failed', __( 'Could not write a temporary file.', 'as-the-crow-flies' ) );
+		}
+		$result = self::import_geonames_file( $country, $tsv_path );
+		wp_delete_file( $tsv_path );
+		return $result;
 	}
 
 	/**

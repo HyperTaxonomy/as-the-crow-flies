@@ -1,4 +1,4 @@
-=== As the Crow Flies – Proximity Filtering – attach locations to taxonomy terms, filter by distance, zip code, or browser geolocation ===
+=== As the Crow Flies – Proximity Filtering ===
 Tags: proximity, location, distance, radius, zip, map, search, filter, taxonomy, terms, geolocation, postal code
 Contributors: eugenevv
 Author: Eugene Weinstein
@@ -25,7 +25,7 @@ As the Crow Flies lets you attach physical locations (addresses and/or coordinat
 * US Zip Code centroids bundled — no external geocoding API needed for basic use
 * International support — upload GeoNames postal code data for any country
 * Browser geolocation support — no postal code entry needed
-* IP-based approximate location as a fallback — choose from FreeIPAPI, ipapi.co, or ipwho.is (all free, no key required)
+* Optional IP-based approximate location as a fallback (off by default) — choose from FreeIPAPI, ipapi.co, or ipwho.is (all free, no key required)
 * CSV import/export for bulk location management
 * WP_Query integration with nested `atcf_query` parameter
 * REST API for headless and JavaScript use: `/atcf/v1/locations`, `/atcf/v1/visitor-location`, `/atcf/v1/nearest-postal-code`
@@ -167,14 +167,14 @@ Create a custom taxonomy for your location entities (e.g. "Branches", "Stores", 
 
 The PHP and REST code recipe for retrieving a term's locations from a theme template is documented in the [Developer Reference → PHP API](https://hypertaxonomy.org/as-the-crow-flies/developer-reference/php-api.html).
 
-= What external services does this plugin use? =
+== External services ==
 
 As the Crow Flies contacts these services only for the features described. Nothing is sent on ordinary page views.
 
 * **US Census Geocoder** (geocoding.geo.census.gov) — converts US addresses to coordinates. The plugin sends location addresses (street, city, state, ZIP code) from the site's server, in the hourly geocoding run or when an administrator clicks Geocode. No visitor data is sent. [Terms of Service](https://www.census.gov/data/developers/terms-of-service.html), [Privacy Policy](https://www.census.gov/about/policies/privacy/privacy-policy.html)
 * **US Census Bureau downloads** (www2.census.gov) — when an administrator clicks the button to download current ZIP code data on the Postal Codes settings tab, the plugin downloads the public ZCTA Gazetteer file. Nothing else is sent. Same terms and privacy policy as above.
 * **OpenStreetMap Nominatim** (nominatim.openstreetmap.org) — used in two ways. From the site's server, it geocodes addresses the Census Geocoder can't match, sending the location's address. From the visitor's browser, when the visitor clicks the "use my location" button on a location form or distance field, it looks up the city or postal code for the visitor's coordinates to show in the form; the browser sends those coordinates. [Usage Policy](https://operations.osmfoundation.org/policies/nominatim/), [Privacy Policy](https://osmfoundation.org/wiki/Privacy_Policy)
-* **IP geolocation provider** — approximates the visitor's location when a "near me" shortcode, block or search needs it and the browser doesn't provide one. The site's server sends the visitor's IP address to the provider selected in Settings → As the Crow Flies → Advanced. It is not contacted on other page views, when IP geolocation is turned off, or when the site's CDN supplies the visitor's location in request headers (Cloudflare's "Add visitor location headers" managed transform). Results are cached per IP address for the Cache TTL setting (one day by default).
+* **IP geolocation provider** — approximates the visitor's location when a "near me" shortcode, block or search needs it and the browser doesn't provide one. The site's server sends the visitor's IP address to the provider selected in Settings → As the Crow Flies → Advanced. IP geolocation is off by default; it is used only after an administrator turns it on there. The provider is not contacted on other page views, when IP geolocation is turned off, or when the site's CDN supplies the visitor's location in request headers (Cloudflare's "Add visitor location headers" managed transform). Results are cached per IP address for the Cache TTL setting (one day by default).
   * **FreeIPAPI** (freeipapi.com, default): [Terms](https://freeipapi.com/terms), [Privacy Policy](https://freeipapi.com/privacy)
   * **ipapi.co**: [Terms of Service](https://ipapi.co/terms/), [Privacy Policy](https://ipapi.co/privacy/)
   * **ipwho.is** (operated by ipwhois.io): [Terms of Service](https://ipwhois.io/terms), [Privacy Policy](https://ipwhois.io/privacy)

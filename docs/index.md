@@ -12,12 +12,6 @@ Attach physical locations (addresses and/or coordinates) to taxonomy terms and l
 
 Part of the [HyperTaxonomy Suite](https://hypertaxonomy.org) of interoperable WordPress taxonomy plugins. Works on its own, with [more available when HyperTaxonomy is active](user-guide/working-with-hypertaxonomy.html).
 
-## Documentation map
-
-- **[User Guide](user-guide/)** — for site owners: adding locations, geocoding, CSV import and export, every setting, the shortcodes and blocks, and what HyperTaxonomy adds.
-- **[Developer Reference](developer-reference/)** — for theme and plugin developers: the PHP API, `WP_Query` `atcf_query` integration, the `window.atcfGeo` JavaScript API, the REST API, actions and filters, and the external services used.
-- **[Architecture](architecture/)** — for contributors: file structure and loading, function and hook references, and data storage.
-
 ## Requirements
 
 | Item | Version |
@@ -27,10 +21,16 @@ Part of the [HyperTaxonomy Suite](https://hypertaxonomy.org) of interoperable Wo
 
 ## Getting started
 
-1. Install from the [WordPress.org plugin directory](https://wordpress.org/plugins/as-the-crow-flies/), or download the zip from [GitHub Releases](https://github.com/HyperTaxonomy/as-the-crow-flies/releases) and upload via **Plugins → Add New → Upload Plugin**, then activate it.
-2. Go to **Settings → As the Crow Flies → General** to enable taxonomies, set default distance units, and configure location matching.
+1. Install from the [WordPress.org plugin directory](https://wordpress.org/plugins/as-the-crow-flies/), or download the zip from [GitHub Releases](https://github.com/HyperTaxonomy/as-the-crow-flies/releases) and upload via **Plugins&nbsp;→ Add New&nbsp;→ Upload Plugin**, then activate it.
+2. Go to **Settings&nbsp;→ As the Crow Flies&nbsp;→ General** to enable taxonomies, set default distance units, and configure location matching.
 3. Edit taxonomy terms to add location data, or use the CSV import. See [Locations & Settings](user-guide/locations-settings.html).
 4. Add `[atcf_locations form="yes"]` to a page: visitors enter a postal code or use their location, and your locations are listed by distance. See [Shortcodes & Blocks](user-guide/shortcodes-blocks.html) for this and the other ways to show locations.
+
+## Documentation map
+
+- **[User Guide](user-guide/)** — for site owners: adding locations, geocoding, CSV import and export, every setting, the shortcodes and blocks, and what HyperTaxonomy adds.
+- **[Developer Reference](developer-reference/)** — for theme and plugin developers: the PHP API, `WP_Query` `atcf_query` integration, the `window.atcfGeo` JavaScript API, the REST API, actions and filters, and the external services used.
+- **[Architecture](architecture/)** — for contributors: file structure and loading, function and hook references, and data storage.
 
 ## License
 

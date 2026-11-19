@@ -44,7 +44,8 @@ class ATCF_Shortcodes {
 		self::$used_fallback_location = false;
 		$output = (string) self::$method( (array) $atts );
 		// Machine-readable output (format="json") stays as-is.
-		if ( self::$used_fallback_location && '' !== $output && 0 !== strpos( $output, '<script' ) ) {
+		$is_json = is_array( $atts ) && isset( $atts['format'] ) && 'json' === strtolower( trim( (string) $atts['format'] ) );
+		if ( self::$used_fallback_location && '' !== $output && ! $is_json ) {
 			$output = '<p class="atcf-location-note" role="status">' . esc_html( self::fallback_note() ) . '</p>' . $output;
 		}
 		return $output;
@@ -243,7 +244,11 @@ class ATCF_Shortcodes {
 		wp_enqueue_style( 'atcf-frontend' );
 
 		if ( 'json' === $a['format'] ) {
-			return '<script type="application/json" class="atcf-locations-data">' . wp_json_encode( $locations ) . '</script>';
+			// JSON_HEX_TAG / JSON_HEX_AMP keep labels and addresses from closing the element early.
+			return wp_get_inline_script_tag(
+				(string) wp_json_encode( $locations, JSON_HEX_TAG | JSON_HEX_AMP ),
+				array( 'type' => 'application/json', 'class' => 'atcf-locations-data' )
+			);
 		}
 
 		if ( empty( $locations ) ) {

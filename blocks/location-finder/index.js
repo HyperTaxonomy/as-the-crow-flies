@@ -49,7 +49,7 @@ registerBlockType( metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Location Finder Settings', 'as-the-crow-flies' ) }>
+					<PanelBody className="atcf-inspector-panel" title={ __( 'Location Finder Settings', 'as-the-crow-flies' ) }>
 						<SelectControl
 							label={ __( 'Taxonomy', 'as-the-crow-flies' ) }
 							value={ taxonomy }

@@ -25,8 +25,11 @@ Plugin activation: table creation and initial data import.
 
 **`ATCF_Activator`** — Plugin activation, database tables and postal centroid imports. Both centroid importers go through the private replace_centroids(), which deletes the country's rows and inserts the file's valid rows in batches of 500 inside one transaction. A failed write rolls back, and a file with no valid rows changes nothing.
 
+- `ATCF_Activator::create_tables(): bool` — Create or update both tables with `dbDelta()` and add the default options. Records `atcf_db_version` only when both tables exist afterwards; returns whether they do.
+- `ATCF_Activator::maybe_upgrade()` — `admin_init`: when `atcf_db_version` isn't the current plugin version (after an update, or when table creation failed on activation), runs `create_tables()` again and, if it succeeds, the bundled US centroid import (which skips itself when US rows exist).
 - `ATCF_Activator::reimport_us_centroids()` — Re-import US centroids from the bundled CSV file, replacing existing rows.
 - `ATCF_Activator::get_centroid_count( string $country )` — Return the count of rows in the centroids table for a given country.
+- `ATCF_Activator::import_geonames_upload( string $country, string $path )` — Import an uploaded GeoNames file: the TSV itself, or the zip GeoNames distributes it in (`{COUNTRY}.zip` holding `{COUNTRY}.txt` and `readme.txt`). A zip, detected by its signature, is read with `ZipArchive`: the country's `.txt` is extracted to a temporary file and passed to `import_geonames_file()`.
 - `ATCF_Activator::import_geonames_file( string $country, string $tmp_path )` — Import centroids from a GeoNames TSV file for a given country. Replaces all existing rows for that country.
 - `ATCF_Activator::download_and_import_census_zcta()` — Download the Census ZCTA Gazetteer zip from census.gov, extract the TSV, and import into the centroids table.
 - `ATCF_Activator::import_zcta_file( string $tmp_path, string $delimiter = ',' )` — Import US centroid data from a Zip code file: the bundled CSV, an uploaded CSV, or the Census Gazetteer (tab-delimited). Replaces all existing US rows.
@@ -37,6 +40,7 @@ Admin integration: term edit panel and term list column.
 
 **`ATCF_Admin`**
 
+- `ATCF_Admin::get_uploaded_file( string $field, array $extensions ): string` — Temporary path of a file uploaded in this request through the given file input, or `''` unless the upload succeeded, `is_uploaded_file()` confirms it, and its name has one of the allowed extensions. Used by all four upload handlers (term and global location CSVs, ZCTA file, GeoNames file).
 - `ATCF_Admin::flush_location_caches( string $taxonomy )` — Flush the per-taxonomy location caches on atcf_location_changed.
 
 ### CSV import and export (`includes/class-csv.php`)
@@ -89,7 +93,7 @@ HyperTaxonomy integration — term merge lifecycle.
 
 - `ATCF_HT_Integration::merge_group_terms_into_string( string $group_attr, string $term_attr, string $taxonomy )` — Merge a shortcode `group` attribute's expanded members into a `term` string.
 - `ATCF_HT_Integration::merge_group_term_ids( array $term_ids, array $group_ids, string $taxonomy )` — Merge expanded HyperTaxonomy group members into a list of term IDs.
-- `ATCF_HT_Integration::terms_menu_slug()` — Return the shared "Terms" top-level menu slug if one is already registered by a suite plugin (HyperTaxonomy's htax-terms or TermConnect's tc-terms), else null.
+- `ATCF_HT_Integration::terms_menu_slug()` — Return the shared "Terms" top-level menu slug if one is already registered by a suite plugin (HyperTaxonomy's htax-terms or TermConnect's tconn-terms), else null.
 
 ### Locations page (all terms) (`includes/class-locations-global.php`)
 

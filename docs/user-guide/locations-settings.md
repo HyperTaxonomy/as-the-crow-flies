@@ -19,13 +19,13 @@ How to add locations to terms, import them in bulk, and configure the plugin. To
 
 ## Adding locations
 
-Start by enabling a taxonomy at **Settings → As the Crow Flies → General**, under **Enabled Taxonomies**. Its term edit screens then show a **Locations** panel, its term lists can show a **Locations** column, and it appears in the block settings. The column is hidden by default, so turn it on from **Screen Options**.
+Start by enabling a taxonomy at **Settings&nbsp;→ As the Crow Flies&nbsp;→ General**, under **Enabled Taxonomies**. Its term edit screens then show a **Locations** panel, its term lists can show a **Locations** column, and it appears in the block settings. The column is hidden by default, so turn it on from **Screen Options**.
 
 ![The Tags list with the Locations column circled, showing how many locations each tag has](../assets/images/screenshots/tags-list-locations.png)
 
 ### For one term
 
-Edit the term and click **Add locations →** to open its Locations page. Each location has these fields:
+Edit the term and click **Add locations&nbsp;→** to open its Locations page. Each location has these fields:
 
 | Field | Notes |
 |-------|-------|
@@ -41,7 +41,7 @@ A term can have any number of locations. Distance results use whichever one is n
 
 ### For all terms
 
-**Terms → Term Locations** lists the locations of every term in one table, across all taxonomies with locations enabled. It's the place to review locations site-wide: to find the ones still waiting for coordinates, check geocoding results, or import and export locations for many terms at once.
+**Terms&nbsp;→ Term Locations** lists the locations of every term in one table, across all taxonomies with locations enabled. It's the place to review locations site-wide: to find the ones still waiting for coordinates, check geocoding results, or import and export locations for many terms at once.
 
 ![Terms → Term Locations: the Bulk Import CSV form on the left, and on the right the filters and a table of eleven tag locations, each with its term, label, address, city, state, zip, a coordinates check mark, its geocoding status and Edit, Geocode, Clear and Delete links](../assets/images/screenshots/term-locations-all.png)
 
@@ -94,12 +94,12 @@ Clearing a location's coordinates queues it for geocoding again.
 
 ## CSV import and export
 
-Import and export are available on each term's Locations page and on **Terms → Term Locations**. Each has a **Download CSV template** link.
+Import and export are available on each term's Locations page and on **Terms&nbsp;→ Term Locations**. Each has a **Download CSV template** link.
 
 | Where | Columns |
 |-------|---------|
 | One term's Locations page | `label`, `address_line`, `address_line2`, `locality`, `region`, `postal_code`, `country`, `lat`, `lng` |
-| **Terms → Term Locations** | `taxonomy`, `term_slug`, `country`, `label`, `address_line`, `address_line2`, `locality`, `region`, `postal_code`, `lat`, `lng` |
+| **Terms&nbsp;→ Term Locations** | `taxonomy`, `term_slug`, `country`, `label`, `address_line`, `address_line2`, `locality`, `region`, `postal_code`, `lat`, `lng` |
 
 A header row is recognized automatically, and its columns can be in any order. Without one, columns must be in the order above.
 
@@ -119,7 +119,7 @@ A header row is recognized automatically, and its columns can be in any order. W
 
 ## Settings
 
-Go to **Settings → As the Crow Flies**.
+Go to **Settings&nbsp;→ As the Crow Flies**.
 
 ### General
 
@@ -146,7 +146,7 @@ Distances from a postal code are measured from the center of that postal code's 
 ![The Postal Codes tab: US ZIP code data and the form for adding another country from GeoNames](../assets/images/screenshots/settings-postal-codes.png)
 
 - **US Zip Code Data** comes bundled, with about 33,000 Zip codes. You can disable it, download the current data from the Census Bureau, upload a file, or restore the bundled copy.
-- **Other Countries** takes a free per-country postal code file from GeoNames. Enter the country code and upload the TSV file. Each country can then be enabled, disabled or deleted.
+- **Other Countries** takes a free per-country postal code file from GeoNames. Enter the country code and upload the downloaded .zip file, or the .txt file inside it. Each country can then be enabled, disabled or deleted.
 
 Locations with their own coordinates work in any country, with or without this data.
 
@@ -155,7 +155,7 @@ Locations with their own coordinates work in any country, with or without this d
 | Setting | Description | Default |
 |---------|-------------|---------|
 | **Directions provider** | See [Directions](shortcodes-blocks.html#directions). | Google Maps |
-| **Enable IP geolocation** | Estimate the visitor's location from their IP address when the browser can't provide it. The IP address is sent to the provider you choose. | On |
+| **Enable IP geolocation** | Estimate the visitor's location from their IP address when the browser can't provide it. The IP address is sent to the provider you choose, so this is off until you turn it on. | Off |
 | **Provider** | FreeIPAPI, ipapi.co or ipwho.is. None needs an API key. | FreeIPAPI |
 | **Cache TTL** | How long to keep each IP lookup, in seconds. | `86400` |
 | **Fallback location** | Latitude and longitude for "near me" features to use when the visitor's location can't be determined. Results based on it carry a note. | Empty |

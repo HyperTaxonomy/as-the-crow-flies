@@ -215,7 +215,7 @@ class ATCF_HT_Integration {
 
 	/**
 	 * Return the shared "Terms" top-level menu slug if one is already registered by a
-	 * suite plugin (HyperTaxonomy's htax-terms or TermConnect's tc-terms), else null.
+	 * suite plugin (HyperTaxonomy's htax-terms or TermConnect's tconn-terms), else null.
 	 *
 	 * ATCF attaches its Term Locations page under the shared Terms menu when one
 	 * exists, and falls back to its own top-level menu otherwise. Checking both known
@@ -227,7 +227,7 @@ class ATCF_HT_Integration {
 	 */
 	public static function terms_menu_slug(): ?string {
 		global $menu;
-		$known = array( self::TERMS_MENU_SLUG, 'tc-terms' );
+		$known = array( self::TERMS_MENU_SLUG, 'tconn-terms' );
 		foreach ( (array) $menu as $item ) {
 			if ( isset( $item[2] ) && in_array( $item[2], $known, true ) ) {
 				return $item[2];
@@ -251,7 +251,7 @@ class ATCF_HT_Integration {
 	 */
 	public static function position_term_column( array $columns, string $key, string $label ): array {
 		if ( function_exists( 'htax_insert_column_after' ) ) {
-			$after = array_key_exists( 'tc_ext_links', $columns ) ? 'tc_ext_links' : 'htax_hidden';
+			$after = array_key_exists( 'tconn_ext_links', $columns ) ? 'tconn_ext_links' : 'htax_hidden';
 			return htax_insert_column_after( $columns, $after, $key, $label );
 		}
 		$columns[ $key ] = $label;

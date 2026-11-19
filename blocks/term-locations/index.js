@@ -42,7 +42,7 @@ registerBlockType( metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Term Locations Settings', 'as-the-crow-flies' ) }>
+					<PanelBody className="atcf-inspector-panel" title={ __( 'Term Locations Settings', 'as-the-crow-flies' ) }>
 						<SelectControl
 							label={ __( 'Taxonomy', 'as-the-crow-flies' ) }
 							value={ taxonomy }
@@ -120,7 +120,7 @@ registerBlockType( metadata.name, {
 							/>
 						) }
 					</PanelBody>
-					<PanelBody title={ __( 'Columns shown', 'as-the-crow-flies' ) } initialOpen={ false }>
+					<PanelBody className="atcf-inspector-panel" title={ __( 'Columns shown', 'as-the-crow-flies' ) } initialOpen={ false }>
 						<ToggleControl
 							label={ __( 'Address line', 'as-the-crow-flies' ) }
 							checked={ showAddressLine }

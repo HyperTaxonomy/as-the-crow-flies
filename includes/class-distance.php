@@ -1110,7 +1110,7 @@ function atcf_get_ip_location(): ?array {
 	if ( $cdn ) {
 		return $cdn;
 	}
-	if ( ! get_option( 'atcf_ip_geo_enabled', true ) ) {
+	if ( ! get_option( 'atcf_ip_geo_enabled', false ) ) {
 		return null;
 	}
 

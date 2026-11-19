@@ -5,8 +5,17 @@ nav_order: 3
 ---
 
 # Working with HyperTaxonomy
+{: .no_toc }
 
 When [HyperTaxonomy](https://hypertaxonomy.org/hypertaxonomy/) is active alongside As the Crow Flies, additional features become available. None require configuration beyond enabling the relevant taxonomies in As the Crow Flies' settings.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Term group expansion
 
@@ -35,7 +44,7 @@ The underlying expansion is also available programmatically via `atcf_expand_hta
 
 ## Settings
 
-The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the **Enabled Taxonomies** list in **Settings → As the Crow Flies → General** when HyperTaxonomy is active, since attaching locations to group terms directly is not meaningful.
+The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the **Enabled Taxonomies** list in **Settings&nbsp;→ As the Crow Flies&nbsp;→ General** when HyperTaxonomy is active, since attaching locations to group terms directly is not meaningful.
 
 ---
 

@@ -46,7 +46,7 @@ registerBlockType( metadata.name, {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Nearest Location Settings', 'as-the-crow-flies' ) }>
+					<PanelBody className="atcf-inspector-panel" title={ __( 'Nearest Location Settings', 'as-the-crow-flies' ) }>
 						<SelectControl
 							label={ __( 'Taxonomy', 'as-the-crow-flies' ) }
 							value={ taxonomy }
