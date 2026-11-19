@@ -5,8 +5,17 @@ nav_order: 4
 ---
 
 # REST API
+{: .no_toc }
 
 Three read-only endpoints under `atcf/v1`. None of them needs authentication.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## `GET /wp-json/atcf/v1/visitor-location`
 
@@ -41,4 +50,4 @@ Returns `{ "postal_code", "country", "distance_km" }` with the nearest centroid 
 
 ## Privacy
 
-Settings → Advanced → "Return location data via REST API" controls `/atcf/v1/locations` only. When unchecked, the endpoint always returns an empty `locations` array (`{"locations":[],"count":0,...}`) — callers cannot retrieve your location database via REST, though the endpoint itself stays accessible. The [Location Finder and Nearest Location blocks](../user-guide/shortcodes-blocks.html#blocks) (which read this endpoint) will show "no locations found" in that state; the [Term Locations block](../user-guide/shortcodes-blocks.html#term-locations-block) is unaffected, since it renders server-side and never calls the REST endpoint. Shortcodes and server-side distance filtering are unaffected either way — they call `ATCF_Distance::get_locations_within_radius()` directly, a separate code path from this REST endpoint, so this setting never suppresses them. `/atcf/v1/nearest-postal-code` is a different endpoint entirely and is unaffected by this setting — it never returns location coordinates or addresses to begin with (only a postal code and a distance).
+Settings&nbsp;→ Advanced&nbsp;→ "Return location data via REST API" controls `/atcf/v1/locations` only. When unchecked, the endpoint always returns an empty `locations` array (`{"locations":[],"count":0,...}`) — callers cannot retrieve your location database via REST, though the endpoint itself stays accessible. The [Location Finder and Nearest Location blocks](../user-guide/shortcodes-blocks.html#blocks) (which read this endpoint) will show "no locations found" in that state; the [Term Locations block](../user-guide/shortcodes-blocks.html#term-locations-block) is unaffected, since it renders server-side and never calls the REST endpoint. Shortcodes and server-side distance filtering are unaffected either way — they call `ATCF_Distance::get_locations_within_radius()` directly, a separate code path from this REST endpoint, so this setting never suppresses them. `/atcf/v1/nearest-postal-code` is a different endpoint entirely and is unaffected by this setting — it never returns location coordinates or addresses to begin with (only a postal code and a distance).

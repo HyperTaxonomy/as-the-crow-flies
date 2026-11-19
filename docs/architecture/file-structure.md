@@ -5,6 +5,15 @@ nav_order: 1
 ---
 
 # File Structure & Loading
+{: .no_toc }
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## File Structure
 
@@ -52,10 +61,11 @@ as-the-crow-flies/
 │   ├── class-csv.php                           # CSV import and export for location data.
 │   ├── class-distance.php                      # Distance calculation, centroid lookup, coordinate validation, and public API.
 │   ├── class-geocoder.php                      # US Census Geocoder batch integration and cron scheduling.
-│   ├── class-ht-integration.php                # HyperTaxonomy integration — term merge lifecycle.
+│   ├── class-ht-integration.php                # HyperTaxonomy integration — term merges and conversions, and group expansion.
 │   ├── class-locations-global.php              # Global Locations admin page — shown under Terms menu.
 │   ├── class-locations-page.php                # Per-term locations management page.
 │   ├── class-locations.php                     # CRUD operations for term locations.
+│   ├── class-options.php                       # Safe changes to options that several requests may change at once.
 │   ├── class-rest-api.php                      # REST API endpoints.
 │   ├── class-settings-page.php                 # Plugin settings page — three tabs: General, Postal Codes, Advanced.
 │   ├── class-shortcodes.php                    # Frontend shortcodes.

@@ -9,16 +9,6 @@ nav_order: 2
 
 The user-facing reference for displaying and filtering locations: three shortcodes, three blocks, the shared item-template token set, output formats, directions providers, and CSS classes.
 
-**Visitor location ("near me").** Everything in As the Crow Flies and HyperTaxonomy that needs the visitor's location uses one chain, defined in `atcf_get_visitor_location()` (server) and `atcfGeo` (browser):
-
-1. a place the visitor typed (postal code, term) — always wins, and is not part of the chain;
-2. the browser's position — the current one (the browser asks permission once per site; HTTPS only), otherwise the last one it gave on this device (remembered for 7 days);
-3. the site's CDN location headers (Cloudflare's "Add visitor location headers" managed transform) — no third party involved;
-4. IP geolocation, when enabled in **Settings → As the Crow Flies → Advanced**;
-5. the **Fallback location** from the same tab, when set. Results based on it carry a note: "Showing results near the default location — we couldn't determine yours."
-
-When nothing answers, the feature shows nothing (or, in HyperTaxonomy [searches](https://hypertaxonomy.org/hypertaxonomy/user-guide/powersearch.html#query-syntax), isn't filtered by distance and says so).
-
 ## Table of contents
 {: .no_toc .text-delta }
 
@@ -34,13 +24,27 @@ There are two ways to render location data, both built on the same data model an
 - **Shortcode / block** — insert `[atcf_locations]` or the Term Locations block anywhere in a post to pull location data from any term, regardless of that post's own taxonomy assignments. Useful when the displayed locations and the filtering/search terms don't need to match, or when authors control placement through the editor.
 - **Custom taxonomy + theme template** — create a taxonomy specifically for your location entities (e.g. "Branches", "Offices"), enable it in settings, and attach addresses to its terms. Theme templates then retrieve locations automatically from the post's assigned terms via `get_the_terms()` + `ATCF_Locations::get_for_term( $term->term_id, $taxonomy )`, with no shortcode required. Suits sites where location data is a structural property of the content rather than an editorial choice.
 
+## Visitor location
+
+Everything in As the Crow Flies and HyperTaxonomy that needs the visitor's location ("near me") uses one chain, defined in `atcf_get_visitor_location()` (server) and `atcfGeo` (browser):
+
+1. a place the visitor typed (postal code, term) — always wins, and is not part of the chain;
+2. the browser's position — the current one (the browser asks permission once per site; HTTPS only), otherwise the last one it gave on this device (remembered for 7 days);
+3. the site's CDN location headers (Cloudflare's "Add visitor location headers" managed transform) — no third party involved;
+4. IP geolocation, when enabled in **Settings&nbsp;→ As the Crow Flies&nbsp;→ Advanced**;
+5. the **Fallback location** from the same tab, when set. Results based on it carry a note: "Showing results near the default location — we couldn't determine yours."
+
+When nothing answers, the feature shows nothing (or, in HyperTaxonomy [searches](https://hypertaxonomy.org/hypertaxonomy/user-guide/powersearch.html#query-syntax), isn't filtered by distance and says so).
+
+---
+
 ## Shortcodes
 
 ### [atcf_locations] — Location Finder
 
 Displays locations within a radius of the visitor.
 
-When neither `postal_code` nor `lat`/`lng` is provided, the visitor's location is used automatically (see *Visitor location* above). Add `form="yes"` to show an interactive postal code / geolocation form instead.
+When neither `postal_code` nor `lat`/`lng` is provided, the visitor's location is used automatically (see [Visitor location](#visitor-location)). Add `form="yes"` to show an interactive postal code / geolocation form instead.
 
 **Attributes:**
 
@@ -105,7 +109,7 @@ Limit to a specific term with a custom item template:
 
 Lists taxonomy terms that have at least one location within a radius of the visitor, sorted by nearest location.
 
-When neither `postal_code` nor `lat`/`lng` is provided, the visitor's location is used automatically (see *Visitor location* above). Add `form="yes"` to show an interactive form instead.
+When neither `postal_code` nor `lat`/`lng` is provided, the visitor's location is used automatically (see [Visitor location](#visitor-location)). Add `form="yes"` to show an interactive form instead.
 
 **Attributes:**
 
@@ -162,7 +166,7 @@ The reference point is determined in one of three ways:
 
 - **With `term`** — the reference point(s) come from the named term's locations. All locations are expanded and the search radius is applied around each one.
 - **With `postal_code`** — the centroid of the given postal code is used as the reference point.
-- **Without either** — the visitor's location is used as the reference point (see *Visitor location* above: CDN headers, IP geolocation, then the fallback location, with a note when it is used). Output is empty when none is available.
+- **Without either** — the visitor's location is used as the reference point (see [Visitor location](#visitor-location): CDN headers, IP geolocation, then the fallback location, with a note when it is used). Output is empty when none is available.
 
 **Attributes:**
 
@@ -248,7 +252,7 @@ Renders an interactive search form: the visitor enters a postal code (or clicks 
 | Item template | — | Custom per-row template using `{placeholder}` tokens. See [Item templates](#item-templates). |
 | Show "Use my location" button | on | Adds a crosshair geolocation button next to the postal code input. |
 | Directions provider | Site default | Per-block override. See [Directions](#directions). |
-| Country | `US` | Required. Determines the postal code format for client-side validation and filters results to that country. Shown as a dropdown of countries with centroid data enabled in Settings → Postal Codes. |
+| Country | `US` | Required. Determines the postal code format for client-side validation and filters results to that country. Shown as a dropdown of countries with centroid data enabled in Settings&nbsp;→ Postal Codes. |
 
 Equivalent to `[atcf_locations form="yes" input="zip,geolocation"]`. The **Limit to specific terms** control and the shortcode's `term` attribute both accept multiple terms.
 
@@ -373,7 +377,7 @@ Full address block with inline HTML:
 
 ## Directions
 
-**Settings → As the Crow Flies → Advanced → Directions** sets the site-wide default directions provider:
+**Settings&nbsp;→ As the Crow Flies&nbsp;→ Advanced&nbsp;→ Directions** sets the site-wide default directions provider:
 
 | Setting value | Provider |
 |---------------|----------|
@@ -407,7 +411,7 @@ Per-provider tokens (`{directions_url_google}`, `{directions_url_apple}`, etc.) 
 
 ## CSS classes
 
-All three shortcodes accept a `class` attribute. All three blocks use WordPress's built-in **Advanced → Additional CSS class(es)** field. In both cases the value is appended to the outermost wrapper element, so individual instances can be targeted with CSS without affecting others:
+All three shortcodes accept a `class` attribute. All three blocks use WordPress's built-in **Advanced&nbsp;→ Additional CSS class(es)** field. In both cases the value is appended to the outermost wrapper element, so individual instances can be targeted with CSS without affecting others:
 
 ```
 [atcf_locations postal_code="10001" class="store-finder compact"]

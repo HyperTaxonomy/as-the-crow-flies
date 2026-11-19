@@ -47,6 +47,34 @@ class ATCF_Settings_Page {
 	}
 
 	/**
+	 * Sanitize a setting that takes one of a fixed set of values.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed    $value   Submitted value.
+	 * @param string[] $choices Allowed values.
+	 * @param string   $default Value used when the submitted one isn't allowed.
+	 * @return string
+	 */
+	public static function sanitize_choice( $value, array $choices, string $default ): string {
+		$value = sanitize_key( (string) $value );
+		return in_array( $value, $choices, true ) ? $value : $default;
+	}
+
+	/**
+	 * Sanitize the enabled taxonomies setting: registered taxonomy names only.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed $value Submitted value.
+	 * @return string[]
+	 */
+	public static function sanitize_taxonomy_list( $value ): array {
+		$value = is_array( $value ) ? array_map( 'sanitize_key', array_map( 'strval', $value ) ) : array();
+		return array_values( array_unique( array_filter( $value, 'taxonomy_exists' ) ) );
+	}
+
+	/**
 	 * Sanitize the fallback location: "lat, lng" text → { lat, lng }, or empty.
 	 *
 	 * @since 1.0.0
@@ -77,24 +105,24 @@ class ATCF_Settings_Page {
 	 */
 	public static function register_settings(): void {
 		// General tab — only these options are processed when the General tab is saved.
-		register_setting( 'atcf_settings_general', 'atcf_enabled_taxonomies',         array( 'type' => 'array',   'default' => array() ) );
-		register_setting( 'atcf_settings_general', 'atcf_distance_units',             array( 'type' => 'string',  'default' => 'miles',  'sanitize_callback' => 'sanitize_key' ) );
+		register_setting( 'atcf_settings_general', 'atcf_enabled_taxonomies',         array( 'type' => 'array',   'default' => array(),  'sanitize_callback' => array( __CLASS__, 'sanitize_taxonomy_list' ) ) );
+		register_setting( 'atcf_settings_general', 'atcf_distance_units',             array( 'type' => 'string',  'default' => 'miles',  'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'miles', 'km' ), 'miles' ) ) );
 		register_setting( 'atcf_settings_general', 'atcf_location_match_radius',      array( 'type' => 'number',  'default' => 82.0,     'sanitize_callback' => static function( $val ) { $val = (float) $val; return $val >= 0.0 ? $val : 0.0; } ) );
 		register_setting( 'atcf_settings_general', 'atcf_find_terms_radius',          array( 'type' => 'number',  'default' => 50.0,     'sanitize_callback' => static function( $val ) { $val = (float) $val; return $val >= 0.0 ? $val : 0.0; } ) );
-		register_setting( 'atcf_settings_general', 'atcf_location_match_mode',        array( 'type' => 'string',  'default' => 'either', 'sanitize_callback' => 'sanitize_key' ) );
-		register_setting( 'atcf_settings_general', 'atcf_match_require_label_address', array( 'type' => 'boolean', 'default' => false ) );
-		register_setting( 'atcf_settings_general', 'atcf_match_require_label_coords',  array( 'type' => 'boolean', 'default' => false ) );
+		register_setting( 'atcf_settings_general', 'atcf_location_match_mode',        array( 'type' => 'string',  'default' => 'either', 'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'address', 'coords', 'either', 'both' ), 'either' ) ) );
+		register_setting( 'atcf_settings_general', 'atcf_match_require_label_address', array( 'type' => 'boolean', 'default' => false, 'sanitize_callback' => 'rest_sanitize_boolean' ) );
+		register_setting( 'atcf_settings_general', 'atcf_match_require_label_coords',  array( 'type' => 'boolean', 'default' => false, 'sanitize_callback' => 'rest_sanitize_boolean' ) );
 
 		// Advanced tab — only these options are processed when the Advanced tab is saved.
 		// atcf_conflict_address/label/coords are import-form preferences; keep them outside
 		// any settings group so options.php never forces them to false.
-		register_setting( 'atcf_settings_advanced', 'atcf_directions_provider',    array( 'type' => 'string',  'default' => 'google',    'sanitize_callback' => 'sanitize_key' ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_enabled',         array( 'type' => 'boolean', 'default' => true ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_provider',        array( 'type' => 'string',  'default' => 'freeipapi', 'sanitize_callback' => 'sanitize_key' ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_directions_provider',    array( 'type' => 'string',  'default' => 'google',    'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'google', 'apple', 'waze', 'osm', 'geo' ), 'google' ) ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_enabled',         array( 'type' => 'boolean', 'default' => false,       'sanitize_callback' => 'rest_sanitize_boolean' ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_provider',        array( 'type' => 'string',  'default' => 'freeipapi', 'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'freeipapi', 'ipapi', 'ipwho' ), 'freeipapi' ) ) );
 		register_setting( 'atcf_settings_advanced', 'atcf_fallback_location',      array( 'type' => 'array',   'default' => array(),     'sanitize_callback' => array( __CLASS__, 'sanitize_fallback_location' ) ) );
 		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_ttl',             array( 'type' => 'integer', 'default' => 86400,       'sanitize_callback' => static function( $val ) { $val = (int) $val; return $val >= 60 ? $val : 86400; } ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_expose_locations_api',   array( 'type' => 'boolean', 'default' => true ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_delete_on_uninstall',    array( 'type' => 'boolean', 'default' => false ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_expose_locations_api',   array( 'type' => 'boolean', 'default' => true,        'sanitize_callback' => 'rest_sanitize_boolean' ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_delete_on_uninstall',    array( 'type' => 'boolean', 'default' => false,       'sanitize_callback' => 'rest_sanitize_boolean' ) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -159,7 +187,7 @@ class ATCF_Settings_Page {
 	// --------------------------------------------------------------------------
 
 	private static function render_tab_general(): void {
-		$enabled_taxonomies    = (array) get_option( 'atcf_enabled_taxonomies', array() );
+		$enabled_taxonomies    = ATCF_Options::enabled_taxonomies();
 		$distance_units = (string) get_option( 'atcf_distance_units', 'miles' );
 		if ( ! in_array( $distance_units, array( 'miles', 'km' ), true ) ) {
 			$distance_units = 'miles';
@@ -302,7 +330,7 @@ class ATCF_Settings_Page {
 
 			<?php submit_button(); ?>
 		</form>
-		<script>
+		<?php ob_start(); ?>
 		(function($) {
 			var FT_PER_M = 3.28084;
 			var unitLabels = {
@@ -352,7 +380,7 @@ class ATCF_Settings_Page {
 			$('#atcf_require_label_address, #atcf_require_label_coords').on('change', syncLocationMatchOptions);
 			syncLocationMatchOptions();
 		})(jQuery);
-		</script>
+		<?php atcf_add_inline_script( 'atcf-settings', ob_get_clean() ); ?>
 		<?php
 	}
 
@@ -489,7 +517,7 @@ class ATCF_Settings_Page {
 			<?php
 			printf(
 				/* translators: URL to GeoNames */
-				esc_html__( 'Download a per-country postal code file from %s (free). Enter the corresponding country code and upload the TSV file.', 'as-the-crow-flies' ),
+				esc_html__( 'Download a per-country postal code file from %s (free). Enter the corresponding country code and upload the downloaded .zip file, or the .txt file inside it.', 'as-the-crow-flies' ),
 				'<a href="https://download.geonames.org/export/zip/" target="_blank" rel="noopener">geonames.org</a>'
 			);
 			?>
@@ -506,7 +534,7 @@ class ATCF_Settings_Page {
 					</td>
 				</tr>
 				<tr>
-					<th><label for="atcf_geonames_file"><?php esc_html_e( 'TSV file', 'as-the-crow-flies' ); ?></label></th>
+					<th><label for="atcf_geonames_file"><?php esc_html_e( 'Postal code file', 'as-the-crow-flies' ); ?></label></th>
 					<td>
 						<div class="atcf-inline-form">
 							<input type="file" id="atcf_geonames_file" name="geonames_file" accept=".txt,.tsv,.zip" required />
@@ -526,7 +554,7 @@ class ATCF_Settings_Page {
 	private static function render_tab_advanced(): void {
 		$directions_provider  = ATCF_Distance::resolve_provider();
 		$expose_locations_api = (bool) get_option( 'atcf_expose_locations_api', true );
-		$ip_geo_enabled       = (bool) get_option( 'atcf_ip_geo_enabled', true );
+		$ip_geo_enabled       = (bool) get_option( 'atcf_ip_geo_enabled', false );
 		$ip_geo_provider      = (string) get_option( 'atcf_ip_geo_provider', 'freeipapi' );
 		$ip_geo_ttl           = (int) get_option( 'atcf_ip_geo_ttl', 86400 );
 		$fallback_location    = (array) get_option( 'atcf_fallback_location', array() );
@@ -689,16 +717,13 @@ class ATCF_Settings_Page {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		if ( empty( $_FILES['zcta_file']['tmp_name'] ) || UPLOAD_ERR_OK !== (int) $_FILES['zcta_file']['error'] ) {
-			self::redirect_tab( 'postal-codes', 'error', __( 'No file uploaded.', 'as-the-crow-flies' ) );
-			return;
-		}
-		if ( ! is_uploaded_file( $_FILES['zcta_file']['tmp_name'] ) ) {
+		$zcta_path = ATCF_Admin::get_uploaded_file( 'zcta_file', array( 'csv', 'txt' ) );
+		if ( '' === $zcta_path ) {
 			self::redirect_tab( 'postal-codes', 'error', __( 'Invalid file upload.', 'as-the-crow-flies' ) );
 			return;
 		}
 		$previous = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}atcf_postal_centroids WHERE country = %s", 'US' ) );
-		$result   = ATCF_Activator::import_zcta_file( $_FILES['zcta_file']['tmp_name'] );
+		$result   = ATCF_Activator::import_zcta_file( $zcta_path );
 		if ( is_wp_error( $result ) ) {
 			self::redirect_tab( 'postal-codes', 'error', $result->get_error_message() );
 		} else {
@@ -717,15 +742,12 @@ class ATCF_Settings_Page {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
 		$country = strtoupper( sanitize_text_field( wp_unslash( $_POST['country'] ?? '' ) ) );
-		if ( empty( $country ) || empty( $_FILES['geonames_file']['tmp_name'] ) || UPLOAD_ERR_OK !== (int) $_FILES['geonames_file']['error'] ) {
+		$geonames_path = ATCF_Admin::get_uploaded_file( 'geonames_file', array( 'txt', 'tsv', 'zip' ) );
+		if ( empty( $country ) || '' === $geonames_path ) {
 			self::redirect_tab( 'postal-codes', 'error', __( 'Country code and file are required.', 'as-the-crow-flies' ) );
 			return;
 		}
-		if ( ! is_uploaded_file( $_FILES['geonames_file']['tmp_name'] ) ) {
-			self::redirect_tab( 'postal-codes', 'error', __( 'Invalid file upload.', 'as-the-crow-flies' ) );
-			return;
-		}
-		$result = ATCF_Activator::import_geonames_file( $country, $_FILES['geonames_file']['tmp_name'] );
+		$result = ATCF_Activator::import_geonames_upload( $country, $geonames_path );
 		if ( is_wp_error( $result ) ) {
 			self::redirect_tab( 'postal-codes', 'error', $result->get_error_message() );
 		} else {
@@ -743,7 +765,7 @@ class ATCF_Settings_Page {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		update_option( 'atcf_us_centroids_enabled', get_option( 'atcf_us_centroids_enabled', 1 ) ? 0 : 1 );
+		ATCF_Options::update_locked( 'atcf_us_centroids_enabled', static fn( $enabled ) => $enabled ? 0 : 1, 1 );
 		self::redirect_tab( 'postal-codes', 'saved' );
 	}
 
@@ -758,11 +780,14 @@ class ATCF_Settings_Page {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		$meta = get_option( 'atcf_country_centroids', array() );
-		if ( isset( $meta[ $country ] ) ) {
+		ATCF_Options::update_locked( 'atcf_country_centroids', static function ( $meta ) use ( $country ): ?array {
+			$meta = (array) $meta;
+			if ( ! isset( $meta[ $country ] ) ) {
+				return null;
+			}
 			$meta[ $country ]['enabled'] = empty( $meta[ $country ]['enabled'] );
-			update_option( 'atcf_country_centroids', $meta );
-		}
+			return $meta;
+		} );
 		self::redirect_tab( 'postal-codes', 'saved' );
 	}
 
@@ -779,9 +804,11 @@ class ATCF_Settings_Page {
 		}
 		global $wpdb;
 		$wpdb->delete( $wpdb->prefix . 'atcf_postal_centroids', array( 'country' => $country ) );
-		$meta = get_option( 'atcf_country_centroids', array() );
-		unset( $meta[ $country ] );
-		update_option( 'atcf_country_centroids', $meta );
+		ATCF_Options::update_locked( 'atcf_country_centroids', static function ( $meta ) use ( $country ): array {
+			$meta = (array) $meta;
+			unset( $meta[ $country ] );
+			return $meta;
+		} );
 		self::redirect_tab( 'postal-codes', 'country_deleted' );
 	}
 
@@ -846,7 +873,9 @@ class ATCF_Settings_Page {
 function atcf_admin_justify_help_text() {
 	$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
 	if ( in_array( $page, array( 'atcf-locations-global', 'atcf-locations', 'as-the-crow-flies' ), true ) ) {
-		echo '<style>.wrap p:not(td p):not(th p):not(.notice p), .wrap p:has(+ table) { text-align: justify; hyphens: none; }</style>';
+		wp_register_style( 'atcf-admin-help-text', false, array(), ATCF_VERSION );
+		wp_add_inline_style( 'atcf-admin-help-text', '.wrap p:not(td p):not(th p):not(.notice p), .wrap p:has(+ table) { text-align: justify; hyphens: none; }' );
+		wp_print_styles( 'atcf-admin-help-text' );
 	}
 }
 add_action( 'admin_head', 'atcf_admin_justify_help_text' );

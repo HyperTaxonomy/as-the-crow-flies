@@ -19,12 +19,13 @@ A WordPress plugin that attaches physical locations (addresses or coordinates) t
 - Privacy control to suppress location data in API responses while keeping server-side distance filtering fully functional
 - Optional integration with [HyperTaxonomy](https://hypertaxonomy.org) for term group support within shortcodes and blocks
 - Provides distance filtering within HyperTaxonomy's PowerSearch and Search Widget
-- Preserves locations when HyperTaxonomy merges terms — distinct locations from merged-away terms move to the surviving term
+- Keeps locations when HyperTaxonomy merges or converts terms — on the redirect stubs, or moved or copied to the remaining or new term
 
 ## Requirements
 
 - WordPress 6.6+
 - PHP 7.4+
+- MySQL 5.7+ (MariaDB 10.3+)
 
 ## Installation
 

@@ -30,6 +30,7 @@ add_action( 'init', static function () {
 	load_plugin_textdomain( 'as-the-crow-flies', false, dirname( plugin_basename( ATCF_PLUGIN_FILE ) ) . '/languages' );
 } );
 
+require_once ATCF_PLUGIN_DIR . 'includes/class-options.php';
 require_once ATCF_PLUGIN_DIR . 'includes/class-activator.php';
 require_once ATCF_PLUGIN_DIR . 'includes/class-locations.php';
 require_once ATCF_PLUGIN_DIR . 'includes/class-distance.php';
@@ -62,6 +63,24 @@ function atcf_plugin_action_links( array $links ): array {
 	return $links;
 }
 
+/**
+ * Add a page-specific inline script through the script API.
+ *
+ * Registers a source-less footer script handle and attaches $js to it. Call it
+ * while rendering a screen, before the footer scripts are printed.
+ *
+ * @since 1.0.0
+ *
+ * @param string   $handle Script handle.
+ * @param string   $js     JavaScript code, without the script element tags.
+ * @param string[] $deps   Script dependencies.
+ */
+function atcf_add_inline_script( string $handle, string $js, array $deps = array( 'jquery' ) ): void {
+	wp_register_script( $handle, false, $deps, ATCF_VERSION, array( 'in_footer' => true ) );
+	wp_enqueue_script( $handle );
+	wp_add_inline_script( $handle, $js );
+}
+
 add_action( 'plugins_loaded', 'atcf_init' );
 
 /**
@@ -79,6 +98,7 @@ function atcf_init(): void {
 	add_action( 'atcf_location_changed', array( 'ATCF_Admin', 'flush_location_caches' ) );
 
 	if ( is_admin() ) {
+		add_action( 'admin_init', array( 'ATCF_Activator', 'maybe_upgrade' ) );
 		ATCF_Admin::register();
 		ATCF_Locations_Page::register();
 		ATCF_Settings_Page::register();

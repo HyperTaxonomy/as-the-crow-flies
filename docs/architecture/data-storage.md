@@ -5,8 +5,17 @@ nav_order: 4
 ---
 
 # Data Storage
+{: .no_toc }
 
 As the Crow Flies keeps locations in two custom tables, and its settings and caches in options and transients. It uses no term, post or user meta. For what uninstalling removes, see [Locations & Settings](../user-guide/locations-settings.html#uninstalling).
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Tables
 
@@ -47,7 +56,7 @@ Primary key: `(country, postal_code)`. US rows come from the bundled `data/posta
 
 ## Options
 
-Settings, saved by Settings → As the Crow Flies and described in [Locations & Settings](../user-guide/locations-settings.html#settings):
+Settings, saved by Settings&nbsp;→ As the Crow Flies and described in [Locations & Settings](../user-guide/locations-settings.html#settings):
 
 | Option | Type | Default |
 |---|---|---|
@@ -59,7 +68,7 @@ Settings, saved by Settings → As the Crow Flies and described in [Locations & 
 | `atcf_location_match_radius` | number | `82` |
 | `atcf_find_terms_radius` | number | `50` |
 | `atcf_directions_provider` | string | `google` |
-| `atcf_ip_geo_enabled` | boolean | `true` |
+| `atcf_ip_geo_enabled` | boolean | `false` (off until an administrator enables it, since it sends visitor IP addresses to a third-party service) |
 | `atcf_ip_geo_provider` | string | `freeipapi` |
 | `atcf_ip_geo_ttl` | integer | `86400` |
 | `atcf_fallback_location` | array | none |
@@ -70,7 +79,7 @@ Kept by the plugin:
 
 | Option | Value |
 |---|---|
-| `atcf_db_version` | Plugin version that last created or updated the tables. |
+| `atcf_db_version` | Plugin version that last created or updated the tables; recorded only once both tables exist, so `ATCF_Activator::maybe_upgrade()` retries a failed creation. |
 | `atcf_us_centroids_imported` | When the US centroids were last imported. |
 | `atcf_us_centroids_enabled` | Whether US postal codes are used. |
 | `atcf_country_centroids` | For each other country: its row count, import time and whether it's enabled. |

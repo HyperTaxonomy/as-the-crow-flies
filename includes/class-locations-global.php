@@ -104,7 +104,7 @@ class ATCF_Locations_Global {
 		$filter_postal_code    = sanitize_text_field( wp_unslash( $_GET['filter_postal_code'] ?? '' ) );
 		$filter_country        = strtoupper( sanitize_text_field( wp_unslash( $_GET['filter_country'] ?? '' ) ) );
 
-		$enabled_taxonomies = (array) get_option( 'atcf_enabled_taxonomies', array() );
+		$enabled_taxonomies = ATCF_Options::enabled_taxonomies();
 
 		// Default to first enabled taxonomy only on initial page load (no explicit taxonomy selection).
 		// When the user explicitly selects "All taxonomies", filter_taxonomy is '' but is present in GET.
@@ -494,10 +494,11 @@ class ATCF_Locations_Global {
 	 */
 	public static function handle_import(): void {
 		check_admin_referer( 'atcf_import_global' );
-		if ( ! current_user_can( 'manage_categories' ) || empty( $_FILES['atcf_csv']['tmp_name'] ) || UPLOAD_ERR_OK !== (int) $_FILES['atcf_csv']['error'] ) {
-			wp_die( esc_html__( 'Permission denied or no file.', 'as-the-crow-flies' ) );
+		if ( ! current_user_can( 'manage_categories' ) ) {
+			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		if ( ! is_uploaded_file( $_FILES['atcf_csv']['tmp_name'] ) ) {
+		$csv_path = ATCF_Admin::get_uploaded_file( 'atcf_csv', array( 'csv' ) );
+		if ( '' === $csv_path ) {
 			wp_die( esc_html__( 'Invalid file upload.', 'as-the-crow-flies' ) );
 		}
 		$upload_mode = sanitize_key( $_POST['upload_mode'] ?? 'update' );
@@ -511,7 +512,7 @@ class ATCF_Locations_Global {
 		update_option( 'atcf_conflict_address', $conflicts['address'] );
 		update_option( 'atcf_conflict_label',   $conflicts['label'] );
 		update_option( 'atcf_conflict_coords',  $conflicts['coords'] );
-		$result = ATCF_CSV::import_global( $_FILES['atcf_csv']['tmp_name'], $upload_mode, $conflicts );
+		$result = ATCF_CSV::import_global( $csv_path, $upload_mode, $conflicts );
 		$args = array(
 			'page'      => self::PAGE_SLUG,
 			'atcf_msg'  => is_wp_error( $result ) ? 'error' : 'imported',

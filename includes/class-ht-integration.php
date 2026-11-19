@@ -1,16 +1,27 @@
 <?php
 /**
- * HyperTaxonomy integration — term merge lifecycle.
+ * HyperTaxonomy integration — term merges and conversions, and group expansion.
  *
- * When HyperTaxonomy merges several source terms into a target term, the source
- * terms are deleted. ATCF's deleted_term handler removes their location rows as
- * part of that deletion. This class preserves locations that are distinct from
- * the target's existing locations: it snapshots each source term's locations
- * before the merge transaction (htax_before_merge_terms) and re-creates the
- * distinct ones on the target after the merge commits (htax_after_merge_terms).
+ * Location rows belong to a term ID, and both operations replace terms: a merge deletes its
+ * source terms, and a conversion creates a new term and either deletes the old one or keeps it
+ * as a redirect stub. ATCF deletes a deleted term's locations, so they are snapshotted first
+ * and put back where the operation's options say:
  *
- * The hooks are no-ops when HyperTaxonomy is not active — the htax_* merge
- * actions are fired only by HyperTaxonomy, so registration is always safe.
+ *  - stub: left on the redirect stub (the default when stubs are created).
+ *  - move: moved to the target or new term (the default without stubs). Locations it already
+ *          has (by ATCF's Location Matching settings) aren't added again.
+ *  - copy: copied to the target or new term, and left on the stub.
+ *  - drop: deleted.
+ *
+ * The Merge Terms and Convert Terms pages offer these in their check step (htax_merge_terms_check,
+ * htax_convert_terms_check), under the 'as-the-crow-flies' section, with HyperTaxonomy's shared
+ * choice (htax_carry_field(), htax_carry_choice()). Merges and conversions made without them,
+ * including external converters such as Categories to Tags, get HyperTaxonomy's operation-wide
+ * preference, if any, or the defaults. A conversion to a taxonomy that isn't enabled for
+ * locations leaves them on the stub, or deletes them without one.
+ *
+ * The hooks are no-ops when HyperTaxonomy is not active — the htax_* actions and filters are
+ * fired only by HyperTaxonomy, so registration is always safe.
  *
  * @package AsCrowFlies
  * @since   1.0.0
@@ -22,28 +33,191 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_HT_Integration {
 
+	/** Section ID of ATCF's choices in merge and conversion options. */
+	const SECTION = 'as-the-crow-flies';
+
 	/**
 	 * Location rows snapshotted from source terms before an HT merge, keyed by
 	 * source term ID.
-	 *
-	 * Populated in snapshot_before_merge() (fires before the merge transaction).
-	 * ATCF deletes source term locations when deleted_term fires for each source
-	 * during the transaction; the snapshot lets sync_after_merge() re-create the
-	 * distinct ones on the target after commit.
 	 *
 	 * @var array<int, object[]>
 	 */
 	private static array $location_snapshots = array();
 
 	/**
-	 * Hook the HyperTaxonomy merge actions that keep locations on merged terms.
+	 * Location rows of each term being converted, keyed by term ID, kept before the conversion
+	 * for one that deletes the term (without a stub, or by another tool).
+	 *
+	 * @var array<int, object[]>
+	 */
+	private static array $snapshots = array();
+
+	/**
+	 * The operation in progress: { options: array (outside the pages, only what the caller
+	 * passed), reverse: int[] (term IDs converted back to their stubs) }.
+	 *
+	 * @var array
+	 */
+	private static array $operation = array( 'options' => array(), 'reverse' => array() );
+
+	/**
+	 * Location counts of the operation in progress, for its result message.
+	 *
+	 * @var array{added: int, on_stubs: int}
+	 */
+	private static array $counts = array( 'added' => 0, 'on_stubs' => 0 );
+
+	/**
+	 * Result message of the last operation, or ''.
+	 *
+	 * @var string
+	 */
+	private static string $message = '';
+
+	/**
+	 * Hook the HyperTaxonomy merge and conversion actions and check steps.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_action( 'htax_before_merge_terms', array( __CLASS__, 'snapshot_before_merge' ), 10, 4 );
-		add_action( 'htax_after_merge_terms',  array( __CLASS__, 'sync_after_merge' ),       10, 4 );
+		add_filter( 'htax_merge_terms_check',       array( __CLASS__, 'merge_check' ), 10, 5 );
+		add_action( 'htax_before_merge_terms',      array( __CLASS__, 'snapshot_before_merge' ), 10, 5 );
+		add_action( 'htax_after_merge_terms',       array( __CLASS__, 'sync_after_merge' ), 10, 4 );
+		add_filter( 'htax_merge_terms_messages',    array( __CLASS__, 'messages' ) );
+		add_filter( 'htax_convert_terms_check',     array( __CLASS__, 'convert_check' ), 10, 5 );
+		add_action( 'htax_before_convert_terms',    array( __CLASS__, 'before_convert' ), 10, 5 );
+		add_action( 'htax_before_convert_term',     array( __CLASS__, 'before_convert_term' ) );
+		add_action( 'htax_after_convert_term',      array( __CLASS__, 'after_convert_term' ), 10, 4 );
+		add_action( 'htax_after_convert_terms',     array( __CLASS__, 'after_convert' ) );
+		add_filter( 'htax_convert_terms_messages',  array( __CLASS__, 'messages' ) );
 	}
+
+	// --------------------------------------------------------------------------
+	// Check step
+	// --------------------------------------------------------------------------
+
+	/**
+	 * The check step's choice of where locations go (htax_carry_field()).
+	 *
+	 * @param int    $count   Number of locations.
+	 * @param string $to_name Merge target's name, or '' for a conversion's new terms.
+	 * @param bool   $movable Whether the target or new terms can take them.
+	 * @return array Field.
+	 */
+	private static function locations_field( int $count, string $to_name, bool $movable ): array {
+		$dedupe = '' !== $to_name
+			/* translators: %s: target term name */
+			? sprintf( __( 'Locations that %s already has aren\'t added again.', 'as-the-crow-flies' ), $to_name )
+			: '';
+		return htax_carry_field( array(
+			'name'         => 'locations',
+			/* translators: %d: number of locations */
+			'label'        => sprintf( _n( '%d location', '%d locations', $count, 'as-the-crow-flies' ), $count ),
+			'target_name'  => $to_name,
+			'movable'      => $movable,
+			'descriptions' => array(
+				'stub' => __( 'Each stub keeps the locations of the term it replaces.', 'as-the-crow-flies' ),
+				'move' => $dedupe,
+				'copy' => $dedupe,
+			),
+		) );
+	}
+
+	/**
+	 * A check step section, or $sections unchanged when there are no locations.
+	 *
+	 * @param array      $sections Sections so far.
+	 * @param int        $count    Number of locations.
+	 * @param array      $field    locations_field() result.
+	 * @param array|null $notice   Notice, or null.
+	 * @return array
+	 */
+	private static function add_section( array $sections, int $count, array $field, ?array $notice = null ): array {
+		if ( $count ) {
+			$sections[] = array(
+				'id'      => self::SECTION,
+				'title'   => __( 'As the Crow Flies', 'as-the-crow-flies' ),
+				'notices' => $notice ? array( $notice ) : array(),
+				'fields'  => array( $field ),
+			);
+		}
+		return $sections;
+	}
+
+	/**
+	 * Filter htax_merge_terms_check: where the merged terms' locations go.
+	 *
+	 * @since 1.0.0
+	 * @param array  $sections        Sections so far.
+	 * @param int[]  $source_ids      Source term IDs.
+	 * @param int    $target_id       Target term ID.
+	 * @param string $taxonomy        Taxonomy.
+	 * @param bool   $create_redirect Whether redirect stubs are selected (unused here).
+	 * @return array
+	 */
+	public static function merge_check( $sections, $source_ids, $target_id, $taxonomy, $create_redirect ) {
+		$target = get_term( (int) $target_id, (string) $taxonomy );
+		if ( ! $target instanceof WP_Term ) {
+			return $sections;
+		}
+		$count = 0;
+		foreach ( (array) $source_ids as $source_id ) {
+			$count += count( ATCF_Locations::get_by_term_id( (int) $source_id ) );
+		}
+		return self::add_section( (array) $sections, $count, self::locations_field( $count, $target->name, true ) );
+	}
+
+	/**
+	 * Filter htax_convert_terms_check: where the converted terms' locations go.
+	 *
+	 * @since 1.0.0
+	 * @param array  $sections        Sections so far.
+	 * @param int[]  $term_ids        Terms to convert.
+	 * @param string $from_taxonomy   Their taxonomy.
+	 * @param string $to_taxonomy     Taxonomy to convert them to.
+	 * @param bool   $create_redirect Whether redirect stubs are selected (unused here).
+	 * @return array
+	 */
+	public static function convert_check( $sections, $term_ids, $from_taxonomy, $to_taxonomy, $create_redirect ) {
+		$count = 0;
+		foreach ( (array) $term_ids as $term_id ) {
+			if ( ! self::is_reverse( (int) $term_id, (string) $to_taxonomy ) ) {
+				$count += count( ATCF_Locations::get_by_term_id( (int) $term_id ) );
+			}
+		}
+		$movable = ATCF_Options::is_taxonomy_enabled( (string) $to_taxonomy );
+		$notice  = null;
+		if ( ! $movable ) {
+			$object = get_taxonomy( (string) $to_taxonomy );
+			$notice = array(
+				'type' => 'info',
+				/* translators: %s: taxonomy name */
+				'text' => sprintf( __( 'Locations aren\'t enabled for %s, so the new terms can\'t take them.', 'as-the-crow-flies' ), $object ? $object->labels->name : $to_taxonomy ),
+			);
+		}
+		return self::add_section( (array) $sections, $count, self::locations_field( $count, '', $movable ), $notice );
+	}
+
+	/**
+	 * Filter htax_merge_terms_messages and htax_convert_terms_messages: where the locations
+	 * went.
+	 *
+	 * @since 1.0.0
+	 * @param string[] $messages Messages.
+	 * @return string[]
+	 */
+	public static function messages( $messages ) {
+		$messages = (array) $messages;
+		if ( '' !== self::$message ) {
+			$messages[]    = self::$message;
+			self::$message = '';
+		}
+		return $messages;
+	}
+
+	// --------------------------------------------------------------------------
+	// Merges
+	// --------------------------------------------------------------------------
 
 	/**
 	 * Snapshot ATCF location rows for each source term before the merge transaction.
@@ -57,83 +231,258 @@ class ATCF_HT_Integration {
 	 * @param int    $target_id       Target term ID (unused here).
 	 * @param string $taxonomy        Taxonomy slug (unused here).
 	 * @param bool   $create_redirect Whether redirect stubs will be created (unused here).
+	 * @param array  $options         Merge options; ATCF's choice is under self::SECTION, 'locations'.
 	 */
-	public static function snapshot_before_merge( array $source_ids, int $target_id, string $taxonomy, bool $create_redirect ): void {
+	public static function snapshot_before_merge( array $source_ids, int $target_id, string $taxonomy, bool $create_redirect, array $options = array() ): void {
+		self::start( $options );
+		self::$location_snapshots = array();
 		foreach ( $source_ids as $source_id ) {
 			self::$location_snapshots[ (int) $source_id ] = ATCF_Locations::get_by_term_id( (int) $source_id );
 		}
 	}
 
 	/**
-	 * Copy snapshotted ATCF locations to the merge target after HT commits.
+	 * Put the snapshotted locations where the merge options say, after HT commits.
 	 *
 	 * htax_after_merge_terms fires after HT's COMMIT. Source term locations have
 	 * already been deleted by ATCF's deleted_term handler (as part of HT's own merge
-	 * transaction, which this function cannot retroactively affect). For each
-	 * snapshotted location, if the target already has a matching location (per ATCF
-	 * Location Matching settings) it is skipped; otherwise a new row is inserted for
-	 * the target. Rows inserted during iteration join the running $target_locs pool so
-	 * multiple source terms deduplicate against each other.
-	 *
-	 * Insertion is applied atomically at the application level: if any row fails to
-	 * insert, every row this call already inserted is deleted again (via
-	 * ATCF_Locations::delete(), so caches and change hooks stay consistent) before
-	 * returning, rather than leaving the target with an arbitrary subset of the
-	 * snapshotted locations. A DB-level transaction was tried first but proved
-	 * unreliable here: other plugins' callbacks on the atcf_location_changed /
-	 * atcf_term_location_changed hooks fired mid-loop by ATCF_Locations::insert()
-	 * can run their own queries that break an open transaction out from under this
-	 * function, so correctness cannot depend on no other hooked code doing that.
+	 * transaction, which this function cannot retroactively affect).
 	 *
 	 * @since 1.0.0
 	 * @param int[]  $source_ids Source term IDs that were merged.
 	 * @param int    $target_id  Target term ID.
 	 * @param string $taxonomy   Taxonomy slug.
-	 * @param array  $result     HT merge result data (unused here).
+	 * @param array  $result     HT merge result, with redirect_stubs.
 	 */
 	public static function sync_after_merge( array $source_ids, int $target_id, string $taxonomy, array $result ): void {
-		$target_locs = ATCF_Locations::get_by_term_id( $target_id );
-		$inserted_ids = array();
-		$failed       = false;
-
+		$stubs = (array) ( $result['redirect_stubs'] ?? array() );
 		foreach ( $source_ids as $source_id ) {
-			$source_id   = (int) $source_id;
-			$source_locs = self::$location_snapshots[ $source_id ] ?? array();
+			$source_id = (int) $source_id;
+			self::carry(
+				self::$location_snapshots[ $source_id ] ?? array(),
+				(int) ( $stubs[ $source_id ] ?? 0 ),
+				false,
+				$taxonomy,
+				$target_id,
+				$taxonomy,
+				htax_carry_choice( self::$operation['options'], self::SECTION, 'locations', ! empty( $stubs[ $source_id ] ) )
+			);
+			unset( self::$location_snapshots[ $source_id ] );
+		}
+		$target = get_term( $target_id );
+		self::finish( $target instanceof WP_Term ? $target->name : '' );
+	}
 
-			foreach ( $source_locs as $loc ) {
-				if ( self::location_matches_any( $loc, $target_locs ) ) {
-					continue; // Target already has this location; source already deleted.
-				}
-				$data             = (array) $loc;
-				unset( $data['id'] );          // Let insert() generate a new ID.
-				$data['term_id']  = $target_id;
-				$data['taxonomy'] = $taxonomy;
-				$new_id           = ATCF_Locations::insert( $data );
-				if ( is_wp_error( $new_id ) ) {
-					$failed = true;
-					break 2;
-				}
-				$inserted_ids[]  = $new_id;
-				$added           = clone $loc;
-				$added->term_id  = $target_id;
-				$added->taxonomy = $taxonomy;
-				$target_locs[]   = $added;
+	// --------------------------------------------------------------------------
+	// Conversions
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Action htax_before_convert_terms: remember the choice made, and which terms are being
+	 * converted back to their stubs (their locations go back to the stub).
+	 *
+	 * @since 1.0.0
+	 * @param int[]  $term_ids        Terms to convert.
+	 * @param string $from_taxonomy   Their taxonomy.
+	 * @param string $to_taxonomy     Taxonomy to convert them to.
+	 * @param bool   $create_redirect Whether redirect stubs will be left (unused here).
+	 * @param array  $options         Conversion options; ATCF's choice is under self::SECTION, 'locations'.
+	 */
+	public static function before_convert( $term_ids, $from_taxonomy, $to_taxonomy, $create_redirect, $options = array() ): void {
+		self::start( (array) $options );
+		foreach ( (array) $term_ids as $term_id ) {
+			if ( self::is_reverse( (int) $term_id, (string) $to_taxonomy ) ) {
+				self::$operation['reverse'][] = (int) $term_id;
 			}
 		}
+	}
 
-		if ( $failed ) {
-			foreach ( $inserted_ids as $id ) {
-				ATCF_Locations::delete( $id );
-			}
-			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				error_log( '[ATCF HT merge] Location sync failed and was rolled back for target term ' . $target_id );
-			}
+	/**
+	 * Action htax_before_convert_term: keep a term's locations, which ATCF deletes with the
+	 * term when the conversion leaves no stub.
+	 *
+	 * @since 1.0.0
+	 * @param int $term_id Term being converted.
+	 */
+	public static function before_convert_term( $term_id ): void {
+		$rows = ATCF_Locations::get_by_term_id( (int) $term_id );
+		if ( $rows ) {
+			self::$snapshots[ (int) $term_id ] = $rows;
+		}
+	}
+
+	/**
+	 * Action htax_after_convert_term: put the converted term's locations where the
+	 * conversion's options say. A term converted back to its stub gives them back to the stub.
+	 *
+	 * @since 1.0.0
+	 * @param int    $new_term_id  New term ID.
+	 * @param string $old_taxonomy Old taxonomy.
+	 * @param string $new_taxonomy New taxonomy.
+	 * @param int    $old_term_id  Old term ID (the stub, or deleted).
+	 */
+	public static function after_convert_term( $new_term_id, $old_taxonomy, $new_taxonomy, $old_term_id ): void {
+		$old_term_id = (int) $old_term_id;
+		$alive       = get_term( $old_term_id, (string) $old_taxonomy ) instanceof WP_Term;
+		$rows        = $alive ? ATCF_Locations::get_by_term_id( $old_term_id ) : ( self::$snapshots[ $old_term_id ] ?? array() );
+		unset( self::$snapshots[ $old_term_id ] );
+
+		$options = in_array( $old_term_id, self::$operation['reverse'], true )
+			? array( 'htax' => array( 'carry' => 'move' ) )
+			: self::$operation['options'];
+		// A new term in a taxonomy without locations can't take them: they stay on the stub, or go.
+		$choice  = htax_carry_choice( $options, self::SECTION, 'locations', $alive, ATCF_Options::is_taxonomy_enabled( (string) $new_taxonomy ) );
+		self::carry( $rows, $alive ? $old_term_id : 0, true, (string) $old_taxonomy, (int) $new_term_id, (string) $new_taxonomy, $choice );
+	}
+
+	/**
+	 * Action htax_after_convert_terms: report where the locations went.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function after_convert(): void {
+		self::finish( '' );
+	}
+
+	// --------------------------------------------------------------------------
+	// Helpers
+	// --------------------------------------------------------------------------
+
+	/**
+	 * Start an operation: its options, no counts yet.
+	 *
+	 * @param array $options Operation options.
+	 */
+	private static function start( array $options ): void {
+		self::$operation = array(
+			'options' => $options,
+			'reverse' => array(),
+		);
+		self::$counts    = array( 'added' => 0, 'on_stubs' => 0 );
+		self::$message   = '';
+	}
+
+	/**
+	 * End an operation: its result message, if any location was kept, and forget its options.
+	 *
+	 * @param string $target_name Merge target's name, or '' for a conversion.
+	 */
+	private static function finish( string $target_name ): void {
+		if ( self::$counts['added'] || self::$counts['on_stubs'] ) {
+			self::$message = '' !== $target_name
+				/* translators: 1: number of locations, 2: target term name, 3: number of locations */
+				? sprintf( __( 'Locations: %1$d added to %2$s, %3$d on redirect stubs.', 'as-the-crow-flies' ), self::$counts['added'], $target_name, self::$counts['on_stubs'] )
+				/* translators: 1: number of locations, 2: number of locations */
+				: sprintf( __( 'Locations: %1$d added to the new terms, %2$d on redirect stubs.', 'as-the-crow-flies' ), self::$counts['added'], self::$counts['on_stubs'] );
+		}
+		self::$operation = array( 'options' => array(), 'reverse' => array() );
+	}
+
+	/**
+	 * Put one term's locations on its stub and/or the term that can take them.
+	 *
+	 * Locations the receiving term already has (per ATCF's Location Matching settings) are
+	 * not added again; locations inserted for one source join the pool, so several sources
+	 * deduplicate against each other. If inserting fails, the rows this call inserted on the
+	 * receiving term are deleted again (via ATCF_Locations::delete(), so caches and change
+	 * hooks stay consistent), and the source rows are left as they were. A DB-level
+	 * transaction isn't used: other plugins' callbacks on the atcf_location_changed hooks
+	 * fired by ATCF_Locations::insert() can run their own queries that break an open
+	 * transaction.
+	 *
+	 * @param object[] $rows           The term's location rows.
+	 * @param int      $stub_id        Redirect stub term ID, or 0 for none.
+	 * @param bool     $stub_has_rows  Whether the stub already has the rows (the old term, in
+	 *                                 a conversion) or gets them only from here.
+	 * @param string   $stub_taxonomy  The stub's taxonomy.
+	 * @param int      $to_id          The term that can take them (merge target, new term).
+	 * @param string   $to_taxonomy    Its taxonomy.
+	 * @param string   $choice         'stub', 'move', 'copy' or 'drop', as htax_carry_choice()
+	 *                                 resolves it for this term.
+	 */
+	private static function carry( array $rows, int $stub_id, bool $stub_has_rows, string $stub_taxonomy, int $to_id, string $to_taxonomy, string $choice ): void {
+		if ( ! $rows ) {
 			return;
 		}
 
-		foreach ( $source_ids as $source_id ) {
-			unset( self::$location_snapshots[ (int) $source_id ] );
+		if ( in_array( $choice, array( 'move', 'copy' ), true ) ) {
+			$pool     = ATCF_Locations::get_by_term_id( $to_id );
+			$inserted = array();
+			foreach ( $rows as $loc ) {
+				if ( self::location_matches_any( $loc, $pool ) ) {
+					continue; // The receiving term already has this location.
+				}
+				$new_id = self::insert_copy( $loc, $to_id, $to_taxonomy );
+				if ( is_wp_error( $new_id ) ) {
+					foreach ( $inserted as $id ) {
+						ATCF_Locations::delete( $id );
+					}
+					if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
+						error_log( '[ATCF HT] Location copy failed and was rolled back for term ' . $to_id );
+					}
+					if ( $stub_id && ! $stub_has_rows ) {
+						$choice = 'stub'; // Nothing was moved: keep the rows on the stub.
+					} else {
+						return;
+					}
+					break;
+				}
+				$inserted[]     = $new_id;
+				$added          = clone $loc;
+				$added->term_id = $to_id;
+				$pool[]         = $added;
+			}
+			if ( 'stub' !== $choice ) {
+				self::$counts['added'] += count( $inserted );
+			}
 		}
+
+		if ( ! $stub_id ) {
+			return;
+		}
+		$keep = 'stub' === $choice || 'copy' === $choice;
+		if ( $stub_has_rows && ! $keep ) {
+			foreach ( $rows as $loc ) {
+				ATCF_Locations::delete( (int) $loc->id );
+			}
+		} elseif ( ! $stub_has_rows && $keep ) {
+			foreach ( $rows as $loc ) {
+				if ( is_wp_error( self::insert_copy( $loc, $stub_id, $stub_taxonomy ) ) ) {
+					return;
+				}
+			}
+		}
+		if ( $keep ) {
+			self::$counts['on_stubs'] += count( $rows );
+		}
+	}
+
+	/**
+	 * Insert a copy of a location row for another term.
+	 *
+	 * @param object $loc      Location row.
+	 * @param int    $term_id  Term ID.
+	 * @param string $taxonomy Its taxonomy.
+	 * @return int|WP_Error New location ID.
+	 */
+	private static function insert_copy( object $loc, int $term_id, string $taxonomy ) {
+		$data = (array) $loc;
+		unset( $data['id'] ); // Let insert() generate a new ID.
+		$data['term_id']  = $term_id;
+		$data['taxonomy'] = $taxonomy;
+		return ATCF_Locations::insert( $data );
+	}
+
+	/**
+	 * Whether a term is being converted back to the redirect stub left by an earlier
+	 * conversion.
+	 *
+	 * @param int    $term_id     Term ID.
+	 * @param string $to_taxonomy Taxonomy it is converted to.
+	 * @return bool
+	 */
+	private static function is_reverse( int $term_id, string $to_taxonomy ): bool {
+		return function_exists( 'htax_find_auto_redirect_to_term' ) && (bool) htax_find_auto_redirect_to_term( $term_id, $to_taxonomy );
 	}
 
 	/**
@@ -215,7 +564,7 @@ class ATCF_HT_Integration {
 
 	/**
 	 * Return the shared "Terms" top-level menu slug if one is already registered by a
-	 * suite plugin (HyperTaxonomy's htax-terms or TermConnect's tc-terms), else null.
+	 * suite plugin (HyperTaxonomy's htax-terms or TermConnect's tconn-terms), else null.
 	 *
 	 * ATCF attaches its Term Locations page under the shared Terms menu when one
 	 * exists, and falls back to its own top-level menu otherwise. Checking both known
@@ -227,7 +576,7 @@ class ATCF_HT_Integration {
 	 */
 	public static function terms_menu_slug(): ?string {
 		global $menu;
-		$known = array( self::TERMS_MENU_SLUG, 'tc-terms' );
+		$known = array( self::TERMS_MENU_SLUG, 'tconn-terms' );
 		foreach ( (array) $menu as $item ) {
 			if ( isset( $item[2] ) && in_array( $item[2], $known, true ) ) {
 				return $item[2];
@@ -251,7 +600,7 @@ class ATCF_HT_Integration {
 	 */
 	public static function position_term_column( array $columns, string $key, string $label ): array {
 		if ( function_exists( 'htax_insert_column_after' ) ) {
-			$after = array_key_exists( 'tc_ext_links', $columns ) ? 'tc_ext_links' : 'htax_hidden';
+			$after = array_key_exists( 'tconn_ext_links', $columns ) ? 'tconn_ext_links' : 'htax_hidden';
 			return htax_insert_column_after( $columns, $after, $key, $label );
 		}
 		$columns[ $key ] = $label;
@@ -277,7 +626,7 @@ function atcf_expand_htax_groups( array $group_ids, string $taxonomy = '' ): arr
 		return array_keys( htax_get_terms_in_groups( $group_ids, $taxonomy ) );
 	}
 	$term_ids = array();
-	foreach ( (array) get_option( 'atcf_enabled_taxonomies', array() ) as $tax ) {
+	foreach ( ATCF_Options::enabled_taxonomies() as $tax ) {
 		if ( 'group' === $tax ) {
 			continue;
 		}

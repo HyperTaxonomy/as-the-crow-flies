@@ -48,7 +48,12 @@ Sorting terms by location count uses one `terms_clauses` filter for all taxonomi
 
 | Hook | What As the Crow Flies does |
 |---|---|
-| `htax_before_merge_terms` | Copies the source terms' locations before HyperTaxonomy's merge transaction starts; deleting the source terms deletes their locations |
-| `htax_after_merge_terms` | Adds those locations to the surviving term, skipping any it already has under the Location Matching settings |
+| `htax_merge_terms_check`, `htax_convert_terms_check` | The Merge Terms and Convert Terms pages' check step: where the terms' locations go (leave them on the stubs, move or copy them, or delete them) |
+| `htax_before_merge_terms` | Keeps the chosen option, and copies the source terms' locations before HyperTaxonomy's merge transaction starts; deleting the source terms deletes their locations |
+| `htax_after_merge_terms` | Puts those locations on the stubs and/or the target, as chosen; the target skips any it already has under the Location Matching settings |
+| `htax_before_convert_terms`, `htax_after_convert_terms` | Keeps the chosen option, and notes terms converted back to their stubs; afterwards, the result message |
+| `htax_before_convert_term` | Keeps the term's locations, for a conversion that deletes the term (ATCF deletes a deleted term's locations) |
+| `htax_after_convert_term` | Puts the converted term's locations on the stub and/or the new term, as chosen; also for external converters, with the defaults |
+| `htax_merge_terms_messages`, `htax_convert_terms_messages` | Reports how many locations were added and kept on stubs |
 
 The rest of the integration runs the other way: HyperTaxonomy reads term locations through the public functions and hooks of As the Crow Flies (see HyperTaxonomy's [Locations & Proximity Search](https://hypertaxonomy.org/hypertaxonomy/developer-reference/locations-proximity.html)).

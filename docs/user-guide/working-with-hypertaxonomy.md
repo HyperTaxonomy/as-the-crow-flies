@@ -5,8 +5,17 @@ nav_order: 3
 ---
 
 # Working with HyperTaxonomy
+{: .no_toc }
 
 When [HyperTaxonomy](https://hypertaxonomy.org/hypertaxonomy/) is active alongside As the Crow Flies, additional features become available. None require configuration beyond enabling the relevant taxonomies in As the Crow Flies' settings.
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
 
 ## Term group expansion
 
@@ -35,7 +44,7 @@ The underlying expansion is also available programmatically via `atcf_expand_hta
 
 ## Settings
 
-The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the **Enabled Taxonomies** list in **Settings → As the Crow Flies → General** when HyperTaxonomy is active, since attaching locations to group terms directly is not meaningful.
+The **Term Groups** taxonomy (slug: `group`) is automatically excluded from the **Enabled Taxonomies** list in **Settings&nbsp;→ As the Crow Flies&nbsp;→ General** when HyperTaxonomy is active, since attaching locations to group terms directly is not meaningful.
 
 ---
 
@@ -53,6 +62,15 @@ With [TermConnect](https://hypertaxonomy.org/termconnect/) active as well as Hyp
 
 ---
 
-## Term merges
+## Term merges and conversions
 
-When HyperTaxonomy [merges several terms](https://hypertaxonomy.org/hypertaxonomy/user-guide/merge-convert.html#merge-terms) into one, the merged-away source terms are deleted. As the Crow Flies automatically moves their locations to the surviving target term before they are lost. Locations that the target already has (per your **Location Matching** settings) are not duplicated; only distinct locations are carried over. No configuration is required.
+Locations belong to a term, and HyperTaxonomy [merges and conversions](https://hypertaxonomy.org/hypertaxonomy/user-guide/merge-convert.html) replace terms: a merge deletes the merged terms, and a conversion creates a new term and deletes the old one or keeps it as a redirect stub. When the terms have locations, the Merge Terms and Convert Terms pages ask where they go:
+
+| Choice | What happens | Default |
+|---|---|---|
+| **Leave them on the redirect stubs** | Each stub keeps the locations of the term it replaces. Needs stubs | With stubs |
+| **Move them to the target** or **to the new terms** | Locations the target already has (per your **Location Matching** settings) aren't added again | Without stubs |
+| **Copy them, and leave them on the redirect stubs** | Both have them. Needs stubs | |
+| **Delete them** | No term keeps them | |
+
+When the new taxonomy isn't enabled in As the Crow Flies settings, a conversion can't move locations to the new terms: they stay on the stubs, or are deleted without stubs. The page reports how many locations were added and kept. Merges and conversions started outside these pages, such as by the Categories to Tags Converter, use the defaults, unless whatever started them asked for something else. A term converted back to its stub gives its locations back to the stub.
