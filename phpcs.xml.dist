@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<ruleset name="AsCrowFlies">
+    <description>WordPress Coding Standards for As the Crow Flies plugin.</description>
+
+    <file>.</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/dist/*</exclude-pattern>
+    <exclude-pattern>*/build/*</exclude-pattern>
+    <!-- Local developer scripts; not shipped (see utils/package.sh). -->
+    <exclude-pattern>*/utils/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <config name="minimum_wp_version" value="6.6"/>
+    <config name="testVersion" value="7.4-"/>
+
+    <rule ref="PHPCompatibilityWP"/>
+
+    <!-- Project uses WordPress's default tab indentation. -->
+    <rule ref="WordPress">
+        <!-- Not a WordPress rule. WordPress Core does not require inline
+             comments to end with a full stop. -->
+        <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+
+        <!-- Alignment of => and = is a formatting opinion, not correctness. -->
+        <exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+
+        <!-- Pedantic multi-line function call structure not required by WP guidelines. -->
+        <exclude name="PEAR.Functions.FunctionCallSignature"/>
+
+        <!-- Translators comments are good practice but noisy during development. -->
+        <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
+        <exclude name="WordPress.WP.I18n.MultipleOrderedPlaceholders"/>
+
+        <!-- Project uses class-{feature}.php naming, not class-{ClassName}.php.
+             Same convention as HyperTaxonomy. -->
+        <exclude name="WordPress.Files.FileName"/>
+
+        <!-- Class-level and private-method doc comments are excessively noisy
+             for a single-developer plugin where the code is self-documenting. -->
+        <exclude name="Squiz.Commenting.ClassComment"/>
+        <exclude name="Squiz.Commenting.FunctionComment.Missing"/>
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag"/>
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/>
+    </rule>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="as-the-crow-flies"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="atcf"/>
+                <element value="as_the_crow_flies"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- class-activator.php runs direct DB queries for table creation and bulk
+         imports. It also runs ALTER TABLE and uses schema-change operations that
+         PHPCS flags but are intentional and reviewed. -->
+    <rule ref="WordPress.DB.DirectDatabaseQuery">
+        <exclude-pattern>*/class-activator.php</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.DB.DirectDatabaseQuery.SchemaChange">
+        <exclude-pattern>*/class-activator.php</exclude-pattern>
+    </rule>
+
+    <!-- Several files read $_GET/$_POST for filter state on admin list pages.
+         These are read-only filter parameters — no nonce is appropriate for a
+         simple GET filter that does not modify any data. -->
+    <rule ref="WordPress.Security.NonceVerification">
+        <exclude-pattern>*/class-admin.php</exclude-pattern>
+        <exclude-pattern>*/class-settings-page.php</exclude-pattern>
+        <exclude-pattern>*/class-locations-page.php</exclude-pattern>
+    </rule>
+
+    <!-- class-distance.php, class-locations.php, class-geocoder.php build SQL
+         with interpolated table prefixes and prepared placeholders. The InterpolatedNotPrepared
+         sniff fires on $wpdb->prepare() calls that contain {$wpdb->prefix} in the
+         query string — this is the standard WP pattern and is safe. -->
+    <rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
+        <exclude-pattern>*/class-distance.php</exclude-pattern>
+        <exclude-pattern>*/class-locations.php</exclude-pattern>
+        <exclude-pattern>*/class-geocoder.php</exclude-pattern>
+        <exclude-pattern>*/class-admin.php</exclude-pattern>
+        <exclude-pattern>*/class-wp-query.php</exclude-pattern>
+    </rule>
+
+    <!-- Batch INSERT queries use implode()+prepare() to build a single
+         multi-row statement. NotPrepared fires because the full query string
+         is not a single prepare() call, but each value is individually prepared. -->
+    <rule ref="WordPress.DB.PreparedSQL.NotPrepared">
+        <exclude-pattern>*/class-activator.php</exclude-pattern>
+        <exclude-pattern>*/class-geocoder.php</exclude-pattern>
+        <exclude-pattern>*/class-locations.php</exclude-pattern>
+    </rule>
+
+    <!-- fopen/fclose/fgetcsv are used for streaming CSV reads/writes.
+         WordPress's file system abstraction (WP_Filesystem) does not support
+         streaming row-by-row reads, which is required for large import files. -->
+    <rule ref="WordPress.WP.AlternativeFunctions">
+        <exclude-pattern>*/class-activator.php</exclude-pattern>
+        <exclude-pattern>*/class-csv.php</exclude-pattern>
+        <exclude-pattern>*/class-locations-page.php</exclude-pattern>
+        <exclude-pattern>*/class-settings-page.php</exclude-pattern>
+        <exclude-pattern>*/class-geocoder.php</exclude-pattern>
+    </rule>
+
+    <!-- Assignment in while condition is the idiomatic PHP pattern for row-by-row
+         CSV/file reads (while ($row = fgetcsv(...)) !== false). -->
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition">
+        <exclude-pattern>*/class-activator.php</exclude-pattern>
+        <exclude-pattern>*/class-csv.php</exclude-pattern>
+    </rule>
+</ruleset>

@@ -11,6 +11,7 @@
 # Excluded from zip: everything matched by .gitignore, plus these package-only extras
 # (committed to git but not needed at runtime):
 #   blocks/*/index.js  — block editor source (compiled into blocks/*/build/)
+#   phpcs.xml.dist     — coding standards ruleset
 #
 # Output: dist/as-the-crow-flies.zip
 # Install via: WordPress Admin → Plugins → Add New → Upload Plugin
@@ -113,6 +114,7 @@ rules += [
     ('.git',               True,  False),
     ('.github',            True,  False),
     ('.distignore',        False, False),
+    ('phpcs.xml.dist',     False, False),
 ]
 
 def is_source_block_js(rel_path):
