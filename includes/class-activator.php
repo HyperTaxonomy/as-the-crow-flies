@@ -107,11 +107,11 @@ class ATCF_Activator {
 
 		update_option( 'atcf_db_version', ATCF_VERSION );
 
-		add_option( 'atcf_distance_units',        'miles' );
-		add_option( 'atcf_location_match_mode',  'either' );
-		add_option( 'atcf_ip_geo_enabled',        0 ); // Off until the admin opts in: it sends visitor IPs to a third party.
-		add_option( 'atcf_ip_geo_ttl',            86400 );
-		add_option( 'atcf_expose_locations_api',  1 );
+		add_option( 'atcf_distance_units', 'miles' );
+		add_option( 'atcf_location_match_mode', 'either' );
+		add_option( 'atcf_ip_geo_enabled', 0 ); // Off until the admin opts in: it sends visitor IPs to a third party.
+		add_option( 'atcf_ip_geo_ttl', 86400 );
+		add_option( 'atcf_expose_locations_api', 1 );
 
 		return true;
 	}
@@ -469,7 +469,7 @@ class ATCF_Activator {
 				}
 
 				$batch[] = $wpdb->prepare( '(%s, %s, %.7f, %.7f)', $country, $postal_code, $lat, $lng );
-				$imported++;
+				++$imported;
 
 				if ( count( $batch ) >= 500 ) {
 					self::write_centroid_batch( $country, $batch, $started );

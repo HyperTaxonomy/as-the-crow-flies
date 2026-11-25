@@ -20,13 +20,13 @@ class ATCF_Locations_Page {
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_action( 'admin_menu',                       array( __CLASS__, 'register_page' ) );
-		add_action( 'load-admin_page_atcf-locations',   array( __CLASS__, 'set_menu_state' ) );
-		add_action( 'admin_post_atcf_save_location',    array( __CLASS__, 'handle_save' ) );
-		add_action( 'admin_post_atcf_delete_location',  array( __CLASS__, 'handle_delete' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'register_page' ) );
+		add_action( 'load-admin_page_atcf-locations', array( __CLASS__, 'set_menu_state' ) );
+		add_action( 'admin_post_atcf_save_location', array( __CLASS__, 'handle_save' ) );
+		add_action( 'admin_post_atcf_delete_location', array( __CLASS__, 'handle_delete' ) );
 		add_action( 'admin_post_atcf_download_term_template', array( __CLASS__, 'handle_template_download' ) );
-		add_action( 'admin_post_atcf_export_term_csv',   array( __CLASS__, 'handle_export' ) );
-		add_action( 'admin_post_atcf_bulk_locations',    array( __CLASS__, 'handle_bulk' ) );
+		add_action( 'admin_post_atcf_export_term_csv', array( __CLASS__, 'handle_export' ) );
+		add_action( 'admin_post_atcf_bulk_locations', array( __CLASS__, 'handle_bulk' ) );
 	}
 
 	/**
@@ -130,14 +130,14 @@ class ATCF_Locations_Page {
 			'page'            => $page,
 		);
 
-		$result   = ATCF_Locations::get_all( $query_args );
-		$rows     = $result['rows'];
-		$total    = $result['total'];
-		$pages    = (int) ceil( $total / $per_page );
+		$result = ATCF_Locations::get_all( $query_args );
+		$rows   = $result['rows'];
+		$total  = $result['total'];
+		$pages  = (int) ceil( $total / $per_page );
 
 		// Distinct countries and geocode statuses across ALL locations for this term.
 		global $wpdb;
-		$term_countries      = $wpdb->get_col(
+		$term_countries     = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT country FROM {$wpdb->prefix}atcf_locations
 				 WHERE term_id = %d AND taxonomy = %s ORDER BY country",
@@ -145,7 +145,7 @@ class ATCF_Locations_Page {
 				$taxonomy
 			)
 		);
-		$term_statuses = $wpdb->get_col(
+		$term_statuses      = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT geocode_status FROM {$wpdb->prefix}atcf_locations
 				 WHERE term_id = %d AND taxonomy = %s ORDER BY geocode_status",
@@ -277,7 +277,7 @@ class ATCF_Locations_Page {
 							<h2><?php esc_html_e( 'Bulk Import CSV', 'as-the-crow-flies' ); ?></h2>
 							<form class="atcf-upload-form" data-term-id="<?php echo esc_attr( $term_id ); ?>" data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>">
 								<?php wp_nonce_field( 'atcf_upload_term_' . $term_id, 'atcf_nonce' ); ?>
-								<?php ATCF_Locations_Page::render_import_options( $template_url ); ?>
+								<?php self::render_import_options( $template_url ); ?>
 								<p class="submit">
 									<button type="submit" class="button"><?php esc_html_e( 'Import', 'as-the-crow-flies' ); ?></button>
 								</p>
@@ -315,7 +315,8 @@ class ATCF_Locations_Page {
 								<?php if ( ! empty( $term_statuses ) ) : ?>
 									<select name="filter_geocode_status">
 										<option value=""><?php esc_html_e( 'Status', 'as-the-crow-flies' ); ?></option>
-										<?php foreach ( $term_statuses as $s ) :
+										<?php
+										foreach ( $term_statuses as $s ) :
 											$key   = null === $s ? 'user_provided' : $s;
 											$label = self::geocode_status_label( $s );
 											?>
@@ -360,10 +361,10 @@ class ATCF_Locations_Page {
 										<option value="delete"><?php esc_html_e( 'Delete', 'as-the-crow-flies' ); ?></option>
 									</select>
 									<input type="submit" id="atcf-doaction" class="button action" value="<?php esc_attr_e( 'Apply', 'as-the-crow-flies' ); ?>"
-										   onclick="if(this.closest('.bulkactions').querySelector('select').value==='-1'){return false;}" />
+											onclick="if(this.closest('.bulkactions').querySelector('select').value==='-1'){return false;}" />
 								</div>
 								<?php if ( $pages > 1 ) : ?>
-								<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-pagination-form-top' ); ?>
+									<?php self::render_pagination( $page, $pages, $total, 'atcf-pagination-form-top' ); ?>
 								<?php endif; ?>
 								<br class="clear" />
 							</div>
@@ -392,7 +393,10 @@ class ATCF_Locations_Page {
 								<thead><tr><?php echo wp_kses_post( $header_row ); ?></tr></thead>
 								<tbody>
 								<?php $row_alt = 0; ?>
-								<?php foreach ( $rows as $loc ) : $row_alt++; ?>
+								<?php
+								foreach ( $rows as $loc ) :
+									++$row_alt;
+									?>
 									<tr id="atcf-loc-<?php echo esc_attr( $loc->id ); ?>"<?php echo 1 === $row_alt % 2 ? ' class="alternate"' : ''; ?>>
 										<th scope="row" class="check-column">
 											<input type="checkbox" name="location_ids[]" value="<?php echo esc_attr( $loc->id ); ?>" />
@@ -413,26 +417,30 @@ class ATCF_Locations_Page {
 
 							<?php if ( $pages > 1 ) : ?>
 							<div class="tablenav bottom">
-								<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-pagination-form' ); ?>
+								<?php self::render_pagination( $page, $pages, $total, 'atcf-pagination-form' ); ?>
 								<br class="clear" />
 							</div>
 							<?php endif; ?>
 
 						</form><!-- #atcf-locations-form -->
 						<?php if ( $pages > 1 ) : ?>
-						<?php /* Hidden forms so page-number inputs submit on Enter, preserving all filters. */ ?>
+							<?php /* Hidden forms so page-number inputs submit on Enter, preserving all filters. */ ?>
 						<form id="atcf-pagination-form" method="get" action="" style="display:none;">
-							<?php foreach ( array( 'page', 'term_id', 'orderby', 'order', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status' ) as $key ) :
+							<?php
+							foreach ( array( 'page', 'term_id', 'orderby', 'order', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status' ) as $key ) :
 								$val = sanitize_text_field( wp_unslash( $_GET[ $key ] ?? '' ) );
-								if ( '' !== $val ) : ?>
+								if ( '' !== $val ) :
+									?>
 									<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $val ); ?>" />
 								<?php endif; ?>
 							<?php endforeach; ?>
 						</form>
 						<form id="atcf-pagination-form-top" method="get" action="" style="display:none;">
-							<?php foreach ( array( 'page', 'term_id', 'orderby', 'order', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status' ) as $key ) :
+							<?php
+							foreach ( array( 'page', 'term_id', 'orderby', 'order', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status' ) as $key ) :
 								$val = sanitize_text_field( wp_unslash( $_GET[ $key ] ?? '' ) );
-								if ( '' !== $val ) : ?>
+								if ( '' !== $val ) :
+									?>
 									<input type="hidden" name="<?php echo esc_attr( $key ); ?>" value="<?php echo esc_attr( $val ); ?>" />
 								<?php endif; ?>
 							<?php endforeach; ?>
@@ -449,9 +457,9 @@ class ATCF_Locations_Page {
 					?>
 					<div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
 						<button type="button" class="button atcf-geocode-term-btn"
-						        data-term-id="<?php echo esc_attr( $term_id ); ?>"
-						        data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
-						        data-nonce="<?php echo esc_attr( wp_create_nonce( 'atcf_admin' ) ); ?>">
+								data-term-id="<?php echo esc_attr( $term_id ); ?>"
+								data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
+								data-nonce="<?php echo esc_attr( wp_create_nonce( 'atcf_admin' ) ); ?>">
 							<?php esc_html_e( 'Geocode all', 'as-the-crow-flies' ); ?>
 						</button>
 						<button type="button"
@@ -503,7 +511,7 @@ class ATCF_Locations_Page {
 		$location_ids = array_map( 'absint', (array) ( $_POST['location_ids'] ?? array() ) );
 		$location_ids = array_values( array_filter(
 			$location_ids,
-			static function( int $id ) use ( $term_id ): bool {
+			static function ( int $id ) use ( $term_id ): bool {
 				$loc = ATCF_Locations::get( $id );
 				return null !== $loc && (int) $loc->term_id === $term_id;
 			}
@@ -545,7 +553,7 @@ class ATCF_Locations_Page {
 			'taxonomy'     => $taxonomy,
 			'label'        => sanitize_text_field( wp_unslash( $_POST['label'] ?? '' ) ),
 			'address_line' => sanitize_text_field( wp_unslash( $_POST['address_line'] ?? '' ) ),
-			'address_line2'=> sanitize_text_field( wp_unslash( $_POST['address_line2'] ?? '' ) ),
+			'address_line2' => sanitize_text_field( wp_unslash( $_POST['address_line2'] ?? '' ) ),
 			'locality'     => sanitize_text_field( wp_unslash( $_POST['locality'] ?? '' ) ),
 			'region'       => sanitize_text_field( wp_unslash( $_POST['region'] ?? '' ) ),
 			'postal_code'  => sanitize_text_field( wp_unslash( $_POST['postal_code'] ?? '' ) ),
@@ -646,40 +654,46 @@ class ATCF_Locations_Page {
 		<td class="atcf-col-label"><?php echo esc_html( $loc->label ); ?></td>
 		<td class="atcf-col-address">
 			<?php echo esc_html( $loc->address_line ); ?>
-			<?php if ( $loc->address_line2 ) : ?><br><small><?php echo esc_html( $loc->address_line2 ); ?></small><?php endif; ?>
+			<?php
+			if ( $loc->address_line2 ) :
+				?>
+				<br><small><?php echo esc_html( $loc->address_line2 ); ?></small><?php endif; ?>
 		</td>
 		<td class="atcf-col-locality"><?php echo esc_html( $loc->locality ); ?></td>
 		<td class="atcf-col-region"><?php echo esc_html( $loc->region ); ?></td>
 		<td class="atcf-col-postal"><?php echo esc_html( $loc->postal_code ); ?></td>
-		<?php if ( $multiple_countries ) : ?><td class="atcf-col-country"><?php echo esc_html( $loc->country ); ?></td><?php endif; ?>
+		<?php
+		if ( $multiple_countries ) :
+			?>
+			<td class="atcf-col-country"><?php echo esc_html( $loc->country ); ?></td><?php endif; ?>
 		<td class="atcf-col-coords"><?php echo null !== $loc->lat ? '<span class="dashicons dashicons-yes-alt" title="' . esc_attr( $loc->lat . ',' . $loc->lng ) . '"></span>' : '—'; ?></td>
 		<td class="atcf-col-geocode"><?php echo esc_html( self::geocode_status_label( $loc->geocode_status ) ); ?></td>
 		<td>
 			<a href="#" class="atcf-quick-edit-link"
-			   data-id="<?php echo esc_attr( $loc->id ); ?>"
-			   data-label="<?php echo esc_attr( $loc->label ); ?>"
-			   data-address="<?php echo esc_attr( $loc->address_line ); ?>"
-			   data-address2="<?php echo esc_attr( $loc->address_line2 ); ?>"
-			   data-locality="<?php echo esc_attr( $loc->locality ); ?>"
-			   data-region="<?php echo esc_attr( $loc->region ); ?>"
-			   data-postal="<?php echo esc_attr( $loc->postal_code ); ?>"
-			   data-country="<?php echo esc_attr( $loc->country ?: 'US' ); ?>"
-			   data-lat="<?php echo esc_attr( $loc->lat ?? '' ); ?>"
-			   data-lng="<?php echo esc_attr( $loc->lng ?? '' ); ?>"
+				data-id="<?php echo esc_attr( $loc->id ); ?>"
+				data-label="<?php echo esc_attr( $loc->label ); ?>"
+				data-address="<?php echo esc_attr( $loc->address_line ); ?>"
+				data-address2="<?php echo esc_attr( $loc->address_line2 ); ?>"
+				data-locality="<?php echo esc_attr( $loc->locality ); ?>"
+				data-region="<?php echo esc_attr( $loc->region ); ?>"
+				data-postal="<?php echo esc_attr( $loc->postal_code ); ?>"
+				data-country="<?php echo esc_attr( $loc->country ?: 'US' ); ?>"
+				data-lat="<?php echo esc_attr( $loc->lat ?? '' ); ?>"
+				data-lng="<?php echo esc_attr( $loc->lng ?? '' ); ?>"
 			><?php esc_html_e( 'Edit', 'as-the-crow-flies' ); ?></a>
 			|
 			<a href="#" class="atcf-geocode-link"
-			   data-id="<?php echo esc_attr( $loc->id ); ?>"
-			   data-nonce="<?php echo esc_attr( $nonce ); ?>"
+				data-id="<?php echo esc_attr( $loc->id ); ?>"
+				data-nonce="<?php echo esc_attr( $nonce ); ?>"
 			><?php esc_html_e( 'Geocode', 'as-the-crow-flies' ); ?></a>
 			|
 			<a href="#" class="atcf-clear-coords-link"
-			   data-id="<?php echo esc_attr( $loc->id ); ?>"
-			   data-nonce="<?php echo esc_attr( $nonce ); ?>"
+				data-id="<?php echo esc_attr( $loc->id ); ?>"
+				data-nonce="<?php echo esc_attr( $nonce ); ?>"
 			><?php esc_html_e( 'Clear', 'as-the-crow-flies' ); ?></a>
 			|
 			<a href="<?php echo esc_url( $delete_url ); ?>"
-			   onclick="return confirm('<?php esc_attr_e( 'Delete this location?', 'as-the-crow-flies' ); ?>')">
+				onclick="return confirm('<?php esc_attr_e( 'Delete this location?', 'as-the-crow-flies' ); ?>')">
 				<?php esc_html_e( 'Delete', 'as-the-crow-flies' ); ?>
 			</a>
 		</td>
@@ -751,26 +765,65 @@ class ATCF_Locations_Page {
 	 */
 	public static function us_states(): array {
 		return array(
-			'AL' => 'Alabama',        'AK' => 'Alaska',         'AZ' => 'Arizona',
-			'AR' => 'Arkansas',       'CA' => 'California',     'CO' => 'Colorado',
-			'CT' => 'Connecticut',    'DE' => 'Delaware',       'DC' => 'District of Columbia',
-			'FL' => 'Florida',        'GA' => 'Georgia',        'HI' => 'Hawaii',
-			'ID' => 'Idaho',          'IL' => 'Illinois',       'IN' => 'Indiana',
-			'IA' => 'Iowa',           'KS' => 'Kansas',         'KY' => 'Kentucky',
-			'LA' => 'Louisiana',      'ME' => 'Maine',          'MD' => 'Maryland',
-			'MA' => 'Massachusetts',  'MI' => 'Michigan',       'MN' => 'Minnesota',
-			'MS' => 'Mississippi',    'MO' => 'Missouri',       'MT' => 'Montana',
-			'NE' => 'Nebraska',       'NV' => 'Nevada',         'NH' => 'New Hampshire',
-			'NJ' => 'New Jersey',     'NM' => 'New Mexico',     'NY' => 'New York',
-			'NC' => 'North Carolina', 'ND' => 'North Dakota',   'OH' => 'Ohio',
-			'OK' => 'Oklahoma',       'OR' => 'Oregon',         'PA' => 'Pennsylvania',
-			'RI' => 'Rhode Island',   'SC' => 'South Carolina', 'SD' => 'South Dakota',
-			'TN' => 'Tennessee',      'TX' => 'Texas',          'UT' => 'Utah',
-			'VT' => 'Vermont',        'VA' => 'Virginia',       'WA' => 'Washington',
-			'WV' => 'West Virginia',  'WI' => 'Wisconsin',      'WY' => 'Wyoming',
-			'AS' => 'American Samoa', 'GU' => 'Guam',           'MP' => 'Northern Mariana Islands',
-			'PR' => 'Puerto Rico',    'VI' => 'U.S. Virgin Islands',
-			'AA' => 'Armed Forces Americas', 'AE' => 'Armed Forces Europe', 'AP' => 'Armed Forces Pacific',
+			'AL' => 'Alabama',
+			'AK' => 'Alaska',
+			'AZ' => 'Arizona',
+			'AR' => 'Arkansas',
+			'CA' => 'California',
+			'CO' => 'Colorado',
+			'CT' => 'Connecticut',
+			'DE' => 'Delaware',
+			'DC' => 'District of Columbia',
+			'FL' => 'Florida',
+			'GA' => 'Georgia',
+			'HI' => 'Hawaii',
+			'ID' => 'Idaho',
+			'IL' => 'Illinois',
+			'IN' => 'Indiana',
+			'IA' => 'Iowa',
+			'KS' => 'Kansas',
+			'KY' => 'Kentucky',
+			'LA' => 'Louisiana',
+			'ME' => 'Maine',
+			'MD' => 'Maryland',
+			'MA' => 'Massachusetts',
+			'MI' => 'Michigan',
+			'MN' => 'Minnesota',
+			'MS' => 'Mississippi',
+			'MO' => 'Missouri',
+			'MT' => 'Montana',
+			'NE' => 'Nebraska',
+			'NV' => 'Nevada',
+			'NH' => 'New Hampshire',
+			'NJ' => 'New Jersey',
+			'NM' => 'New Mexico',
+			'NY' => 'New York',
+			'NC' => 'North Carolina',
+			'ND' => 'North Dakota',
+			'OH' => 'Ohio',
+			'OK' => 'Oklahoma',
+			'OR' => 'Oregon',
+			'PA' => 'Pennsylvania',
+			'RI' => 'Rhode Island',
+			'SC' => 'South Carolina',
+			'SD' => 'South Dakota',
+			'TN' => 'Tennessee',
+			'TX' => 'Texas',
+			'UT' => 'Utah',
+			'VT' => 'Vermont',
+			'VA' => 'Virginia',
+			'WA' => 'Washington',
+			'WV' => 'West Virginia',
+			'WI' => 'Wisconsin',
+			'WY' => 'Wyoming',
+			'AS' => 'American Samoa',
+			'GU' => 'Guam',
+			'MP' => 'Northern Mariana Islands',
+			'PR' => 'Puerto Rico',
+			'VI' => 'U.S. Virgin Islands',
+			'AA' => 'Armed Forces Americas',
+			'AE' => 'Armed Forces Europe',
+			'AP' => 'Armed Forces Pacific',
 		);
 	}
 
@@ -838,7 +891,10 @@ class ATCF_Locations_Page {
 		if ( $hidden ) {
 			$class .= ' hidden';
 		}
-		$url   = add_query_arg( array( 'orderby' => $column, 'order' => $next_order ) );
+		$url = add_query_arg( array(
+			'orderby' => $column,
+			'order' => $next_order,
+		) );
 		// WP uses two spans inside .sorting-indicators — one .asc and one .desc.
 		// The active direction is highlighted via th.sorted.asc/.desc CSS rules.
 		return sprintf(
@@ -909,9 +965,9 @@ class ATCF_Locations_Page {
 		object $loc,
 		string $save_term_id,
 		string $save_taxonomy,
-		bool   $us_only,
-		bool   $multiple_countries,
-		array  $countries
+		bool $us_only,
+		bool $multiple_countries,
+		array $countries
 	): void {
 		?>
 		<fieldset style="margin:0;padding:0;border:none;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:flex-end;">
@@ -968,13 +1024,13 @@ class ATCF_Locations_Page {
 			</label>
 			<div style="margin-left:auto;display:flex;gap:8px;align-items:flex-end;">
 				<button type="button" class="button button-primary atcf-ie-save"
-				        data-id="<?php echo esc_attr( $loc->id ); ?>"
-				        data-term-id="<?php echo esc_attr( $save_term_id ); ?>"
-				        data-taxonomy="<?php echo esc_attr( $save_taxonomy ); ?>"
-				        data-nonce="<?php echo esc_attr( wp_create_nonce( 'atcf_admin' ) ); ?>"
+						data-id="<?php echo esc_attr( $loc->id ); ?>"
+						data-term-id="<?php echo esc_attr( $save_term_id ); ?>"
+						data-taxonomy="<?php echo esc_attr( $save_taxonomy ); ?>"
+						data-nonce="<?php echo esc_attr( wp_create_nonce( 'atcf_admin' ) ); ?>"
 				><?php esc_html_e( 'Save', 'as-the-crow-flies' ); ?></button>
 				<button type="button" class="button atcf-ie-cancel"
-				        data-id="<?php echo esc_attr( $loc->id ); ?>"
+						data-id="<?php echo esc_attr( $loc->id ); ?>"
 				><?php esc_html_e( 'Cancel', 'as-the-crow-flies' ); ?></button>
 				<span class="atcf-ie-status" style="color:#444;font-size:13px"></span>
 			</div>
@@ -1067,8 +1123,8 @@ class ATCF_Locations_Page {
 				<span class="paging-input">
 					<label for="<?php echo esc_attr( $input_id ); ?>" class="screen-reader-text"><?php esc_html_e( 'Current page', 'as-the-crow-flies' ); ?></label>
 					<input class="current-page" id="<?php echo esc_attr( $input_id ); ?>" type="text"
-					       name="paged" value="<?php echo esc_attr( $page ); ?>" size="<?php echo esc_attr( strlen( (string) $pages ) ); ?>"
-					       form="<?php echo esc_attr( $form_id ); ?>" />
+							name="paged" value="<?php echo esc_attr( $page ); ?>" size="<?php echo esc_attr( strlen( (string) $pages ) ); ?>"
+							form="<?php echo esc_attr( $form_id ); ?>" />
 					<span class="tablenav-paging-text"> <?php esc_html_e( 'of', 'as-the-crow-flies' ); ?>
 						<span class="total-pages"><?php echo (int) $pages; ?></span>
 					</span>

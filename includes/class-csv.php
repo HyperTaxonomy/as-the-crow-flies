@@ -33,9 +33,17 @@ class ATCF_CSV {
 
 	// Column names recognized in CSV headers (lowercase).
 	const KNOWN_COLUMNS = array(
-		'taxonomy', 'term_slug', 'country', 'label',
-		'address_line', 'address_line2', 'locality', 'region',
-		'postal_code', 'lat', 'lng',
+		'taxonomy',
+		'term_slug',
+		'country',
+		'label',
+		'address_line',
+		'address_line2',
+		'locality',
+		'region',
+		'postal_code',
+		'lat',
+		'lng',
 	);
 
 	// --------------------------------------------------------------------------
@@ -72,7 +80,7 @@ class ATCF_CSV {
 		$first_row = $first_data_row;
 		while ( true ) {
 			if ( null !== $first_row ) {
-				$raw      = $first_row;
+				$raw       = $first_row;
 				$first_row = null;
 			} else {
 				$raw = fgetcsv( $handle );
@@ -82,7 +90,7 @@ class ATCF_CSV {
 			}
 
 			if ( empty( array_filter( $raw ) ) ) {
-				$row_num++;
+				++$row_num;
 				continue;
 			}
 
@@ -99,8 +107,11 @@ class ATCF_CSV {
 
 			$data['term_id']  = $term_id;
 			$data['taxonomy'] = $taxonomy;
-			$rows[]           = array( 'row_num' => $row_num, 'data' => $data );
-			$row_num++;
+			$rows[]           = array(
+				'row_num' => $row_num,
+				'data' => $data,
+			);
+			++$row_num;
 		}
 
 		fclose( $handle );
@@ -150,14 +161,14 @@ class ATCF_CSV {
 			}
 
 			if ( empty( array_filter( $raw ) ) ) {
-				$row_num++;
+				++$row_num;
 				continue;
 			}
 
 			$data = self::map_row( $raw, $header_map, true );
 
-			$taxonomy    = sanitize_key( $data['taxonomy'] ?? '' );
-			$term_slug   = sanitize_title( $data['term_slug'] ?? '' );
+			$taxonomy  = sanitize_key( $data['taxonomy'] ?? '' );
+			$term_slug = sanitize_title( $data['term_slug'] ?? '' );
 
 			if ( '' === $taxonomy || '' === $term_slug ) {
 				$errors[] = sprintf(
@@ -165,22 +176,25 @@ class ATCF_CSV {
 					__( 'Row %d: taxonomy and term_slug are required.', 'as-the-crow-flies' ),
 					$row_num
 				);
-				$row_num++;
+				++$row_num;
 				continue;
 			}
 
 			$term = get_term_by( 'slug', $term_slug, $taxonomy );
 			if ( ! $term ) {
 				// Skip rows for terms that don't exist on this site; count as skipped.
-				$unknown_skipped++;
-				$row_num++;
+				++$unknown_skipped;
+				++$row_num;
 				continue;
 			}
 
 			$data['term_id']  = $term->term_id;
 			$data['taxonomy'] = $term->taxonomy;
-			$rows[]           = array( 'row_num' => $row_num, 'data' => $data );
-			$row_num++;
+			$rows[]           = array(
+				'row_num' => $row_num,
+				'data' => $data,
+			);
+			++$row_num;
 		}
 
 		fclose( $handle );
@@ -223,8 +237,8 @@ class ATCF_CSV {
 		if ( 'reject' === $mode ) {
 			$conflicts_found = array();
 			foreach ( $rows as $entry ) {
-				$data    = $entry['data'];
-				$term_id = (int) $data['term_id'];
+				$data     = $entry['data'];
+				$term_id  = (int) $data['term_id'];
 				$existing = self::find_conflict( $term_id, $data['taxonomy'], $data, $conflict );
 				if ( null !== $existing ) {
 					$conflicts_found[] = $entry['row_num'];
@@ -243,30 +257,30 @@ class ATCF_CSV {
 		}
 
 		foreach ( $rows as $entry ) {
-			$data    = $entry['data'];
-			$term_id = (int) $data['term_id'];
+			$data     = $entry['data'];
+			$term_id  = (int) $data['term_id'];
 			$taxonomy = $data['taxonomy'];
 
 			$existing = self::find_conflict( $term_id, $taxonomy, $data, $conflict );
 
 			if ( null !== $existing ) {
 				if ( 'skip' === $mode ) {
-					$skipped++;
+					++$skipped;
 					continue;
 				}
 				// 'update'.
 				$result = ATCF_Locations::update( (int) $existing->id, $data );
 				if ( is_wp_error( $result ) ) {
-					$errors++;
+					++$errors;
 				} else {
-					$updated++;
+					++$updated;
 				}
 			} else {
 				$result = ATCF_Locations::insert( $data );
 				if ( is_wp_error( $result ) ) {
-					$errors++;
+					++$errors;
 				} else {
-					$inserted++;
+					++$inserted;
 				}
 			}
 		}
@@ -301,9 +315,9 @@ class ATCF_CSV {
 				$new_ctry  = strtoupper( $data['country'] ?? 'US' );
 
 				if ( '' !== $new_line1 && '' !== $new_pc
-					&& $new_line1  === $loc->address_line_normalized
-					&& $new_pc     === $loc->postal_code
-					&& $new_ctry   === $loc->country ) {
+					&& $new_line1 === $loc->address_line_normalized
+					&& $new_pc === $loc->postal_code
+					&& $new_ctry === $loc->country ) {
 					return $loc;
 				}
 			}
@@ -320,11 +334,11 @@ class ATCF_CSV {
 				&& null !== $loc->lat && null !== $loc->lng
 				&& null !== $data['lat'] && null !== $data['lng'] ) {
 				if ( 'within' === ( $conflict['coords_mode'] ?? 'exact' ) && ! empty( $conflict['coords_radius'] ) ) {
-					$dist_km   = ATCF_Distance::great_circle_distance(
+					$dist_km = ATCF_Distance::great_circle_distance(
 						(float) $data['lat'], (float) $data['lng'],
 						(float) $loc->lat, (float) $loc->lng
 					);
-					$units     = (string) get_option( 'atcf_distance_units', 'miles' );
+					$units   = (string) get_option( 'atcf_distance_units', 'miles' );
 					// coords_radius is in feet (miles mode) or meters (km mode).
 					$radius_km = 'km' === $units
 						? (float) $conflict['coords_radius'] / 1000.0
@@ -358,7 +372,7 @@ class ATCF_CSV {
 			return array( null, null );
 		}
 
-		$lower  = array_map( 'strtolower', array_map( 'trim', $first_row ) );
+		$lower   = array_map( 'strtolower', array_map( 'trim', $first_row ) );
 		$matches = array_intersect( $lower, self::KNOWN_COLUMNS );
 
 		if ( count( $matches ) >= 2 ) {

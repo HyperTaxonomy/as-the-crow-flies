@@ -59,15 +59,15 @@ class ATCF_Admin {
 		add_filter( 'terms_clauses', array( __CLASS__, 'sort_terms_by_locations' ), 10, 3 );
 
 		// AJAX handlers.
-		add_action( 'wp_ajax_atcf_clear_term_locations',  array( __CLASS__, 'ajax_clear_term_locations' ) );
-		add_action( 'wp_ajax_atcf_upload_term_csv',       array( __CLASS__, 'ajax_upload_term_csv' ) );
-		add_action( 'wp_ajax_atcf_geocode_location',      array( __CLASS__, 'ajax_geocode_location' ) );
-		add_action( 'wp_ajax_atcf_geocode_term',          array( __CLASS__, 'ajax_geocode_term' ) );
-		add_action( 'wp_ajax_atcf_save_location_inline',  array( __CLASS__, 'ajax_save_location_inline' ) );
+		add_action( 'wp_ajax_atcf_clear_term_locations', array( __CLASS__, 'ajax_clear_term_locations' ) );
+		add_action( 'wp_ajax_atcf_upload_term_csv', array( __CLASS__, 'ajax_upload_term_csv' ) );
+		add_action( 'wp_ajax_atcf_geocode_location', array( __CLASS__, 'ajax_geocode_location' ) );
+		add_action( 'wp_ajax_atcf_geocode_term', array( __CLASS__, 'ajax_geocode_term' ) );
+		add_action( 'wp_ajax_atcf_save_location_inline', array( __CLASS__, 'ajax_save_location_inline' ) );
 		add_action( 'wp_ajax_atcf_clear_location_coords', array( __CLASS__, 'ajax_clear_location_coords' ) );
-		add_action( 'wp_ajax_atcf_clear_term_coords',     array( __CLASS__, 'ajax_clear_term_coords' ) );
-		add_action( 'wp_ajax_atcf_gl_clear_all_coords',  array( __CLASS__, 'ajax_gl_clear_all_coords' ) );
-		add_action( 'wp_ajax_atcf_gl_delete_all',        array( __CLASS__, 'ajax_gl_delete_all' ) );
+		add_action( 'wp_ajax_atcf_clear_term_coords', array( __CLASS__, 'ajax_clear_term_coords' ) );
+		add_action( 'wp_ajax_atcf_gl_clear_all_coords', array( __CLASS__, 'ajax_gl_clear_all_coords' ) );
+		add_action( 'wp_ajax_atcf_gl_delete_all', array( __CLASS__, 'ajax_gl_delete_all' ) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -106,8 +106,8 @@ class ATCF_Admin {
 		// multiple countries. Only computed on a TC-enabled taxonomy term list screen.
 		$location_filter_config = null;
 		if ( $screen && 'edit-tags' === $screen->base && ATCF_Options::is_taxonomy_enabled( $screen->taxonomy ) ) {
-			$atcf_taxonomy = $screen->taxonomy;
-			$countries     = self::get_distinct_countries( $atcf_taxonomy );
+			$atcf_taxonomy          = $screen->taxonomy;
+			$countries              = self::get_distinct_countries( $atcf_taxonomy );
 			$location_filter_config = array(
 				'current'   => sanitize_text_field( wp_unslash( $_GET['atcf_has_locations'] ?? '' ) ),
 				'all'       => __( 'All Locations', 'as-the-crow-flies' ),
@@ -208,10 +208,10 @@ class ATCF_Admin {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	public static function hook_term_list( string $taxonomy ): void {
-		add_filter( "manage_edit-{$taxonomy}_columns",          array( __CLASS__, 'add_locations_column' ), 99 );
-		add_filter( "manage_{$taxonomy}_custom_column",         array( __CLASS__, 'render_locations_column' ), 99, 3 );
+		add_filter( "manage_edit-{$taxonomy}_columns", array( __CLASS__, 'add_locations_column' ), 99 );
+		add_filter( "manage_{$taxonomy}_custom_column", array( __CLASS__, 'render_locations_column' ), 99, 3 );
 		add_filter( "manage_edit-{$taxonomy}_sortable_columns", array( __CLASS__, 'make_locations_column_sortable' ), 99 );
-		add_action( "restrict_manage_{$taxonomy}",              array( __CLASS__, 'render_locations_filter' ), 99 );
+		add_action( "restrict_manage_{$taxonomy}", array( __CLASS__, 'render_locations_filter' ), 99 );
 
 		// Hide Locations column by default.
 		add_filter( 'default_hidden_columns', static function ( $hidden, $screen ) use ( $taxonomy ) {
@@ -387,7 +387,7 @@ class ATCF_Admin {
 		global $wpdb;
 
 		if ( 'yes' === $filter ) {
-			$ids = $taxonomy
+			$ids                          = $taxonomy
 				? array_map( 'intval', $wpdb->get_col( $wpdb->prepare(
 					"SELECT DISTINCT term_id FROM {$wpdb->prefix}atcf_locations WHERE taxonomy = %s",
 					$taxonomy
@@ -397,7 +397,7 @@ class ATCF_Admin {
 				) );
 			$query->query_vars['include'] = $ids ?: array( 0 );
 		} elseif ( 'no' === $filter ) {
-			$ids = $taxonomy
+			$ids                          = $taxonomy
 				? array_map( 'intval', $wpdb->get_col( $wpdb->prepare(
 					"SELECT DISTINCT term_id FROM {$wpdb->prefix}atcf_locations WHERE taxonomy = %s",
 					$taxonomy
@@ -409,7 +409,7 @@ class ATCF_Admin {
 		} elseif ( 0 === strpos( $filter, 'country:' ) ) {
 			$code = strtoupper( preg_replace( '/[^A-Za-z]/', '', substr( $filter, 8 ) ) );
 			if ( 2 === strlen( $code ) ) {
-				$ids = $taxonomy
+				$ids                          = $taxonomy
 					? array_map( 'intval', $wpdb->get_col( $wpdb->prepare(
 						"SELECT DISTINCT term_id FROM {$wpdb->prefix}atcf_locations WHERE country = %s AND taxonomy = %s",
 						$code,

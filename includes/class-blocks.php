@@ -21,8 +21,8 @@ class ATCF_Blocks {
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_filter( 'block_categories_all',    array( __CLASS__, 'add_block_category' ), 10, 1 );
-		add_action( 'init',                    array( __CLASS__, 'register_blocks' ) );
+		add_filter( 'block_categories_all', array( __CLASS__, 'add_block_category' ), 10, 1 );
+		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_editor_data' ) );
 	}
 
@@ -58,7 +58,11 @@ class ATCF_Blocks {
 	private static function get_htax_groups(): array {
 		$result = array();
 		foreach ( htax_get_all_term_groups() as $id => $term ) {
-			$result[] = array( 'id' => (int) $id, 'name' => $term->name, 'parent' => (int) $term->parent );
+			$result[] = array(
+				'id' => (int) $id,
+				'name' => $term->name,
+				'parent' => (int) $term->parent,
+			);
 		}
 		return $result;
 	}
@@ -70,38 +74,81 @@ class ATCF_Blocks {
 	 */
 	private static function get_enabled_countries(): array {
 		static $names = array(
-			'AF' => 'Afghanistan',    'AL' => 'Albania',        'DZ' => 'Algeria',
-			'AR' => 'Argentina',      'AT' => 'Austria',        'AU' => 'Australia',
-			'BE' => 'Belgium',        'BR' => 'Brazil',         'BG' => 'Bulgaria',
-			'CA' => 'Canada',         'CL' => 'Chile',          'CN' => 'China',
-			'CO' => 'Colombia',       'HR' => 'Croatia',        'CZ' => 'Czechia',
-			'DK' => 'Denmark',        'EG' => 'Egypt',          'FI' => 'Finland',
-			'FR' => 'France',         'DE' => 'Germany',        'GR' => 'Greece',
-			'HK' => 'Hong Kong',      'HU' => 'Hungary',        'IN' => 'India',
-			'ID' => 'Indonesia',      'IE' => 'Ireland',        'IL' => 'Israel',
-			'IT' => 'Italy',          'JP' => 'Japan',          'KR' => 'South Korea',
-			'MY' => 'Malaysia',       'MX' => 'Mexico',         'NL' => 'Netherlands',
-			'NZ' => 'New Zealand',    'NO' => 'Norway',         'PK' => 'Pakistan',
-			'PH' => 'Philippines',    'PL' => 'Poland',         'PT' => 'Portugal',
-			'RO' => 'Romania',        'RU' => 'Russia',         'SA' => 'Saudi Arabia',
-			'RS' => 'Serbia',         'SG' => 'Singapore',      'SK' => 'Slovakia',
-			'ZA' => 'South Africa',   'ES' => 'Spain',          'SE' => 'Sweden',
-			'CH' => 'Switzerland',    'TW' => 'Taiwan',         'TH' => 'Thailand',
-			'TR' => 'Turkey',         'UA' => 'Ukraine',        'AE' => 'UAE',
-			'GB' => 'United Kingdom', 'US' => 'United States',
+			'AF' => 'Afghanistan',
+			'AL' => 'Albania',
+			'DZ' => 'Algeria',
+			'AR' => 'Argentina',
+			'AT' => 'Austria',
+			'AU' => 'Australia',
+			'BE' => 'Belgium',
+			'BR' => 'Brazil',
+			'BG' => 'Bulgaria',
+			'CA' => 'Canada',
+			'CL' => 'Chile',
+			'CN' => 'China',
+			'CO' => 'Colombia',
+			'HR' => 'Croatia',
+			'CZ' => 'Czechia',
+			'DK' => 'Denmark',
+			'EG' => 'Egypt',
+			'FI' => 'Finland',
+			'FR' => 'France',
+			'DE' => 'Germany',
+			'GR' => 'Greece',
+			'HK' => 'Hong Kong',
+			'HU' => 'Hungary',
+			'IN' => 'India',
+			'ID' => 'Indonesia',
+			'IE' => 'Ireland',
+			'IL' => 'Israel',
+			'IT' => 'Italy',
+			'JP' => 'Japan',
+			'KR' => 'South Korea',
+			'MY' => 'Malaysia',
+			'MX' => 'Mexico',
+			'NL' => 'Netherlands',
+			'NZ' => 'New Zealand',
+			'NO' => 'Norway',
+			'PK' => 'Pakistan',
+			'PH' => 'Philippines',
+			'PL' => 'Poland',
+			'PT' => 'Portugal',
+			'RO' => 'Romania',
+			'RU' => 'Russia',
+			'SA' => 'Saudi Arabia',
+			'RS' => 'Serbia',
+			'SG' => 'Singapore',
+			'SK' => 'Slovakia',
+			'ZA' => 'South Africa',
+			'ES' => 'Spain',
+			'SE' => 'Sweden',
+			'CH' => 'Switzerland',
+			'TW' => 'Taiwan',
+			'TH' => 'Thailand',
+			'TR' => 'Turkey',
+			'UA' => 'Ukraine',
+			'AE' => 'UAE',
+			'GB' => 'United Kingdom',
+			'US' => 'United States',
 		);
 
 		$list = array();
 
 		if ( get_option( 'atcf_us_centroids_enabled', 1 ) ) {
-			$list[] = array( 'code' => 'US', 'label' => 'United States (US)' );
+			$list[] = array(
+				'code' => 'US',
+				'label' => 'United States (US)',
+			);
 		}
 
 		foreach ( (array) get_option( 'atcf_country_centroids', array() ) as $code => $data ) {
 			if ( ! empty( $data['enabled'] ) ) {
 				$code   = strtoupper( $code );
 				$name   = $names[ $code ] ?? $code;
-				$list[] = array( 'code' => $code, 'label' => $name . ' (' . $code . ')' );
+				$list[] = array(
+					'code' => $code,
+					'label' => $name . ' (' . $code . ')',
+				);
 			}
 		}
 
@@ -190,22 +237,22 @@ class ATCF_Blocks {
 	 * @return string HTML.
 	 */
 	public static function render_location_finder( array $attributes ): string {
-		$taxonomy      = sanitize_key( $attributes['taxonomy'] ?? '' );
-		$term_ids      = ATCF_HT_Integration::merge_group_term_ids(
+		$taxonomy           = sanitize_key( $attributes['taxonomy'] ?? '' );
+		$term_ids           = ATCF_HT_Integration::merge_group_term_ids(
 			array_map( 'absint', $attributes['termIds'] ?? array() ),
 			array_map( 'absint', $attributes['groupIds'] ?? array() ),
 			$taxonomy
 		);
-		$country       = strtoupper( sanitize_text_field( $attributes['country'] ?? 'US' ) );
-		$unit          = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
-		$distances     = sanitize_text_field( $attributes['distances'] ?? '5,10,25,50' );
-		$limit         = max( 1, min( 100, (int) ( $attributes['limit'] ?? 20 ) ) );
-		$orderby       = in_array( $attributes['orderby'] ?? 'distance', array( 'distance', 'label', 'term_name' ), true ) ? $attributes['orderby'] : 'distance';
-		$show_geo      = ! empty( $attributes['showGeolocation'] );
-		$format              = in_array( $attributes['format'] ?? 'ul', array( 'ul', 'ol', 'div', 'table' ), true ) ? $attributes['format'] : 'ul';
-		$item_template       = sanitize_text_field( $attributes['itemTemplate'] ?? '' );
-		$extra_class         = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );
-		$effective_provider  = ATCF_Distance::resolve_provider( sanitize_key( $attributes['directionsProvider'] ?? '' ) );
+		$country            = strtoupper( sanitize_text_field( $attributes['country'] ?? 'US' ) );
+		$unit               = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
+		$distances          = sanitize_text_field( $attributes['distances'] ?? '5,10,25,50' );
+		$limit              = max( 1, min( 100, (int) ( $attributes['limit'] ?? 20 ) ) );
+		$orderby            = in_array( $attributes['orderby'] ?? 'distance', array( 'distance', 'label', 'term_name' ), true ) ? $attributes['orderby'] : 'distance';
+		$show_geo           = ! empty( $attributes['showGeolocation'] );
+		$format             = in_array( $attributes['format'] ?? 'ul', array( 'ul', 'ol', 'div', 'table' ), true ) ? $attributes['format'] : 'ul';
+		$item_template      = sanitize_text_field( $attributes['itemTemplate'] ?? '' );
+		$extra_class        = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );
+		$effective_provider = ATCF_Distance::resolve_provider( sanitize_key( $attributes['directionsProvider'] ?? '' ) );
 
 		wp_enqueue_style( 'atcf-frontend' );
 		wp_enqueue_script( 'atcf-frontend' );
@@ -218,27 +265,27 @@ class ATCF_Blocks {
 		ob_start();
 		?>
 		<div class="atcf-location-finder wp-block-atcf-location-finder<?php echo $extra_class ? ' ' . esc_attr( $extra_class ) : ''; ?>"
-		     data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
-		     data-term-ids="<?php echo esc_attr( wp_json_encode( $term_ids ) ); ?>"
-		     data-country="<?php echo esc_attr( $country ); ?>"
-		     data-unit="<?php echo esc_attr( $unit ); ?>"
-		     data-format="<?php echo esc_attr( $format ); ?>"
-		     data-item-template="<?php echo esc_attr( $item_template ); ?>"
-		     data-limit="<?php echo esc_attr( $limit ); ?>"
-		     data-orderby="<?php echo esc_attr( $orderby ); ?>"
-		     data-directions-provider="<?php echo esc_attr( $effective_provider ); ?>">
+			data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
+			data-term-ids="<?php echo esc_attr( wp_json_encode( $term_ids ) ); ?>"
+			data-country="<?php echo esc_attr( $country ); ?>"
+			data-unit="<?php echo esc_attr( $unit ); ?>"
+			data-format="<?php echo esc_attr( $format ); ?>"
+			data-item-template="<?php echo esc_attr( $item_template ); ?>"
+			data-limit="<?php echo esc_attr( $limit ); ?>"
+			data-orderby="<?php echo esc_attr( $orderby ); ?>"
+			data-directions-provider="<?php echo esc_attr( $effective_provider ); ?>">
 
 			<div class="atcf-finder-controls">
 				<div class="atcf-postal-wrap">
 					<input type="text"
-					       class="atcf-postal-input"
-					       placeholder="<?php esc_attr_e( 'Postal code', 'as-the-crow-flies' ); ?>"
-					       aria-label="<?php esc_attr_e( 'Enter postal code', 'as-the-crow-flies' ); ?>" />
+							class="atcf-postal-input"
+							placeholder="<?php esc_attr_e( 'Postal code', 'as-the-crow-flies' ); ?>"
+							aria-label="<?php esc_attr_e( 'Enter postal code', 'as-the-crow-flies' ); ?>" />
 					<?php if ( $show_geo ) : ?>
 						<button type="button"
-						        class="atcf-geo-btn"
-						        title="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>"
-						        aria-label="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>">
+								class="atcf-geo-btn"
+								title="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>"
+								aria-label="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>">
 							<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<polygon points="3 11 22 2 13 21 11 13 3 11"/>
 							</svg>
@@ -275,20 +322,20 @@ class ATCF_Blocks {
 	 * @return string HTML.
 	 */
 	public static function render_term_locations( array $attributes ): string {
-		$term_ids         = array_values( array_filter( array_map( 'absint', (array) ( $attributes['termIds'] ?? array() ) ) ) );
-		$taxonomy         = sanitize_key( $attributes['taxonomy'] ?? '' );
-		$country          = strtoupper( sanitize_text_field( $attributes['country'] ?? '' ) );
-		$sort_postal      = sanitize_text_field( $attributes['sortPostalCode'] ?? '' );
-		$show_address     = (bool) ( $attributes['showAddressLine'] ?? true );
-		$show_locality    = (bool) ( $attributes['showLocality']    ?? true );
-		$show_region      = (bool) ( $attributes['showRegion']      ?? true );
-		$show_postal_code = (bool) ( $attributes['showPostalCode']  ?? true );
-		$show_country     = (bool) ( $attributes['showCountry']     ?? false );
-		$unit             = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
-		$format              = in_array( $attributes['format'] ?? 'ul', array( 'ul', 'ol', 'table', 'div' ), true ) ? $attributes['format'] : 'ul';
-		$item_template       = sanitize_text_field( $attributes['itemTemplate'] ?? '' );
-		$extra_class         = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );
-		$effective_provider  = ATCF_Distance::resolve_provider( sanitize_key( $attributes['directionsProvider'] ?? '' ) );
+		$term_ids           = array_values( array_filter( array_map( 'absint', (array) ( $attributes['termIds'] ?? array() ) ) ) );
+		$taxonomy           = sanitize_key( $attributes['taxonomy'] ?? '' );
+		$country            = strtoupper( sanitize_text_field( $attributes['country'] ?? '' ) );
+		$sort_postal        = sanitize_text_field( $attributes['sortPostalCode'] ?? '' );
+		$show_address       = (bool) ( $attributes['showAddressLine'] ?? true );
+		$show_locality      = (bool) ( $attributes['showLocality'] ?? true );
+		$show_region        = (bool) ( $attributes['showRegion'] ?? true );
+		$show_postal_code   = (bool) ( $attributes['showPostalCode'] ?? true );
+		$show_country       = (bool) ( $attributes['showCountry'] ?? false );
+		$unit               = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
+		$format             = in_array( $attributes['format'] ?? 'ul', array( 'ul', 'ol', 'table', 'div' ), true ) ? $attributes['format'] : 'ul';
+		$item_template      = sanitize_text_field( $attributes['itemTemplate'] ?? '' );
+		$extra_class        = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );
+		$effective_provider = ATCF_Distance::resolve_provider( sanitize_key( $attributes['directionsProvider'] ?? '' ) );
 
 		if ( ! $taxonomy ) {
 			if ( is_admin() ) {
@@ -398,7 +445,7 @@ class ATCF_Blocks {
 				}
 				$city_state = array_filter( array(
 					$show_locality ? ( $loc->locality ?? '' ) : '',
-					$show_region   ? ( $loc->region   ?? '' ) : '',
+					$show_region ? ( $loc->region ?? '' ) : '',
 				) );
 				$city_line  = implode( ', ', $city_state );
 				if ( $show_postal_code && ! empty( $loc->postal_code ) ) {
@@ -441,7 +488,7 @@ class ATCF_Blocks {
 
 				$city_state = array_filter( array(
 					$show_locality ? ( $loc->locality ?? '' ) : '',
-					$show_region   ? ( $loc->region   ?? '' ) : '',
+					$show_region ? ( $loc->region ?? '' ) : '',
 				) );
 				$city_line  = implode( ', ', $city_state );
 				if ( $show_postal_code && ! empty( $loc->postal_code ) ) {
@@ -489,15 +536,15 @@ class ATCF_Blocks {
 	 * @return string HTML.
 	 */
 	public static function render_nearest_location( array $attributes ): string {
-		$taxonomy      = sanitize_key( $attributes['taxonomy'] ?? '' );
-		$term_ids      = ATCF_HT_Integration::merge_group_term_ids(
+		$taxonomy           = sanitize_key( $attributes['taxonomy'] ?? '' );
+		$term_ids           = ATCF_HT_Integration::merge_group_term_ids(
 			array_map( 'absint', $attributes['termIds'] ?? array() ),
 			array_map( 'absint', $attributes['groupIds'] ?? array() ),
 			$taxonomy
 		);
-		$country       = strtoupper( sanitize_text_field( $attributes['country'] ?? 'US' ) );
-		$unit          = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
-		$prompt        = sanitize_text_field( $attributes['promptText'] ?? __( 'Finding your nearest location…', 'as-the-crow-flies' ) );
+		$country            = strtoupper( sanitize_text_field( $attributes['country'] ?? 'US' ) );
+		$unit               = in_array( $attributes['unit'] ?? get_option( 'atcf_distance_units', 'miles' ), array( 'miles', 'km' ), true ) ? (string) $attributes['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
+		$prompt             = sanitize_text_field( $attributes['promptText'] ?? __( 'Finding your nearest location…', 'as-the-crow-flies' ) );
 		$show_dist          = ! empty( $attributes['showDistance'] );
 		$item_template      = sanitize_text_field( $attributes['itemTemplate'] ?? '' );
 		$extra_class        = implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( $attributes['className'] ?? '' ) ) ) ) );

@@ -30,9 +30,9 @@ class ATCF_WP_Query {
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_filter( 'pre_get_posts',  array( __CLASS__, 'handle_atcf_query' ), 10, 1 );
-		add_filter( 'posts_orderby',  array( __CLASS__, 'handle_orderby' ), 10, 2 );
-		add_action( 'the_posts',      array( __CLASS__, 'cleanup' ), 10, 2 );
+		add_filter( 'pre_get_posts', array( __CLASS__, 'handle_atcf_query' ), 10, 1 );
+		add_filter( 'posts_orderby', array( __CLASS__, 'handle_orderby' ), 10, 2 );
+		add_action( 'the_posts', array( __CLASS__, 'cleanup' ), 10, 2 );
 	}
 
 	/**

@@ -26,8 +26,8 @@ class ATCF_Shortcodes {
 	 */
 	public static function register(): void {
 		add_shortcode( 'atcf_locations', static fn( $atts ) => self::render_with_location_note( 'shortcode_locations', $atts ) );
-		add_shortcode( 'atcf_terms',     static fn( $atts ) => self::render_with_location_note( 'shortcode_terms', $atts ) );
-		add_shortcode( 'atcf_nearby',    static fn( $atts ) => self::render_with_location_note( 'shortcode_nearby', $atts ) );
+		add_shortcode( 'atcf_terms', static fn( $atts ) => self::render_with_location_note( 'shortcode_terms', $atts ) );
+		add_shortcode( 'atcf_nearby', static fn( $atts ) => self::render_with_location_note( 'shortcode_nearby', $atts ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_frontend_assets' ) );
 	}
 
@@ -42,7 +42,7 @@ class ATCF_Shortcodes {
 	 */
 	private static function render_with_location_note( string $method, $atts ): string {
 		self::$used_fallback_location = false;
-		$output = (string) self::$method( (array) $atts );
+		$output                       = (string) self::$method( (array) $atts );
 		// Machine-readable output (format="json") stays as-is.
 		$is_json = is_array( $atts ) && isset( $atts['format'] ) && 'json' === strtolower( trim( (string) $atts['format'] ) );
 		if ( self::$used_fallback_location && '' !== $output && ! $is_json ) {
@@ -247,7 +247,10 @@ class ATCF_Shortcodes {
 			// JSON_HEX_TAG / JSON_HEX_AMP keep labels and addresses from closing the element early.
 			return wp_get_inline_script_tag(
 				(string) wp_json_encode( $locations, JSON_HEX_TAG | JSON_HEX_AMP ),
-				array( 'type' => 'application/json', 'class' => 'atcf-locations-data' )
+				array(
+					'type' => 'application/json',
+					'class' => 'atcf-locations-data',
+				)
 			);
 		}
 
@@ -423,11 +426,17 @@ class ATCF_Shortcodes {
 
 				foreach ( $ref_locations as $ref_loc ) {
 					if ( null !== $ref_loc->lat ) {
-						$ref_points[] = array( 'lat' => (float) $ref_loc->lat, 'lng' => (float) $ref_loc->lng );
+						$ref_points[] = array(
+							'lat' => (float) $ref_loc->lat,
+							'lng' => (float) $ref_loc->lng,
+						);
 					} else {
 						$centroid = ATCF_Distance::get_centroid( $ref_loc->postal_code, $ref_loc->country );
 						if ( $centroid ) {
-							$ref_points[] = array( 'lat' => $centroid['lat'], 'lng' => $centroid['lng'] );
+							$ref_points[] = array(
+								'lat' => $centroid['lat'],
+								'lng' => $centroid['lng'],
+							);
 						}
 					}
 				}
@@ -445,12 +454,18 @@ class ATCF_Shortcodes {
 			if ( '' !== $postal_code ) {
 				$centroid = ATCF_Distance::get_centroid( $postal_code, strtoupper( sanitize_text_field( $a['country'] ) ) );
 				if ( $centroid ) {
-					$ref_points[] = array( 'lat' => $centroid['lat'], 'lng' => $centroid['lng'] );
+					$ref_points[] = array(
+						'lat' => $centroid['lat'],
+						'lng' => $centroid['lng'],
+					);
 				}
 			} else {
 				$ip_loc = self::visitor_location();
 				if ( $ip_loc ) {
-					$ref_points[] = array( 'lat' => $ip_loc['lat'], 'lng' => $ip_loc['lng'] );
+					$ref_points[] = array(
+						'lat' => $ip_loc['lat'],
+						'lng' => $ip_loc['lng'],
+					);
 				}
 			}
 		}
@@ -528,9 +543,9 @@ class ATCF_Shortcodes {
 	}
 
 	private static function render_locations_list( array $locations, string $unit, string $format = 'ul', string $item_template = '', string $extra_class = '', string $provider = '' ): string {
-		$tag      = 'ol' === $format ? 'ol' : ( 'div' === $format ? 'div' : 'ul' );
-		$item_tag = 'div' === $format ? 'div' : 'li';
-		$css      = 'atcf-locations-list' . ( $extra_class ? ' ' . $extra_class : '' );
+		$tag       = 'ol' === $format ? 'ol' : ( 'div' === $format ? 'div' : 'ul' );
+		$item_tag  = 'div' === $format ? 'div' : 'li';
+		$css       = 'atcf-locations-list' . ( $extra_class ? ' ' . $extra_class : '' );
 		$effective = ATCF_Distance::resolve_provider( $provider );
 
 		$html = '<' . $tag . ' class="' . esc_attr( $css ) . '">';
@@ -577,13 +592,13 @@ class ATCF_Shortcodes {
 	private static function render_locations_table( array $locations, string $unit, string $extra_class = '', string $provider = '' ): string {
 		$css       = 'atcf-locations-table' . ( $extra_class ? ' ' . $extra_class : '' );
 		$effective = ATCF_Distance::resolve_provider( $provider );
-		$html  = '<table class="' . esc_attr( $css ) . '">';
-		$html .= '<thead><tr>';
-		$html .= '<th>' . esc_html__( 'Label', 'as-the-crow-flies' ) . '</th>';
-		$html .= '<th>' . esc_html__( 'Address', 'as-the-crow-flies' ) . '</th>';
-		$html .= '<th>' . esc_html__( 'Distance', 'as-the-crow-flies' ) . '</th>';
-		$html .= '<th></th>';
-		$html .= '</tr></thead><tbody>';
+		$html      = '<table class="' . esc_attr( $css ) . '">';
+		$html     .= '<thead><tr>';
+		$html     .= '<th>' . esc_html__( 'Label', 'as-the-crow-flies' ) . '</th>';
+		$html     .= '<th>' . esc_html__( 'Address', 'as-the-crow-flies' ) . '</th>';
+		$html     .= '<th>' . esc_html__( 'Distance', 'as-the-crow-flies' ) . '</th>';
+		$html     .= '<th></th>';
+		$html     .= '</tr></thead><tbody>';
 
 		foreach ( $locations as $loc ) {
 			$distance  = ATCF_Distance::the_distance( (object) $loc, $unit );
@@ -623,9 +638,9 @@ class ATCF_Shortcodes {
 			}
 		}
 
-		$tag      = 'ol' === $format ? 'ol' : ( 'div' === $format ? 'div' : 'ul' );
-		$item_tag = 'div' === $format ? 'div' : 'li';
-		$css      = 'atcf-terms-list' . ( $extra_class ? ' ' . $extra_class : '' );
+		$tag       = 'ol' === $format ? 'ol' : ( 'div' === $format ? 'div' : 'ul' );
+		$item_tag  = 'div' === $format ? 'div' : 'li';
+		$css       = 'atcf-terms-list' . ( $extra_class ? ' ' . $extra_class : '' );
 		$effective = ATCF_Distance::resolve_provider( $provider );
 
 		_prime_term_caches( array_unique( array_map( 'intval', $term_ids ) ) );
@@ -655,7 +670,7 @@ class ATCF_Shortcodes {
 					'term_name' => $term->name,
 					'term_url'  => get_term_link( $term ),
 				) );
-				$html .= self::apply_location_template( $item_template, $merged, $unit, $effective );
+				$html  .= self::apply_location_template( $item_template, $merged, $unit, $effective );
 			} else {
 				$html .= '<a href="' . esc_url( get_term_link( $term ) ) . '">' . esc_html( $term->name ) . '</a>';
 				if ( $dist_str ) {
@@ -705,7 +720,7 @@ class ATCF_Shortcodes {
 		$dir_osm    = ATCF_Distance::get_directions_url( $loc_obj, 'osm' );
 		$dir_url    = ATCF_Distance::get_directions_url( $loc_obj, $effective );
 		$addr_parts = array_filter( array( $loc['address_line'] ?? '', $loc['address_line2'] ?? '' ) );
-		$directions    = $dir_url
+		$directions = $dir_url
 			? '<a href="' . esc_url( $dir_url, $geo_protocols ) . '" class="atcf-directions" target="_blank" rel="noopener">' . esc_html__( 'Directions', 'as-the-crow-flies' ) . '</a>'
 			: '';
 
@@ -731,11 +746,11 @@ class ATCF_Shortcodes {
 			'{directions_url_waze}'         => esc_url( $dir_waze ),
 			'{directions_url_osm}'          => esc_url( $dir_osm ),
 			'{directions}'                  => $directions,
-			'{directions_link_start_google}'=> $dir_google ? '<a href="' . esc_url( $dir_google ) . '"' . $link_open : '',
-			'{directions_link_start_apple}' => $dir_apple  ? '<a href="' . esc_url( $dir_apple  ) . '"' . $link_open : '',
-			'{directions_link_start_waze}'  => $dir_waze   ? '<a href="' . esc_url( $dir_waze   ) . '"' . $link_open : '',
-			'{directions_link_start_osm}'   => $dir_osm    ? '<a href="' . esc_url( $dir_osm    ) . '"' . $link_open : '',
-			'{directions_link_start}'       => $dir_url    ? '<a href="' . esc_url( $dir_url, $geo_protocols ) . '"' . $link_open : '',
+			'{directions_link_start_google}' => $dir_google ? '<a href="' . esc_url( $dir_google ) . '"' . $link_open : '',
+			'{directions_link_start_apple}' => $dir_apple ? '<a href="' . esc_url( $dir_apple  ) . '"' . $link_open : '',
+			'{directions_link_start_waze}'  => $dir_waze ? '<a href="' . esc_url( $dir_waze   ) . '"' . $link_open : '',
+			'{directions_link_start_osm}'   => $dir_osm ? '<a href="' . esc_url( $dir_osm    ) . '"' . $link_open : '',
+			'{directions_link_start}'       => $dir_url ? '<a href="' . esc_url( $dir_url, $geo_protocols ) . '"' . $link_open : '',
 			'{directions_link_end}'         => '</a>',
 		) );
 	}
@@ -777,7 +792,7 @@ class ATCF_Shortcodes {
 		}
 
 		$extra_class = self::sanitize_classes( $a['class'] ?? '' );
-		$html = '<ul class="' . esc_attr( 'atcf-posts-list' . ( $extra_class ? ' ' . $extra_class : '' ) ) . '">';
+		$html        = '<ul class="' . esc_attr( 'atcf-posts-list' . ( $extra_class ? ' ' . $extra_class : '' ) ) . '">';
 		foreach ( $posts as $post ) {
 			$html .= '<li><a href="' . esc_url( get_permalink( $post ) ) . '">' . esc_html( get_the_title( $post ) ) . '</a></li>';
 		}
@@ -800,14 +815,14 @@ class ATCF_Shortcodes {
 		wp_enqueue_style( 'atcf-frontend' );
 		wp_enqueue_script( 'atcf-frontend' );
 
-		$unit        = in_array( $a['unit'], array( 'miles', 'km' ), true ) ? $a['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
-		$radius      = max( 1, (int) $a['radius'] );
-		$taxonomy    = sanitize_key( $a['taxonomy'] ?? '' );
-		$country     = strtoupper( $a['country'] ?? 'US' );
-		$input_modes       = array_map( 'trim', explode( ',', $input ) );
-		$show_zip          = in_array( 'zip', $input_modes, true );
-		$show_geo          = in_array( 'geolocation', $input_modes, true );
-		$extra_class       = self::sanitize_classes( $a['class'] ?? '' );
+		$unit               = in_array( $a['unit'], array( 'miles', 'km' ), true ) ? $a['unit'] : (string) get_option( 'atcf_distance_units', 'miles' );
+		$radius             = max( 1, (int) $a['radius'] );
+		$taxonomy           = sanitize_key( $a['taxonomy'] ?? '' );
+		$country            = strtoupper( $a['country'] ?? 'US' );
+		$input_modes        = array_map( 'trim', explode( ',', $input ) );
+		$show_zip           = in_array( 'zip', $input_modes, true );
+		$show_geo           = in_array( 'geolocation', $input_modes, true );
+		$extra_class        = self::sanitize_classes( $a['class'] ?? '' );
 		$effective_provider = ATCF_Distance::resolve_provider( $a['directions_provider'] ?? '' );
 
 		// Coordinate mode: geolocation-only input passes coords directly to REST,
@@ -817,32 +832,39 @@ class ATCF_Shortcodes {
 		ob_start();
 		?>
 		<div class="atcf-finder-form<?php echo $extra_class ? ' ' . esc_attr( $extra_class ) : ''; ?>"
-		     data-directions-provider="<?php echo esc_attr( $effective_provider ); ?>"
-		     data-type="<?php echo esc_attr( $type ); ?>"
-		     data-unit="<?php echo esc_attr( $unit ); ?>"
-		     data-radius="<?php echo esc_attr( $radius ); ?>"
-		     data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
-		     data-term-ids="<?php echo esc_attr( wp_json_encode( array_values( array_unique( array_map( 'absint', $term_ids ) ) ) ) ); ?>"
-		     data-country="<?php echo esc_attr( $country ); ?>"
-		     data-limit="<?php echo esc_attr( max( 1, (int) ( $a['limit'] ?? 20 ) ) ); ?>"
-		     data-format="<?php echo esc_attr( in_array( $a['format'] ?? 'ul', array( 'ul', 'ol', 'div' ), true ) ? ( $a['format'] ?? 'ul' ) : 'ul' ); ?>"
-		     data-item-template="<?php echo esc_attr( $a['item_template'] ?? '' ); ?>"
-		     data-geo-mode="<?php echo esc_attr( $geo_mode ); ?>">
+			data-directions-provider="<?php echo esc_attr( $effective_provider ); ?>"
+			data-type="<?php echo esc_attr( $type ); ?>"
+			data-unit="<?php echo esc_attr( $unit ); ?>"
+			data-radius="<?php echo esc_attr( $radius ); ?>"
+			data-taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
+			data-term-ids="<?php echo esc_attr( wp_json_encode( array_values( array_unique( array_map( 'absint', $term_ids ) ) ) ) ); ?>"
+			data-country="<?php echo esc_attr( $country ); ?>"
+			data-limit="<?php echo esc_attr( max( 1, (int) ( $a['limit'] ?? 20 ) ) ); ?>"
+			data-format="<?php echo esc_attr( in_array( $a['format'] ?? 'ul', array( 'ul', 'ol', 'div' ), true ) ? ( $a['format'] ?? 'ul' ) : 'ul' ); ?>"
+			data-item-template="<?php echo esc_attr( $a['item_template'] ?? '' ); ?>"
+			data-geo-mode="<?php echo esc_attr( $geo_mode ); ?>">
 
 			<div class="atcf-input-row">
 				<?php if ( $show_zip ) : ?>
 					<div class="atcf-postal-wrap">
 						<input type="text"
-						       class="atcf-postal-input"
-						       placeholder="<?php esc_attr_e( 'Enter postal code', 'as-the-crow-flies' ); ?>"
-						       aria-label="<?php esc_attr_e( 'Postal code', 'as-the-crow-flies' ); ?>"
-						       autocomplete="off"
-						       <?php if ( '' !== $prefill ) : ?>value="<?php echo esc_attr( $prefill ); ?>"<?php else : ?>data-atcf-prefill="1"<?php endif; ?> />
+								class="atcf-postal-input"
+								placeholder="<?php esc_attr_e( 'Enter postal code', 'as-the-crow-flies' ); ?>"
+								aria-label="<?php esc_attr_e( 'Postal code', 'as-the-crow-flies' ); ?>"
+								autocomplete="off"
+								<?php
+								if ( '' !== $prefill ) :
+									?>
+									value="<?php echo esc_attr( $prefill ); ?>"
+									<?php
+else :
+	?>
+									data-atcf-prefill="1"<?php endif; ?> />
 						<?php if ( $show_geo ) : ?>
 							<button type="button"
-							        class="atcf-geo-btn"
-							        title="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>"
-							        aria-label="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>">
+									class="atcf-geo-btn"
+									title="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>"
+									aria-label="<?php esc_attr_e( 'Share current location', 'as-the-crow-flies' ); ?>">
 								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 									<polygon points="3 11 22 2 13 21 11 13 3 11"/>
 								</svg>
@@ -871,6 +893,4 @@ class ATCF_Shortcodes {
 		<?php
 		return ob_get_clean();
 	}
-
-
 }

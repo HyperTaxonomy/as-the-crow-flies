@@ -174,7 +174,7 @@ class ATCF_REST_API {
 
 			$tid = (int) $loc['term_id'];
 			if ( ! isset( $term_name_cache[ $tid ] ) ) {
-				$term = get_term( $tid );
+				$term                    = get_term( $tid );
 				$term_name_cache[ $tid ] = ( $term && ! is_wp_error( $term ) ) ? wp_specialchars_decode( $term->name, ENT_QUOTES ) : '';
 			}
 			$loc['term_name']             = $term_name_cache[ $tid ];

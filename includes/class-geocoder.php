@@ -15,9 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Geocoder {
 
-	const CENSUS_API_URL  = 'https://geocoding.geo.census.gov/geocoder/locations/addressbatch';
-	const BATCH_SIZE      = 9999;
-	const HTTP_TIMEOUT    = 60;
+	const CENSUS_API_URL = 'https://geocoding.geo.census.gov/geocoder/locations/addressbatch';
+	const BATCH_SIZE     = 9999;
+	const HTTP_TIMEOUT   = 60;
 
 	/**
 	 * Wall-clock budget, in seconds, for the serial, rate-limited (1 req/sec) Nominatim
@@ -56,7 +56,7 @@ class ATCF_Geocoder {
 			return 0;
 		}
 
-		$csv     = self::build_request_csv( $locations );
+		$csv = self::build_request_csv( $locations );
 
 		if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			error_log( '[ATCF geocoder] Sending CSV to Census API:' . "\n" . $csv );
@@ -173,9 +173,9 @@ class ATCF_Geocoder {
 			fputcsv( $mem, array(
 				$id,
 				$loc->address_line ?? '',
-				$loc->locality     ?? '',
-				$loc->region       ?? '',
-				$loc->postal_code  ?? '',
+				$loc->locality ?? '',
+				$loc->region ?? '',
+				$loc->postal_code ?? '',
 			) );
 		}
 		rewind( $mem );
@@ -292,7 +292,7 @@ class ATCF_Geocoder {
 			// Extract street portion from matched address "STREET, CITY, STATE, Zip".
 			$normalized_street = '';
 			if ( '' !== $matched_address ) {
-				$address_parts    = explode( ',', $matched_address, 2 );
+				$address_parts     = explode( ',', $matched_address, 2 );
 				$normalized_street = trim( $address_parts[0] );
 			}
 
@@ -331,7 +331,7 @@ class ATCF_Geocoder {
 		foreach ( $locations as $id => $loc ) {
 			if ( ! isset( $results[ $id ] ) ) {
 				ATCF_Locations::set_geocode_result( $id, 'failed' );
-				$processed++;
+				++$processed;
 				continue;
 			}
 
@@ -344,7 +344,7 @@ class ATCF_Geocoder {
 					ATCF_Locations::set_normalized_address( $id, $result['normalized_street'] );
 				}
 				$any_geocoded = true;
-				$processed++;
+				++$processed;
 				continue;
 			}
 
@@ -364,7 +364,7 @@ class ATCF_Geocoder {
 			} else {
 				ATCF_Locations::set_geocode_result( $id, 'no_match' );
 			}
-			$processed++;
+			++$processed;
 		}
 
 		// set_geocode_result() only flushes the per-term cache; it deliberately doesn't
@@ -406,7 +406,7 @@ class ATCF_Geocoder {
 		// The static variable persists across calls within the same PHP process,
 		// so the limit is enforced regardless of which code path reaches this function.
 		static $last_request_time = 0;
-		$now = microtime( true );
+		$now                      = microtime( true );
 		if ( $now - $last_request_time < 1.0 ) {
 			usleep( (int) ( ( 1.0 - ( $now - $last_request_time ) ) * 1000000 ) );
 		}
@@ -434,7 +434,11 @@ class ATCF_Geocoder {
 			return null;
 		}
 
-		return array( 'lat' => $lat, 'lng' => $lng, 'normalized_street' => '' );
+		return array(
+			'lat' => $lat,
+			'lng' => $lng,
+			'normalized_street' => '',
+		);
 	}
 
 	/**
@@ -487,7 +491,9 @@ class ATCF_Geocoder {
 
 		$processed = self::run_batch();
 
-		return array( 'requeued' => $requeued, 'processed' => $processed );
+		return array(
+			'requeued' => $requeued,
+			'processed' => $processed,
+		);
 	}
-
 }

@@ -36,6 +36,10 @@
         <exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
         <exclude name="WordPress.WP.I18n.MultipleOrderedPlaceholders"/>
 
+        <!-- The suite uses 'wordpress' as a platform slug (TermConnect link types), so
+             auto-capitalizing it to "WordPress" changes behavior. -->
+        <exclude name="WordPress.WP.CapitalPDangit"/>
+
         <!-- Project uses class-{feature}.php naming, not class-{ClassName}.php.
              Same convention as HyperTaxonomy. -->
         <exclude name="WordPress.Files.FileName"/>

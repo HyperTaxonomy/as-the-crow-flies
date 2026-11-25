@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ATCF_Distance {
 
-	const EARTH_RADIUS_KM    = 6371.0;
-	const KM_PER_MILE        = 1.60934;
+	const EARTH_RADIUS_KM = 6371.0;
+	const KM_PER_MILE     = 1.60934;
 
 	// --------------------------------------------------------------------------
 	// Public API
@@ -34,7 +34,7 @@ class ATCF_Distance {
 	 */
 	public static function get_term_ids_within_radius(
 		string $postal_code,
-		float  $radius,
+		float $radius,
 		string $unit = 'miles',
 		string $taxonomy = '',
 		string $country = 'US'
@@ -54,7 +54,10 @@ class ATCF_Distance {
 			$centroid['lng'],
 			$radius,
 			$unit,
-			array( 'taxonomy' => $taxonomy, 'country' => $country )
+			array(
+				'taxonomy' => $taxonomy,
+				'country' => $country,
+			)
 		);
 
 		$term_ids = array_values(
@@ -96,9 +99,9 @@ class ATCF_Distance {
 	 */
 	public static function get_locations_within_radius(
 		string $postal_code,
-		float  $radius,
+		float $radius,
 		string $unit = 'miles',
-		array  $args = array()
+		array $args = array()
 	): array {
 		$lat = $args['lat'] ?? null;
 		$lng = $args['lng'] ?? null;
@@ -107,7 +110,7 @@ class ATCF_Distance {
 			$ref_lat = (float) $lat;
 			$ref_lng = (float) $lng;
 		} else {
-			$country = $args['country'] ?? 'US';
+			$country     = $args['country'] ?? 'US';
 			$postal_code = self::normalize_postal_code( $postal_code, $country );
 			if ( '' === $postal_code ) {
 				return array();
@@ -236,10 +239,10 @@ class ATCF_Distance {
 		$address_parts = array_filter( array(
 			$location->address_line_normalized ?? $location->address_line ?? '',
 			$location->locality ?? '',
-			$location->region   ?? '',
+			$location->region ?? '',
 			$location->postal_code ?? '',
 		) );
-		$address_str = implode( ', ', $address_parts );
+		$address_str   = implode( ', ', $address_parts );
 
 		switch ( $provider ) {
 			case 'apple':
@@ -305,10 +308,10 @@ class ATCF_Distance {
 	 */
 	public static function the_distance(
 		$location,
-		string $unit           = 'miles',
-		string $less_than_one  = '',
-		string $one            = '',
-		string $more_than_one  = ''
+		string $unit = 'miles',
+		string $less_than_one = '',
+		string $one = '',
+		string $more_than_one = ''
 	): string {
 		if ( '' === $less_than_one ) {
 			$less_than_one = 'km' === $unit
@@ -474,7 +477,7 @@ class ATCF_Distance {
 		global $wpdb;
 
 		static $cache = array();
-		$key = $country . ':' . $postal_code;
+		$key          = $country . ':' . $postal_code;
 
 		if ( array_key_exists( $key, $cache ) ) {
 			return $cache[ $key ];
@@ -492,7 +495,10 @@ class ATCF_Distance {
 			)
 		);
 
-		$cache[ $key ] = $row ? array( 'lat' => (float) $row->lat, 'lng' => (float) $row->lng ) : null;
+		$cache[ $key ] = $row ? array(
+			'lat' => (float) $row->lat,
+			'lng' => (float) $row->lng,
+		) : null;
 		return $cache[ $key ];
 	}
 
@@ -508,11 +514,11 @@ class ATCF_Distance {
 	 * @return array[]
 	 */
 	private static function query_locations_near(
-		float  $ref_lat,
-		float  $ref_lng,
-		float  $radius,
+		float $ref_lat,
+		float $ref_lng,
+		float $radius,
 		string $unit,
-		array  $args
+		array $args
 	): array {
 		global $wpdb;
 
@@ -523,7 +529,9 @@ class ATCF_Distance {
 		$where  = array();
 		$params = array(
 			self::EARTH_RADIUS_KM,
-			$ref_lat, $ref_lng, $ref_lat,
+			$ref_lat,
+			$ref_lng,
+			$ref_lat,
 		);
 
 		if ( ! empty( $args['taxonomy'] ) ) {
@@ -701,7 +709,7 @@ class ATCF_Distance {
  */
 function atcf_get_term_ids_within_radius(
 	string $postal_code,
-	float  $radius,
+	float $radius,
 	string $unit = 'miles',
 	string $taxonomy = '',
 	string $country = 'US'
@@ -721,9 +729,9 @@ function atcf_get_term_ids_within_radius(
  */
 function atcf_get_locations_within_radius(
 	string $postal_code,
-	float  $radius,
+	float $radius,
 	string $unit = 'miles',
-	array  $args = array()
+	array $args = array()
 ): array {
 	return ATCF_Distance::get_locations_within_radius( $postal_code, $radius, $unit, $args );
 }
@@ -790,9 +798,9 @@ function atcf_get_the_distance( $location, string $unit = 'miles' ): ?float {
  */
 function atcf_the_distance(
 	$location,
-	string $unit          = 'miles',
+	string $unit = 'miles',
 	string $less_than_one = '',
-	string $one           = '',
+	string $one = '',
 	string $more_than_one = ''
 ): void {
 	echo esc_html( ATCF_Distance::the_distance( $location, $unit, $less_than_one, $one, $more_than_one ) );
@@ -884,7 +892,7 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 	}
 
 	$require_label_address = (bool) get_option( 'atcf_match_require_label_address', false );
-	$require_label_coords  = (bool) get_option( 'atcf_match_require_label_coords',  false );
+	$require_label_coords  = (bool) get_option( 'atcf_match_require_label_coords', false );
 
 	$table     = $wpdb->prefix . 'atcf_locations';
 	$units     = (string) get_option( 'atcf_distance_units', 'miles' );
@@ -898,7 +906,7 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 			continue;
 		}
 
-		$geo     = $place['schema:geo']     ?? array();
+		$geo     = $place['schema:geo'] ?? array();
 		$addr    = $place['schema:address'] ?? array();
 		$label   = sanitize_text_field( $place['schema:name'] ?? '' );
 		$country = strtoupper( sanitize_text_field( $addr['schema:addressCountry'] ?? '' ) );
@@ -911,18 +919,26 @@ function atcf_find_terms_by_location( array $schema_locations ): array {
 		$raw_street  = sanitize_text_field( $addr['schema:streetAddress'] ?? '' );
 		$street_norm = ATCF_Locations::normalize_address_line1( $raw_street );
 
-		$lat = isset( $geo['schema:latitude'] )  && '' !== (string) $geo['schema:latitude']
-			? (float) $geo['schema:latitude']  : null;
+		$lat = isset( $geo['schema:latitude'] ) && '' !== (string) $geo['schema:latitude']
+			? (float) $geo['schema:latitude'] : null;
 		$lng = isset( $geo['schema:longitude'] ) && '' !== (string) $geo['schema:longitude']
 			? (float) $geo['schema:longitude'] : null;
 
 		$has_address = '' !== $street_norm && '' !== $postal && '' !== $country;
 		$has_coords  = null !== $lat && null !== $lng;
 
-		if ( 'address' === $mode && ! $has_address ) { continue; }
-		if ( 'coords'  === $mode && ! $has_coords  ) { continue; }
-		if ( 'both'    === $mode && ( ! $has_address || ! $has_coords ) ) { continue; }
-		if ( 'either'  === $mode && ! $has_address && ! $has_coords ) { continue; }
+		if ( 'address' === $mode && ! $has_address ) {
+			continue;
+		}
+		if ( 'coords' === $mode && ! $has_coords ) {
+			continue;
+		}
+		if ( 'both' === $mode && ( ! $has_address || ! $has_coords ) ) {
+			continue;
+		}
+		if ( 'either' === $mode && ! $has_address && ! $has_coords ) {
+			continue;
+		}
 
 		$from_address = array();
 		$from_coords  = array();
@@ -1115,7 +1131,7 @@ function atcf_get_ip_location(): ?array {
 	}
 
 	$ip_headers = apply_filters( 'atcf_ip_headers', array( 'REMOTE_ADDR' ) );
-	$ip = '';
+	$ip         = '';
 	foreach ( $ip_headers as $header ) {
 		$val = sanitize_text_field( wp_unslash( $_SERVER[ $header ] ?? '' ) );
 		if ( '' !== $val && filter_var( $val, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {

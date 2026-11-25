@@ -65,7 +65,7 @@ class ATCF_Locations {
 				$term_id
 			)
 		);
-		$ttl = wp_using_ext_object_cache() ? YEAR_IN_SECONDS : 0;
+		$ttl  = wp_using_ext_object_cache() ? YEAR_IN_SECONDS : 0;
 		set_transient( 'atcf_locs_' . $term_id, $rows, $ttl );
 		return $rows;
 	}
@@ -172,8 +172,8 @@ class ATCF_Locations {
 			$params[] = $args['country'];
 		}
 
-		$limit     = isset( $args['limit'] ) ? max( 1, (int) $args['limit'] ) : 0;
-		$orderby   = $args['orderby'] ?? 'id';
+		$limit   = isset( $args['limit'] ) ? max( 1, (int) $args['limit'] ) : 0;
+		$orderby = $args['orderby'] ?? 'id';
 		switch ( $orderby ) {
 			case 'label':
 				$order_sql = 'l.label ASC, l.id ASC';
@@ -216,17 +216,17 @@ class ATCF_Locations {
 	 * @return object[]
 	 */
 	public static function get_aggregated(
-		int    $term_id,
+		int $term_id,
 		string $taxonomy,
-		array  $exclude_ids    = array(),
-		array  $additional_ids = array()
+		array $exclude_ids = array(),
+		array $additional_ids = array()
 	): array {
 		$children = get_term_children( $term_id, $taxonomy );
 		$ids      = array_merge(
 			array( $term_id ),
 			is_array( $children ) ? $children : array()
 		);
-		$ids = array_values(
+		$ids      = array_values(
 			array_unique(
 				array_map( 'intval', array_merge( array_diff( $ids, $exclude_ids ), $additional_ids ) )
 			)
@@ -361,7 +361,10 @@ class ATCF_Locations {
 			)
 		);
 
-		return array( 'rows' => $rows, 'total' => $total );
+		return array(
+			'rows' => $rows,
+			'total' => $total,
+		);
 	}
 
 	// --------------------------------------------------------------------------
@@ -414,7 +417,7 @@ class ATCF_Locations {
 	public static function update( int $id, array $data ) {
 		global $wpdb;
 
-		$existing = $wpdb->get_row(
+		$existing          = $wpdb->get_row(
 			$wpdb->prepare( "SELECT term_id, taxonomy FROM {$wpdb->prefix}atcf_locations WHERE id = %d", $id )
 		);
 		$existing_taxonomy = (string) ( $existing->taxonomy ?? '' );
@@ -463,7 +466,7 @@ class ATCF_Locations {
 		}
 		global $wpdb;
 		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
-		$term_ids = array_map( 'intval', (array) $wpdb->get_col(
+		$term_ids     = array_map( 'intval', (array) $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT term_id FROM {$wpdb->prefix}atcf_locations WHERE id IN ({$placeholders})",
 				$ids
@@ -500,7 +503,7 @@ class ATCF_Locations {
 		);
 		$taxonomy = (string) ( $existing->taxonomy ?? '' );
 		$term_id  = (int) ( $existing->term_id ?? 0 );
-		$deleted = (bool) $wpdb->delete( $wpdb->prefix . 'atcf_locations', array( 'id' => $id ), array( '%d' ) );
+		$deleted  = (bool) $wpdb->delete( $wpdb->prefix . 'atcf_locations', array( 'id' => $id ), array( '%d' ) );
 		if ( $deleted ) {
 			if ( $taxonomy ) {
 				do_action( 'atcf_location_changed', $taxonomy );
@@ -524,7 +527,10 @@ class ATCF_Locations {
 		global $wpdb;
 		$deleted = (int) $wpdb->delete(
 			$wpdb->prefix . 'atcf_locations',
-			array( 'term_id' => $term_id, 'taxonomy' => $taxonomy ),
+			array(
+				'term_id' => $term_id,
+				'taxonomy' => $taxonomy,
+			),
 			array( '%d', '%s' )
 		);
 		if ( $deleted > 0 ) {
@@ -639,7 +645,7 @@ class ATCF_Locations {
 		$pattern = '/,?\s*(Suite|Ste\.?|Apartment|Apt\.?|Building|Bldg\.?|Floor|Fl\.?|Room|Rm\.?|Unit|Dept\.?|Department|#)\s+\S+.*$/i';
 
 		if ( preg_match( $pattern, $address_line, $matches, PREG_OFFSET_CAPTURE ) ) {
-			$offset       = $matches[0][1];
+			$offset        = $matches[0][1];
 			$address_line2 = trim( preg_replace( '/^,\s*/', '', $matches[0][0] ) );
 			$address_line  = trim( substr( $address_line, 0, $offset ) );
 			return array( $address_line, $address_line2 );
@@ -871,10 +877,10 @@ class ATCF_Locations {
 	 */
 	public static function locations_match( object $a, object $b ): bool {
 		$mode                = (string) get_option( 'atcf_location_match_mode', 'either' );
-		$radius              = (float)  get_option( 'atcf_location_match_radius', 82.0 );
+		$radius              = (float) get_option( 'atcf_location_match_radius', 82.0 );
 		$unit                = (string) get_option( 'atcf_distance_units', 'miles' );
-		$require_label_addr  = (bool)   get_option( 'atcf_match_require_label_address', false );
-		$require_label_coord = (bool)   get_option( 'atcf_match_require_label_coords', false );
+		$require_label_addr  = (bool) get_option( 'atcf_match_require_label_address', false );
+		$require_label_coord = (bool) get_option( 'atcf_match_require_label_coords', false );
 
 		$addr_match = false;
 		if ( 'coords' !== $mode ) {
@@ -955,7 +961,7 @@ class ATCF_Locations {
 				)
 			)
 		);
-		$orphans = array_values( array_diff( $term_ids, $existing ) );
+		$orphans  = array_values( array_diff( $term_ids, $existing ) );
 		if ( empty( $orphans ) ) {
 			return 0;
 		}

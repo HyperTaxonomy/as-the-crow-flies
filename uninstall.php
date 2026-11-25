@@ -54,7 +54,7 @@ function atcf_uninstall_cleanup() {
 	wp_clear_scheduled_hook( 'atcf_geocode_pending' );
 
 	// Always remove all ATCF transients (IP geolocation cache, country list cache).
-	$t  = $wpdb->esc_like( '_transient_atcf_' )         . '%';
+	$t  = $wpdb->esc_like( '_transient_atcf_' ) . '%';
 	$tt = $wpdb->esc_like( '_transient_timeout_atcf_' ) . '%';
 	$wpdb->query( $wpdb->prepare(
 		"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
@@ -74,7 +74,10 @@ function atcf_uninstall_cleanup() {
 }
 
 if ( is_multisite() ) {
-	foreach ( get_sites( array( 'number' => 0, 'fields' => 'ids' ) ) as $atcf_site_id ) {
+	foreach ( get_sites( array(
+		'number' => 0,
+		'fields' => 'ids',
+	) ) as $atcf_site_id ) {
 		switch_to_blog( $atcf_site_id );
 		atcf_uninstall_cleanup();
 		restore_current_blog();

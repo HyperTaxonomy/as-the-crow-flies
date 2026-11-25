@@ -58,14 +58,20 @@ class ATCF_HT_Integration {
 	 *
 	 * @var array
 	 */
-	private static array $operation = array( 'options' => array(), 'reverse' => array() );
+	private static array $operation = array(
+		'options' => array(),
+		'reverse' => array(),
+	);
 
 	/**
 	 * Location counts of the operation in progress, for its result message.
 	 *
 	 * @var array{added: int, on_stubs: int}
 	 */
-	private static array $counts = array( 'added' => 0, 'on_stubs' => 0 );
+	private static array $counts = array(
+		'added' => 0,
+		'on_stubs' => 0,
+	);
 
 	/**
 	 * Result message of the last operation, or ''.
@@ -80,16 +86,16 @@ class ATCF_HT_Integration {
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_filter( 'htax_merge_terms_check',       array( __CLASS__, 'merge_check' ), 10, 5 );
-		add_action( 'htax_before_merge_terms',      array( __CLASS__, 'snapshot_before_merge' ), 10, 5 );
-		add_action( 'htax_after_merge_terms',       array( __CLASS__, 'sync_after_merge' ), 10, 4 );
-		add_filter( 'htax_merge_terms_messages',    array( __CLASS__, 'messages' ) );
-		add_filter( 'htax_convert_terms_check',     array( __CLASS__, 'convert_check' ), 10, 5 );
-		add_action( 'htax_before_convert_terms',    array( __CLASS__, 'before_convert' ), 10, 5 );
-		add_action( 'htax_before_convert_term',     array( __CLASS__, 'before_convert_term' ) );
-		add_action( 'htax_after_convert_term',      array( __CLASS__, 'after_convert_term' ), 10, 4 );
-		add_action( 'htax_after_convert_terms',     array( __CLASS__, 'after_convert' ) );
-		add_filter( 'htax_convert_terms_messages',  array( __CLASS__, 'messages' ) );
+		add_filter( 'htax_merge_terms_check', array( __CLASS__, 'merge_check' ), 10, 5 );
+		add_action( 'htax_before_merge_terms', array( __CLASS__, 'snapshot_before_merge' ), 10, 5 );
+		add_action( 'htax_after_merge_terms', array( __CLASS__, 'sync_after_merge' ), 10, 4 );
+		add_filter( 'htax_merge_terms_messages', array( __CLASS__, 'messages' ) );
+		add_filter( 'htax_convert_terms_check', array( __CLASS__, 'convert_check' ), 10, 5 );
+		add_action( 'htax_before_convert_terms', array( __CLASS__, 'before_convert' ), 10, 5 );
+		add_action( 'htax_before_convert_term', array( __CLASS__, 'before_convert_term' ) );
+		add_action( 'htax_after_convert_term', array( __CLASS__, 'after_convert_term' ), 10, 4 );
+		add_action( 'htax_after_convert_terms', array( __CLASS__, 'after_convert' ) );
+		add_filter( 'htax_convert_terms_messages', array( __CLASS__, 'messages' ) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -331,7 +337,7 @@ class ATCF_HT_Integration {
 			? array( 'htax' => array( 'carry' => 'move' ) )
 			: self::$operation['options'];
 		// A new term in a taxonomy without locations can't take them: they stay on the stub, or go.
-		$choice  = htax_carry_choice( $options, self::SECTION, 'locations', $alive, ATCF_Options::is_taxonomy_enabled( (string) $new_taxonomy ) );
+		$choice = htax_carry_choice( $options, self::SECTION, 'locations', $alive, ATCF_Options::is_taxonomy_enabled( (string) $new_taxonomy ) );
 		self::carry( $rows, $alive ? $old_term_id : 0, true, (string) $old_taxonomy, (int) $new_term_id, (string) $new_taxonomy, $choice );
 	}
 
@@ -358,7 +364,10 @@ class ATCF_HT_Integration {
 			'options' => $options,
 			'reverse' => array(),
 		);
-		self::$counts    = array( 'added' => 0, 'on_stubs' => 0 );
+		self::$counts    = array(
+			'added' => 0,
+			'on_stubs' => 0,
+		);
 		self::$message   = '';
 	}
 
@@ -375,7 +384,10 @@ class ATCF_HT_Integration {
 				/* translators: 1: number of locations, 2: number of locations */
 				: sprintf( __( 'Locations: %1$d added to the new terms, %2$d on redirect stubs.', 'as-the-crow-flies' ), self::$counts['added'], self::$counts['on_stubs'] );
 		}
-		self::$operation = array( 'options' => array(), 'reverse' => array() );
+		self::$operation = array(
+			'options' => array(),
+			'reverse' => array(),
+		);
 	}
 
 	/**

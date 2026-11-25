@@ -26,12 +26,12 @@ class ATCF_Locations_Global {
 		// Priority 15 so we run after HT's admin_menu at priority 10.
 		add_action( 'admin_menu', array( __CLASS__, 'add_menu' ), 15 );
 
-		add_action( 'admin_post_atcf_export_all_csv',           array( __CLASS__, 'handle_export' ) );
-		add_action( 'admin_post_atcf_import_global_csv',        array( __CLASS__, 'handle_import' ) );
+		add_action( 'admin_post_atcf_export_all_csv', array( __CLASS__, 'handle_export' ) );
+		add_action( 'admin_post_atcf_import_global_csv', array( __CLASS__, 'handle_import' ) );
 		add_action( 'admin_post_atcf_download_global_template', array( __CLASS__, 'handle_template' ) );
-		add_action( 'admin_post_atcf_geocode_now',              array( __CLASS__, 'handle_geocode' ) );
-		add_action( 'admin_post_atcf_gl_delete_location',       array( __CLASS__, 'handle_delete' ) );
-		add_action( 'admin_post_atcf_gl_bulk_delete',           array( __CLASS__, 'handle_bulk_delete' ) );
+		add_action( 'admin_post_atcf_geocode_now', array( __CLASS__, 'handle_geocode' ) );
+		add_action( 'admin_post_atcf_gl_delete_location', array( __CLASS__, 'handle_delete' ) );
+		add_action( 'admin_post_atcf_gl_bulk_delete', array( __CLASS__, 'handle_bulk_delete' ) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -159,7 +159,7 @@ class ATCF_Locations_Global {
 		if ( ! empty( $rows ) ) {
 			_prime_term_caches( array_unique( array_column( (array) $rows, 'term_id' ) ) );
 		}
-		$pages  = (int) ceil( $total / $per_page );
+		$pages = (int) ceil( $total / $per_page );
 
 		$message = sanitize_key( $_GET['atcf_msg'] ?? '' );
 		$info    = sanitize_text_field( wp_unslash( $_GET['atcf_info'] ?? '' ) );
@@ -189,7 +189,7 @@ class ATCF_Locations_Global {
 			$non_us = absint( $_GET['atcf_non_us'] ?? 0 );
 			if ( $non_us > 0 ) :
 				/* translators: %d: number of locations */
-				$non_us_msg = sprintf( _n( '%d non-US address has no coordinates.', '%d non-US addresses have no coordinates.', $non_us, 'as-the-crow-flies' ), $non_us );
+				$non_us_msg  = sprintf( _n( '%d non-US address has no coordinates.', '%d non-US addresses have no coordinates.', $non_us, 'as-the-crow-flies' ), $non_us );
 				$non_us_msg .= ' ' . __( 'Export them, add coordinates via Geocodio or OpenCage, and re-import with lat/lng filled in.', 'as-the-crow-flies' );
 				echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html( $non_us_msg ) . '</p></div>';
 			endif;
@@ -228,7 +228,8 @@ class ATCF_Locations_Global {
 							<!-- Taxonomy selector (determines which table to show) -->
 							<select name="filter_taxonomy" style="font-weight:600;">
 								<option value=""><?php esc_html_e( 'All taxonomies', 'as-the-crow-flies' ); ?></option>
-								<?php foreach ( $enabled_taxonomies as $slug ) :
+								<?php
+								foreach ( $enabled_taxonomies as $slug ) :
 									$tax_obj = get_taxonomy( $slug );
 									$label   = $tax_obj ? $tax_obj->labels->name . ' (' . $slug . ')' : $slug;
 									?>
@@ -256,7 +257,8 @@ class ATCF_Locations_Global {
 							<?php if ( ! empty( $statuses_in_view ) ) : ?>
 								<select name="filter_geocode_status" data-atcf-filter-col="geocode_status">
 									<option value=""><?php esc_html_e( 'Status', 'as-the-crow-flies' ); ?></option>
-									<?php foreach ( $statuses_in_view as $s ) :
+									<?php
+									foreach ( $statuses_in_view as $s ) :
 										$key   = null === $s ? 'user_provided' : $s;
 										$label = ATCF_Locations_Page::geocode_status_label( $s );
 										?>
@@ -276,7 +278,7 @@ class ATCF_Locations_Global {
 
 						<?php if ( $us_only ) : ?>
 					<datalist id="atcf_us_states">
-						<?php foreach ( ATCF_Locations_Page::us_states() as $abbr => $name ) : ?>
+							<?php foreach ( ATCF_Locations_Page::us_states() as $abbr => $name ) : ?>
 							<option value="<?php echo esc_attr( $abbr ); ?>"><?php echo esc_html( $name ); ?></option>
 						<?php endforeach; ?>
 					</datalist>
@@ -290,21 +292,26 @@ class ATCF_Locations_Global {
 								<option value="delete"><?php esc_html_e( 'Delete', 'as-the-crow-flies' ); ?></option>
 							</select>
 							<input type="submit" class="button action" form="atcf-gl-bulk-form" value="<?php esc_attr_e( 'Apply', 'as-the-crow-flies' ); ?>"
-							       onclick="if(this.closest('.bulkactions').querySelector('select').value==='-1'){return false;}" />
+									onclick="if(this.closest('.bulkactions').querySelector('select').value==='-1'){return false;}" />
 						</div>
 						<?php if ( $pages > 1 ) : ?>
-						<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-gl-pager-top' ); ?>
+							<?php ATCF_Locations_Page::render_pagination( $page, $pages, $total, 'atcf-gl-pager-top' ); ?>
 						<?php endif; ?>
 						<br class="clear" />
 					</div>
 					<?php if ( $pages > 1 ) : ?>
 					<form id="atcf-gl-pager-top" method="get" action="" style="display:none;">
 						<input type="hidden" name="page" value="<?php echo esc_attr( self::PAGE_SLUG ); ?>" />
-						<?php foreach ( array( 'filter_taxonomy', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status', 'orderby', 'order' ) as $k ) :
+						<?php
+						foreach ( array( 'filter_taxonomy', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status', 'orderby', 'order' ) as $k ) :
 							$v = sanitize_text_field( wp_unslash( $_GET[ $k ] ?? '' ) );
-							if ( '' !== $v ) : ?>
+							if ( '' !== $v ) :
+								?>
 								<input type="hidden" name="<?php echo esc_attr( $k ); ?>" value="<?php echo esc_attr( $v ); ?>" />
-						<?php endif; endforeach; ?>
+								<?php
+						endif;
+endforeach;
+						?>
 					</form>
 					<?php endif; ?>
 					<table class="wp-list-table widefat fixed atcf-locations-table">
@@ -339,11 +346,12 @@ class ATCF_Locations_Global {
 								</tr>
 							<?php endif; ?>
 							<?php $row_alt = 0; ?>
-								<?php foreach ( $rows as $loc ) :
-								$term     = get_term( $loc->term_id );
-								$term_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : '#' . $loc->term_id;
-								$term_url  = admin_url( 'admin.php?page=atcf-locations&term_id=' . $loc->term_id );
-								?>
+								<?php
+								foreach ( $rows as $loc ) :
+									$term      = get_term( $loc->term_id );
+									$term_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : '#' . $loc->term_id;
+									$term_url  = admin_url( 'admin.php?page=atcf-locations&term_id=' . $loc->term_id );
+									?>
 								<tr id="atcf-loc-<?php echo esc_attr( $loc->id ); ?>"<?php echo 1 === ++$row_alt % 2 ? ' class="alternate"' : ''; ?>>
 									<th scope="row" class="check-column">
 										<input type="checkbox" name="location_ids[]" value="<?php echo esc_attr( $loc->id ); ?>" form="atcf-gl-bulk-form" />
@@ -382,11 +390,16 @@ class ATCF_Locations_Global {
 						</div>
 						<form id="atcf-gl-pager" method="get" action="" style="display:none;">
 							<input type="hidden" name="page" value="<?php echo esc_attr( self::PAGE_SLUG ); ?>" />
-							<?php foreach ( array( 'filter_taxonomy', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status', 'orderby', 'order' ) as $k ) :
+							<?php
+							foreach ( array( 'filter_taxonomy', 'filter_country', 'filter_locality', 'filter_region', 'filter_postal_code', 'filter_coords', 'filter_geocode_status', 'orderby', 'order' ) as $k ) :
 								$v = sanitize_text_field( wp_unslash( $_GET[ $k ] ?? '' ) );
-								if ( '' !== $v ) : ?>
+								if ( '' !== $v ) :
+									?>
 									<input type="hidden" name="<?php echo esc_attr( $k ); ?>" value="<?php echo esc_attr( $v ); ?>" />
-							<?php endif; endforeach; ?>
+									<?php
+							endif;
+endforeach;
+							?>
 						</form>
 						<?php endif; ?>
 
@@ -477,10 +490,11 @@ class ATCF_Locations_Global {
 					ATCF_CSV::safe_cell( $loc->locality ),
 					ATCF_CSV::safe_cell( $loc->region ),
 					ATCF_CSV::safe_cell( $loc->postal_code ),
-					$loc->lat ?? '', $loc->lng ?? '',
+					$loc->lat ?? '',
+					$loc->lng ?? '',
 				) );
 			}
-			$page++;
+			++$page;
 		} while ( count( $result['rows'] ) === 500 );
 
 		fclose( $out );
@@ -510,10 +524,10 @@ class ATCF_Locations_Global {
 			'coords_radius' => floatval( wp_unslash( $_POST['conflict_coords_radius'] ?? 0 ) ),
 		);
 		update_option( 'atcf_conflict_address', $conflicts['address'] );
-		update_option( 'atcf_conflict_label',   $conflicts['label'] );
-		update_option( 'atcf_conflict_coords',  $conflicts['coords'] );
+		update_option( 'atcf_conflict_label', $conflicts['label'] );
+		update_option( 'atcf_conflict_coords', $conflicts['coords'] );
 		$result = ATCF_CSV::import_global( $csv_path, $upload_mode, $conflicts );
-		$args = array(
+		$args   = array(
 			'page'      => self::PAGE_SLUG,
 			'atcf_msg'  => is_wp_error( $result ) ? 'error' : 'imported',
 			'atcf_info' => is_wp_error( $result ) ? rawurlencode( $result->get_error_message() ) : implode( ':', array_values( $result ) ),
@@ -595,11 +609,11 @@ class ATCF_Locations_Global {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		$action      = sanitize_key( $_POST['bulk_action'] ?? '-1' );
+		$action       = sanitize_key( $_POST['bulk_action'] ?? '-1' );
 		$location_ids = array_map( 'absint', (array) ( $_POST['location_ids'] ?? array() ) );
 		$location_ids = array_values( array_filter(
 			$location_ids,
-			static function( int $id ): bool {
+			static function ( int $id ): bool {
 				return null !== ATCF_Locations::get( $id );
 			}
 		) );
@@ -639,9 +653,11 @@ class ATCF_Locations_Global {
 	}
 
 	private static function render_message( string $msg, string $info ): void {
-		if ( '' === $msg ) return;
-		$geo_count = (int) ( explode( ':', $info )[1] ?? 0 );
-		$import_parts = explode( ':', $info );
+		if ( '' === $msg ) {
+			return;
+		}
+		$geo_count     = (int) ( explode( ':', $info )[1] ?? 0 );
+		$import_parts  = explode( ':', $info );
 		$imported_text = sprintf(
 			/* translators: 1: inserted count, 2: updated count, 3: skipped (conflict) count */
 			__( 'Import complete: %1$d inserted, %2$d updated, %3$d skipped.', 'as-the-crow-flies' ),

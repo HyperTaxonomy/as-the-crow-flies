@@ -18,15 +18,15 @@ class ATCF_Settings_Page {
 	 * @since 1.0.0
 	 */
 	public static function register(): void {
-		add_action( 'admin_menu',  array( __CLASS__, 'add_menu' ) );
-		add_action( 'admin_init',  array( __CLASS__, 'register_settings' ) );
-		add_action( 'admin_post_atcf_reimport_us',       array( __CLASS__, 'handle_reimport_us' ) );
-		add_action( 'admin_post_atcf_download_census',   array( __CLASS__, 'handle_download_census' ) );
-		add_action( 'admin_post_atcf_upload_zcta',       array( __CLASS__, 'handle_upload_zcta' ) );
-		add_action( 'admin_post_atcf_upload_geonames',   array( __CLASS__, 'handle_upload_geonames' ) );
-		add_action( 'admin_post_atcf_delete_country',    array( __CLASS__, 'handle_delete_country' ) );
-		add_action( 'admin_post_atcf_toggle_country',    array( __CLASS__, 'handle_toggle_country' ) );
-		add_action( 'admin_post_atcf_toggle_us',         array( __CLASS__, 'handle_toggle_us' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'add_menu' ) );
+		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_post_atcf_reimport_us', array( __CLASS__, 'handle_reimport_us' ) );
+		add_action( 'admin_post_atcf_download_census', array( __CLASS__, 'handle_download_census' ) );
+		add_action( 'admin_post_atcf_upload_zcta', array( __CLASS__, 'handle_upload_zcta' ) );
+		add_action( 'admin_post_atcf_upload_geonames', array( __CLASS__, 'handle_upload_geonames' ) );
+		add_action( 'admin_post_atcf_delete_country', array( __CLASS__, 'handle_delete_country' ) );
+		add_action( 'admin_post_atcf_toggle_country', array( __CLASS__, 'handle_toggle_country' ) );
+		add_action( 'admin_post_atcf_toggle_us', array( __CLASS__, 'handle_toggle_us' ) );
 		// Note: atcf_geocode_now, export_all_csv, import_global_csv, download_global_template
 		// are handled by ATCF_Locations_Global::register().
 	}
@@ -83,7 +83,10 @@ class ATCF_Settings_Page {
 	 */
 	public static function sanitize_fallback_location( $value ): array {
 		if ( is_array( $value ) ) {
-			return isset( $value['lat'], $value['lng'] ) ? array( 'lat' => (float) $value['lat'], 'lng' => (float) $value['lng'] ) : array();
+			return isset( $value['lat'], $value['lng'] ) ? array(
+				'lat' => (float) $value['lat'],
+				'lng' => (float) $value['lng'],
+			) : array();
 		}
 		$parts = array_map( 'trim', explode( ',', (string) $value ) );
 		if ( 2 !== count( $parts ) || ! is_numeric( $parts[0] ) || ! is_numeric( $parts[1] )
@@ -95,7 +98,10 @@ class ATCF_Settings_Page {
 			}
 			return array();
 		}
-		return array( 'lat' => (float) $parts[0], 'lng' => (float) $parts[1] );
+		return array(
+			'lat' => (float) $parts[0],
+			'lng' => (float) $parts[1],
+		);
 	}
 
 	/**
@@ -105,24 +111,89 @@ class ATCF_Settings_Page {
 	 */
 	public static function register_settings(): void {
 		// General tab — only these options are processed when the General tab is saved.
-		register_setting( 'atcf_settings_general', 'atcf_enabled_taxonomies',         array( 'type' => 'array',   'default' => array(),  'sanitize_callback' => array( __CLASS__, 'sanitize_taxonomy_list' ) ) );
-		register_setting( 'atcf_settings_general', 'atcf_distance_units',             array( 'type' => 'string',  'default' => 'miles',  'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'miles', 'km' ), 'miles' ) ) );
-		register_setting( 'atcf_settings_general', 'atcf_location_match_radius',      array( 'type' => 'number',  'default' => 82.0,     'sanitize_callback' => static function( $val ) { $val = (float) $val; return $val >= 0.0 ? $val : 0.0; } ) );
-		register_setting( 'atcf_settings_general', 'atcf_find_terms_radius',          array( 'type' => 'number',  'default' => 50.0,     'sanitize_callback' => static function( $val ) { $val = (float) $val; return $val >= 0.0 ? $val : 0.0; } ) );
-		register_setting( 'atcf_settings_general', 'atcf_location_match_mode',        array( 'type' => 'string',  'default' => 'either', 'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'address', 'coords', 'either', 'both' ), 'either' ) ) );
-		register_setting( 'atcf_settings_general', 'atcf_match_require_label_address', array( 'type' => 'boolean', 'default' => false, 'sanitize_callback' => 'rest_sanitize_boolean' ) );
-		register_setting( 'atcf_settings_general', 'atcf_match_require_label_coords',  array( 'type' => 'boolean', 'default' => false, 'sanitize_callback' => 'rest_sanitize_boolean' ) );
+		register_setting( 'atcf_settings_general', 'atcf_enabled_taxonomies', array(
+			'type' => 'array',
+			'default' => array(),
+			'sanitize_callback' => array( __CLASS__, 'sanitize_taxonomy_list' ),
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_distance_units', array(
+			'type' => 'string',
+			'default' => 'miles',
+			'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'miles', 'km' ), 'miles' ),
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_location_match_radius', array(
+			'type' => 'number',
+			'default' => 82.0,
+			'sanitize_callback' => static function ( $val ) {
+						$val = (float) $val;
+						return $val >= 0.0 ? $val : 0.0;
+			},
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_find_terms_radius', array(
+			'type' => 'number',
+			'default' => 50.0,
+			'sanitize_callback' => static function ( $val ) {
+							$val = (float) $val;
+							return $val >= 0.0 ? $val : 0.0;
+			},
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_location_match_mode', array(
+			'type' => 'string',
+			'default' => 'either',
+			'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'address', 'coords', 'either', 'both' ), 'either' ),
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_match_require_label_address', array(
+			'type' => 'boolean',
+			'default' => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		) );
+		register_setting( 'atcf_settings_general', 'atcf_match_require_label_coords', array(
+			'type' => 'boolean',
+			'default' => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		) );
 
 		// Advanced tab — only these options are processed when the Advanced tab is saved.
 		// atcf_conflict_address/label/coords are import-form preferences; keep them outside
 		// any settings group so options.php never forces them to false.
-		register_setting( 'atcf_settings_advanced', 'atcf_directions_provider',    array( 'type' => 'string',  'default' => 'google',    'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'google', 'apple', 'waze', 'osm', 'geo' ), 'google' ) ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_enabled',         array( 'type' => 'boolean', 'default' => false,       'sanitize_callback' => 'rest_sanitize_boolean' ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_provider',        array( 'type' => 'string',  'default' => 'freeipapi', 'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'freeipapi', 'ipapi', 'ipwho' ), 'freeipapi' ) ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_fallback_location',      array( 'type' => 'array',   'default' => array(),     'sanitize_callback' => array( __CLASS__, 'sanitize_fallback_location' ) ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_ttl',             array( 'type' => 'integer', 'default' => 86400,       'sanitize_callback' => static function( $val ) { $val = (int) $val; return $val >= 60 ? $val : 86400; } ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_expose_locations_api',   array( 'type' => 'boolean', 'default' => true,        'sanitize_callback' => 'rest_sanitize_boolean' ) );
-		register_setting( 'atcf_settings_advanced', 'atcf_delete_on_uninstall',    array( 'type' => 'boolean', 'default' => false,       'sanitize_callback' => 'rest_sanitize_boolean' ) );
+		register_setting( 'atcf_settings_advanced', 'atcf_directions_provider', array(
+			'type' => 'string',
+			'default' => 'google',
+			'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'google', 'apple', 'waze', 'osm', 'geo' ), 'google' ),
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_enabled', array(
+			'type' => 'boolean',
+			'default' => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_provider', array(
+			'type' => 'string',
+			'default' => 'freeipapi',
+			'sanitize_callback' => static fn( $val ) => self::sanitize_choice( $val, array( 'freeipapi', 'ipapi', 'ipwho' ), 'freeipapi' ),
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_fallback_location', array(
+			'type' => 'array',
+			'default' => array(),
+			'sanitize_callback' => array( __CLASS__, 'sanitize_fallback_location' ),
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_ip_geo_ttl', array(
+			'type' => 'integer',
+			'default' => 86400,
+			'sanitize_callback' => static function ( $val ) {
+							$val = (int) $val;
+							return $val >= 60 ? $val : 86400;
+			},
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_expose_locations_api', array(
+			'type' => 'boolean',
+			'default' => true,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		) );
+		register_setting( 'atcf_settings_advanced', 'atcf_delete_on_uninstall', array(
+			'type' => 'boolean',
+			'default' => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		) );
 	}
 
 	// --------------------------------------------------------------------------
@@ -156,7 +227,7 @@ class ATCF_Settings_Page {
 			<nav class="nav-tab-wrapper">
 				<?php foreach ( $tabs as $slug => $label ) : ?>
 					<a href="<?php echo esc_url( add_query_arg( 'tab', $slug, remove_query_arg( array( 'atcf_msg', 'atcf_info' ) ) ) ); ?>"
-					   class="nav-tab <?php echo $active_tab === $slug ? 'nav-tab-active' : ''; ?>">
+						class="nav-tab <?php echo $active_tab === $slug ? 'nav-tab-active' : ''; ?>">
 						<?php echo esc_html( $label ); ?>
 					</a>
 				<?php endforeach; ?>
@@ -187,27 +258,30 @@ class ATCF_Settings_Page {
 	// --------------------------------------------------------------------------
 
 	private static function render_tab_general(): void {
-		$enabled_taxonomies    = ATCF_Options::enabled_taxonomies();
-		$distance_units = (string) get_option( 'atcf_distance_units', 'miles' );
+		$enabled_taxonomies = ATCF_Options::enabled_taxonomies();
+		$distance_units     = (string) get_option( 'atcf_distance_units', 'miles' );
 		if ( ! in_array( $distance_units, array( 'miles', 'km' ), true ) ) {
 			$distance_units = 'miles';
 		}
-		$location_match_radius  = (float) get_option( 'atcf_location_match_radius', 82.0 );
-		$radius_unit_label      = 'km' === $distance_units
+		$location_match_radius   = (float) get_option( 'atcf_location_match_radius', 82.0 );
+		$radius_unit_label       = 'km' === $distance_units
 			? __( 'meters', 'as-the-crow-flies' )
 			: __( 'feet', 'as-the-crow-flies' );
-		$find_terms_radius      = (float) get_option( 'atcf_find_terms_radius', 50.0 );
+		$find_terms_radius       = (float) get_option( 'atcf_find_terms_radius', 50.0 );
 		$find_terms_radius_label = 'km' === $distance_units
 			? __( 'km', 'as-the-crow-flies' )
 			: __( 'miles', 'as-the-crow-flies' );
-		$location_match_mode = (string) get_option( 'atcf_location_match_mode', 'either' );
+		$location_match_mode     = (string) get_option( 'atcf_location_match_mode', 'either' );
 		if ( ! in_array( $location_match_mode, array( 'address', 'coords', 'either', 'both' ), true ) ) {
 			$location_match_mode = 'either';
 		}
-		$require_label_address       = (bool) get_option( 'atcf_match_require_label_address', false );
-		$require_label_coords        = (bool) get_option( 'atcf_match_require_label_coords', false );
+		$require_label_address = (bool) get_option( 'atcf_match_require_label_address', false );
+		$require_label_coords  = (bool) get_option( 'atcf_match_require_label_coords', false );
 
-		$taxonomies = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'objects' );
+		$taxonomies = get_taxonomies( array(
+			'public' => true,
+			'show_ui' => true,
+		), 'objects' );
 		unset( $taxonomies['group'] );
 		?>
 		<form method="post" action="options.php">
@@ -222,9 +296,9 @@ class ATCF_Settings_Page {
 							<?php foreach ( $taxonomies as $slug => $tax_obj ) : ?>
 								<label style="display:block; margin-bottom:4px;">
 									<input type="checkbox"
-									       name="atcf_enabled_taxonomies[]"
-									       value="<?php echo esc_attr( $slug ); ?>"
-									       <?php checked( in_array( $slug, $enabled_taxonomies, true ) ); ?> />
+											name="atcf_enabled_taxonomies[]"
+											value="<?php echo esc_attr( $slug ); ?>"
+											<?php checked( in_array( $slug, $enabled_taxonomies, true ) ); ?> />
 									<?php echo esc_html( $tax_obj->labels->name ); ?>
 									<small class="atcf-taxonomy-slug">(<?php echo esc_html( $slug ); ?>)</small>
 								</label>
@@ -266,22 +340,22 @@ class ATCF_Settings_Page {
 						<fieldset id="atcf-location-match-mode">
 							<label style="display:block;margin-bottom:4px;">
 								<input type="radio" name="atcf_location_match_mode" value="address"
-								       <?php checked( $location_match_mode, 'address' ); ?> />
+										<?php checked( $location_match_mode, 'address' ); ?> />
 								<?php esc_html_e( 'Address (incl. postal code)', 'as-the-crow-flies' ); ?>
 							</label>
 							<label style="display:block;margin-bottom:4px;">
 								<input type="radio" name="atcf_location_match_mode" value="coords"
-								       <?php checked( $location_match_mode, 'coords' ); ?> />
+										<?php checked( $location_match_mode, 'coords' ); ?> />
 								<?php esc_html_e( 'Coordinates', 'as-the-crow-flies' ); ?>
 							</label>
 							<label style="display:block;margin-bottom:4px;">
 								<input type="radio" name="atcf_location_match_mode" value="either"
-								       <?php checked( $location_match_mode, 'either' ); ?> />
+										<?php checked( $location_match_mode, 'either' ); ?> />
 								<?php esc_html_e( 'Address OR Coordinates', 'as-the-crow-flies' ); ?>
 							</label>
 							<label style="display:block;margin-bottom:4px;">
 								<input type="radio" name="atcf_location_match_mode" value="both"
-								       <?php checked( $location_match_mode, 'both' ); ?> />
+										<?php checked( $location_match_mode, 'both' ); ?> />
 								<?php esc_html_e( 'Address AND Coordinates', 'as-the-crow-flies' ); ?>
 							</label>
 						</fieldset>
@@ -290,8 +364,8 @@ class ATCF_Settings_Page {
 							<label>
 								<input type="hidden" name="atcf_match_require_label_address" value="0" />
 							<input type="checkbox" id="atcf_require_label_address"
-							       name="atcf_match_require_label_address"
-							       value="1" <?php checked( $require_label_address ); ?> />
+									name="atcf_match_require_label_address"
+									value="1" <?php checked( $require_label_address ); ?> />
 								<?php esc_html_e( 'Require labels to match when comparing addresses', 'as-the-crow-flies' ); ?>
 							</label>
 						</p>
@@ -299,8 +373,8 @@ class ATCF_Settings_Page {
 							<label>
 								<input type="hidden" name="atcf_match_require_label_coords" value="0" />
 							<input type="checkbox" id="atcf_require_label_coords"
-							       name="atcf_match_require_label_coords"
-							       value="1" <?php checked( $require_label_coords ); ?> />
+									name="atcf_match_require_label_coords"
+									value="1" <?php checked( $require_label_coords ); ?> />
 								<?php esc_html_e( 'Require labels to match when comparing coordinates', 'as-the-crow-flies' ); ?>
 							</label>
 						</p>
@@ -310,8 +384,8 @@ class ATCF_Settings_Page {
 					<th><label for="atcf_location_match_radius"><?php esc_html_e( 'Location match radius', 'as-the-crow-flies' ); ?></label></th>
 					<td>
 						<input type="number" id="atcf_location_match_radius" name="atcf_location_match_radius"
-						       value="<?php echo esc_attr( (string) $location_match_radius ); ?>"
-						       min="0" step="1" class="small-text" />
+								value="<?php echo esc_attr( (string) $location_match_radius ); ?>"
+								min="0" step="1" class="small-text" />
 						<span id="atcf_radius_unit_label"><?php echo esc_html( $radius_unit_label ); ?></span>
 						<p class="description"><?php esc_html_e( 'Two locations whose coordinates fall within this distance of each other will be treated as the same location.', 'as-the-crow-flies' ); ?></p>
 					</td>
@@ -320,8 +394,8 @@ class ATCF_Settings_Page {
 					<th><label for="atcf_find_terms_radius"><?php esc_html_e( 'Find-terms search radius', 'as-the-crow-flies' ); ?></label></th>
 					<td>
 						<input type="number" id="atcf_find_terms_radius" name="atcf_find_terms_radius"
-						       value="<?php echo esc_attr( (string) $find_terms_radius ); ?>"
-						       min="0" step="1" class="small-text" />
+								value="<?php echo esc_attr( (string) $find_terms_radius ); ?>"
+								min="0" step="1" class="small-text" />
 						<span id="atcf_find_terms_radius_unit_label"><?php echo esc_html( $find_terms_radius_label ); ?></span>
 						<p class="description"><?php esc_html_e( 'Maximum distance used by atcf_find_terms_by_location() when searching for matching terms.', 'as-the-crow-flies' ); ?></p>
 					</td>
@@ -433,11 +507,11 @@ class ATCF_Settings_Page {
 				<p><?php esc_html_e( 'Fetches the Census ZCTA dataset (~33,000 Zip codes) and imports it immediately, or save the original zip file to your computer.', 'as-the-crow-flies' ); ?></p>
 				<div style="display:flex;gap:6px;flex-wrap:wrap;">
 					<a href="<?php echo esc_url( $download_url ); ?>" class="button button-primary"
-					   onclick="return confirm('<?php esc_attr_e( 'Download from census.gov and replace existing US centroid data?', 'as-the-crow-flies' ); ?>')">
+						onclick="return confirm('<?php esc_attr_e( 'Download from census.gov and replace existing US centroid data?', 'as-the-crow-flies' ); ?>')">
 						<?php esc_html_e( 'Download and Install', 'as-the-crow-flies' ); ?>
 					</a>
 					<a href="https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_zcta_national.zip"
-					   class="button" target="_blank" rel="noopener">
+						class="button" target="_blank" rel="noopener">
 						<?php esc_html_e( 'Download Only (.zip)', 'as-the-crow-flies' ); ?>
 					</a>
 				</div>
@@ -451,7 +525,7 @@ class ATCF_Settings_Page {
 					<input type="hidden" name="action" value="atcf_upload_zcta" />
 					<input type="file" name="zcta_file" accept=".csv,.txt" required />
 					<button type="submit" class="button"
-					        onclick="return confirm('<?php esc_attr_e( 'Replace US centroid data with the uploaded file?', 'as-the-crow-flies' ); ?>')"><?php esc_html_e( 'Upload', 'as-the-crow-flies' ); ?></button>
+							onclick="return confirm('<?php esc_attr_e( 'Replace US centroid data with the uploaded file?', 'as-the-crow-flies' ); ?>')"><?php esc_html_e( 'Upload', 'as-the-crow-flies' ); ?></button>
 				</form>
 			</div>
 
@@ -459,7 +533,7 @@ class ATCF_Settings_Page {
 				<strong><?php esc_html_e( 'Restore bundled data', 'as-the-crow-flies' ); ?></strong>
 				<p><?php esc_html_e( 'Restores the ~33,000-row Census ZCTA dataset bundled with this plugin version.', 'as-the-crow-flies' ); ?></p>
 				<a href="<?php echo esc_url( $reimport_url ); ?>" class="button"
-				   onclick="return confirm('<?php esc_attr_e( 'Replace US centroid data with the bundled dataset?', 'as-the-crow-flies' ); ?>')">
+					onclick="return confirm('<?php esc_attr_e( 'Replace US centroid data with the bundled dataset?', 'as-the-crow-flies' ); ?>')">
 					<?php esc_html_e( 'Restore', 'as-the-crow-flies' ); ?>
 				</a>
 			</div>
@@ -482,10 +556,17 @@ class ATCF_Settings_Page {
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ( $countries as $code => $data ) :
-				$enabled     = ! empty( $data['enabled'] );
-				$toggle_url  = wp_nonce_url( add_query_arg( array( 'action' => 'atcf_toggle_country', 'country' => $code ), admin_url( 'admin-post.php' ) ), 'atcf_toggle_country_' . $code );
-				$delete_url  = wp_nonce_url( add_query_arg( array( 'action' => 'atcf_delete_country', 'country' => $code ), admin_url( 'admin-post.php' ) ), 'atcf_delete_country_' . $code );
+			<?php
+			foreach ( $countries as $code => $data ) :
+				$enabled    = ! empty( $data['enabled'] );
+				$toggle_url = wp_nonce_url( add_query_arg( array(
+					'action' => 'atcf_toggle_country',
+					'country' => $code,
+				), admin_url( 'admin-post.php' ) ), 'atcf_toggle_country_' . $code );
+				$delete_url = wp_nonce_url( add_query_arg( array(
+					'action' => 'atcf_delete_country',
+					'country' => $code,
+				), admin_url( 'admin-post.php' ) ), 'atcf_delete_country_' . $code );
 				?>
 				<tr>
 					<td><?php echo esc_html( $code ); ?></td>
@@ -502,7 +583,7 @@ class ATCF_Settings_Page {
 					</td>
 					<td>
 						<a href="<?php echo esc_url( $delete_url ); ?>"
-						   onclick="return confirm('<?php esc_attr_e( 'Delete centroid data for this country?', 'as-the-crow-flies' ); ?>')">
+							onclick="return confirm('<?php esc_attr_e( 'Delete centroid data for this country?', 'as-the-crow-flies' ); ?>')">
 							<?php esc_html_e( 'Delete', 'as-the-crow-flies' ); ?>
 						</a>
 					</td>
@@ -741,7 +822,7 @@ class ATCF_Settings_Page {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'as-the-crow-flies' ) );
 		}
-		$country = strtoupper( sanitize_text_field( wp_unslash( $_POST['country'] ?? '' ) ) );
+		$country       = strtoupper( sanitize_text_field( wp_unslash( $_POST['country'] ?? '' ) ) );
 		$geonames_path = ATCF_Admin::get_uploaded_file( 'geonames_file', array( 'txt', 'tsv', 'zip' ) );
 		if ( empty( $country ) || '' === $geonames_path ) {
 			self::redirect_tab( 'postal-codes', 'error', __( 'Country code and file are required.', 'as-the-crow-flies' ) );
@@ -860,7 +941,6 @@ class ATCF_Settings_Page {
 			echo '<div class="notice notice-success is-dismissible"><p>' . wp_kses_post( $map[ $msg ] ) . '</p></div>';
 		}
 	}
-
 }
 
 /**
